@@ -6,25 +6,25 @@
 pas.plugins.imio
 ================
 
-Tell me what your product does
+Install local or remote connector to Imio authentic (SSO).
 
 Features
 --------
 
-- Can be bullet points
+- Override Plone login page
+- Connect with SSO
 
 
 Examples
 --------
 
-This add-on can be seen in action at the following sites:
-- Is there a page on the internet where everybody can see the features?
+auth.imio.be
 
 
 Documentation
 -------------
 
-Full documentation for end users can be found in the "docs" folder, and is also available online at http://docs.plone.org/foo/bar
+Full documentation for end users can be found in the "docs" folder.
 
 
 Translations
@@ -32,7 +32,8 @@ Translations
 
 This product has been translated into
 
-- Klingon (thanks, K'Plai)
+- English
+- French
 
 
 Installation
@@ -54,16 +55,16 @@ and then running ``bin/buildout``
 Contribute
 ----------
 
-- Issue Tracker: https://github.com/collective/pas.plugins.imio/issues
-- Source Code: https://github.com/collective/pas.plugins.imio
-- Documentation: https://docs.plone.org/foo/bar
+- Issue Tracker: https://github.com/IMIO/pas.plugins.imio/issues
+- Source Code: https://github.com/IMIO/pas.plugins.imio
+- Documentation: https://paspluginsimio.readthedocs.io
 
 
 Support
 -------
 
 If you are having issues, please let us know.
-We have a mailing list located at: project@example.com
+We have a mailing list located at: devx@imio.be
 
 
 License

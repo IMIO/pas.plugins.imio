@@ -43,7 +43,6 @@ class Authentic(OAuth2):
             user.first_name = data.get('given_name')
             user.last_name = data.get('family_name')
             fullname = u'{0} {1}'.format(user.first_name, user.last_name)
-            # import ipdb; ipdb.set_trace()
             if not fullname.strip():
                 user.name = user.id
                 user.fullname = user.id

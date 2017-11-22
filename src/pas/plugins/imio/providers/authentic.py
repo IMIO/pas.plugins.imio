@@ -11,7 +11,7 @@ Providers which implement the |oauth2|_ protocol.
 """
 
 from authomatic.providers.oauth2 import OAuth2
-
+from plone import api
 import jwt
 
 
@@ -21,10 +21,28 @@ __all__ = ['Authentic']
 class Authentic(OAuth2):
     """
     """
-    user_authorization_url = 'http://local-auth.example.net/idp/oidc/authorize/'
-    access_token_url = 'http://local-auth.example.net/idp/oidc/token/'
-    user_info_url = 'http://local-auth.example.net/idp/oidc/user_info/'
-    user_info_scope = ['openid', 'email', 'profile']
+
+    @property
+    def user_authorization_url(self):
+        authentic_hostname = api.portal.get_registry_record(
+            'pas.plugins.imio.authentic_hostname')
+        return 'https://{0}/idp/oidc/authorize/'.format(authentic_hostname)
+
+    @property
+    def access_token_url(self):
+        authentic_hostname = api.portal.get_registry_record(
+            'pas.plugins.imio.authentic_hostname')
+        return 'https://{0}/idp/oidc/token/'.format(authentic_hostname)
+
+    @property
+    def user_info_url(self):
+        authentic_hostname = api.portal.get_registry_record(
+            'pas.plugins.imio.authentic_hostname')
+        return 'https://{0}/idp/oidc/user_info/'.format(authentic_hostname)
+
+    @property
+    def user_info_scope(self):
+        return ['openid', 'email', 'profile']
 
     @staticmethod
     def _x_user_parser(user, data):
@@ -39,7 +57,8 @@ class Authentic(OAuth2):
             if 'sub' in payload_data.keys():
                 user.id = user.username = payload_data.get('sub')
         if 'sub' in data.keys():
-            user.id = data.get('sub')
+            # user.id = data.get('sub')
+            user.id = data.get('email')
             user.first_name = data.get('given_name')
             user.last_name = data.get('family_name')
             fullname = u'{0} {1}'.format(user.first_name, user.last_name)

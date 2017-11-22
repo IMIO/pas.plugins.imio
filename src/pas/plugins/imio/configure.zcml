@@ -9,27 +9,36 @@
   <includeDependencies package="." />
 
   <include package=".browser" />
+  <include package="pas.plugins.authomatic" />
 
   <genericsetup:registerProfile
-      name="default"
-      title="pas.plugins.imio"
-      directory="profiles/default"
-      description="Installs the pas.plugins.imio add-on."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      post_handler=".setuphandlers.post_install"
-      />
+    name="default"
+    title="pas.plugins.imio"
+    directory="profiles/default"
+    description="Installs the pas.plugins.imio add-on."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    post_handler=".setuphandlers.post_install"
+    />
 
   <genericsetup:registerProfile
-      name="uninstall"
-      title="pas.plugins.imio (uninstall)"
-      directory="profiles/uninstall"
-      description="Uninstalls the pas.plugins.imio add-on."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      post_handler=".setuphandlers.uninstall"
-      />
+    name="uninstall"
+    title="pas.plugins.imio (uninstall)"
+    directory="profiles/uninstall"
+    description="Uninstalls the pas.plugins.imio add-on."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    post_handler=".setuphandlers.uninstall"
+    />
 
   <utility
-      factory=".setuphandlers.HiddenProfiles"
-      name="pas.plugins.imio-hiddenprofiles" />
+    factory=".setuphandlers.HiddenProfiles"
+    name="pas.plugins.imio-hiddenprofiles" />
+
+  <utility
+    factory=".useridfactories.ProviderIDEmailFactory"
+    name="email"
+    />
+
+  <subscriber for="Products.PlonePAS.events.UserLoggedOutEvent"
+    handler=".logout.logout_from_authentic" />
 
 </configure>

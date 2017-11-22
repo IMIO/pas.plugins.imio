@@ -18,7 +18,7 @@
                   "fullname": "fullname"
               },
               "scope": ["openid email profile"],
-              "class_": "pas.plugins.imio.providers.oauth2.Authentic",
+              "class_": "pas.plugins.imio.providers.authentic.Authentic",
               "consumer_key": "9e2622eb-2e57-441a-9232-23c4dd2cc092",
               "consumer_secret": "db4d7f78-2996-4ae1-bb4d-02560e74924b",
               "access_headers": {
@@ -27,5 +27,14 @@
           }
       }
     </value>
+  </record>
+  <record name="pas.plugins.authomatic.interfaces.IPasPluginsAuthomaticSettings.userid_factory_name">
+    <value>email</value>
+  </record>
+  <record name="pas.plugins.imio.authentic_hostname">
+    <field type="plone.registry.field.TextLine">
+       <title>authentic_hostname</title>
+    </field>
+    <value>auth-staging.imio.be</value>
   </record>
 </registry>

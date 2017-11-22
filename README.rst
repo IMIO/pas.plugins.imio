@@ -38,7 +38,7 @@ This product has been translated into
 
 Installation
 ------------
-
+You need libffi-dev package installed (`sudo apt install libffi-dev`)
 Install pas.plugins.imio by adding it to your buildout::
 
     [buildout]

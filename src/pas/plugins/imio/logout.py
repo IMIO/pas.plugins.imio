@@ -15,5 +15,5 @@ def logout_from_authentic(event):
     authentic_logout_url = 'https://{0}/idp/oidc/logout/'.format(
         authentic_hostname
     )
-    r = requests.get(authentic_logout_url)  # auth=('user', 'pass'))
+    requests.get(authentic_logout_url)  # auth=('user', 'pass'))
     # import pdb; pdb.set_trace()

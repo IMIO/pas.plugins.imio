@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone import api
+from zExceptions import Redirect
 
 import requests
 
@@ -10,10 +11,14 @@ def logout_from_authentic(event):
 
     When user explicitly logs out from the Logout menu, logout from SSO too
     """
+
     authentic_hostname = api.portal.get_registry_record(
-        'pas.plugins.imio.authentic_hostname')
+        'pas.plugins.imio.authentic_hostname', default=False)
+    if not authentic_hostname:
+        return
     authentic_logout_url = 'https://{0}/idp/oidc/logout/'.format(
         authentic_hostname
     )
     requests.get(authentic_logout_url)  # auth=('user', 'pass'))
-    # import pdb; pdb.set_trace()
+
+    raise Redirect('{0}'.format(api.portal.get().absolute_url()))

@@ -17,7 +17,7 @@
                   "email": "email",
                   "fullname": "fullname"
               },
-              "scope": ["openid email profile"],
+              "scope": ["openid email profile roles"],
               "class_": "pas.plugins.imio.providers.authentic.Authentic",
               "consumer_key": "9e2622eb-2e57-441a-9232-23c4dd2cc092",
               "consumer_secret": "db4d7f78-2996-4ae1-bb4d-02560e74924b",

@@ -42,7 +42,7 @@ class Authentic(OAuth2):
 
     @property
     def user_info_scope(self):
-        return ['openid', 'email', 'profile']
+        return ['openid', 'email', 'profile', 'roles']
 
     @staticmethod
     def _x_user_parser(user, data):
@@ -69,6 +69,10 @@ class Authentic(OAuth2):
                 user.name = fullname
                 user.fullname = fullname
                 user.username = fullname
+            roles = data.get('roles', [])
+            if roles:
+                # import pdb; pdb.set_trace()
+                user.roles = roles
         return user
 
 

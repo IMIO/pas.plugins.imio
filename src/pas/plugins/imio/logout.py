@@ -1,24 +1,25 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from zExceptions import Redirect
+from Products.CMFPlone.utils import transaction_note
+from Products.Five import BrowserView
 
-import requests
 
+class ImioLogoutFormView(BrowserView):
 
-def logout_from_authentic(event):
-    """
-    Logout event handler.
+    def __call__(self):
+        """Redirect login to authentic"""
 
-    When user explicitly logs out from the Logout menu, logout from SSO too
-    """
-
-    authentic_hostname = api.portal.get_registry_record(
-        'pas.plugins.imio.authentic_hostname', default=False)
-    if not authentic_hostname:
-        return
-    authentic_logout_url = 'https://{0}/idp/oidc/logout/'.format(
-        authentic_hostname
-    )
-    requests.get(authentic_logout_url)  # auth=('user', 'pass'))
-
-    raise Redirect('{0}'.format(api.portal.get().absolute_url()))
+        # TODO: change personnal tool url
+        authentic_hostname = api.portal.get_registry_record(
+            'pas.plugins.imio.authentic_hostname', default=False)
+        if not authentic_hostname:
+            return
+        authentic_logout_url = 'https://{0}/idp/oidc/logout?post_logout_redirect_uri={1}'.format(
+            authentic_hostname,
+            api.portal.get().absolute_url()
+        )
+        mt = api.portal.get_tool('portal_membership')
+        mt.logoutUser(self.request)
+        transaction_note('Logged out')
+        response = self.request.response
+        response.redirect(authentic_logout_url)

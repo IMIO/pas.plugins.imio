@@ -13,12 +13,20 @@
   <include package="pas.plugins.authomatic" />
 
   <browser:page
-      name="login_form"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      layer=".interfaces.IPasPluginsImioLayer"
-      permission="zope2.View"
-      class=".login.LoginFormView"
-      />
+    name="imio_login"
+    for="plone.app.layout.navigation.interfaces.INavigationRoot"
+    layer=".interfaces.IPasPluginsImioLayer"
+    permission="zope2.View"
+    class=".login.ImioLoginFormView"
+    />
+
+  <browser:page
+    name="imio_logout"
+    for="plone.app.layout.navigation.interfaces.INavigationRoot"
+    layer=".interfaces.IPasPluginsImioLayer"
+    permission="zope2.View"
+    class=".logout.ImioLogoutFormView"
+    />
 
   <genericsetup:registerProfile
     name="default"
@@ -46,8 +54,5 @@
     factory=".useridfactories.ProviderIDEmailFactory"
     name="email"
     />
-
-  <subscriber for="Products.PlonePAS.events.UserLoggedOutEvent"
-    handler=".logout.logout_from_authentic" />
 
 </configure>

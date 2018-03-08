@@ -3,7 +3,7 @@ from plone import api
 from Products.Five import BrowserView
 
 
-class LoginFormView(BrowserView):
+class ImioLoginFormView(BrowserView):
 
     def __call__(self):
         """Redirect login to authentic"""

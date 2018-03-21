@@ -9,9 +9,9 @@ Providers which implement the |oauth2|_ protocol.
 
     Authentic
 """
-
 from authomatic.providers.oauth2 import OAuth2
 from plone import api
+
 import jwt
 
 
@@ -70,9 +70,9 @@ class Authentic(OAuth2):
                 user.fullname = fullname
                 user.username = fullname
             roles = data.get('roles', [])
-            if roles:
-                # import pdb; pdb.set_trace()
-                user.roles = roles
+            if len(roles) > 0:
+                if roles[0].get('name') == 'IASmartWeb':
+                    user.roles = ['Manager']
         return user
 
 

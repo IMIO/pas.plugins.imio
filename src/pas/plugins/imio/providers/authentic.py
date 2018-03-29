@@ -47,7 +47,6 @@ class Authentic(OAuth2):
     @staticmethod
     def _x_user_parser(user, data):
         encoded = data.get('id_token')
-        # secret = 'db4d7f78-2996-4ae1-bb4d-02560e74924b'
         if encoded:
             payload_data = jwt.decode(
                 encoded,

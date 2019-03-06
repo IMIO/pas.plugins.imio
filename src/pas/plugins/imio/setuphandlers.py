@@ -24,11 +24,11 @@ def post_install(context):
     if HAS_PLONE5:
         api.portal.set_registry_record(
             'plone.external_login_url',
-            u'imio_login'
+            'imio_login'
         )
         api.portal.set_registry_record(
             'plone.external_logout_url',
-            u'imio_logout'
+            'imio_logout'
         )
     else:
         portal_properties = api.portal.get_tool('portal_properties')
@@ -42,11 +42,11 @@ def uninstall(context):
     if HAS_PLONE5:
         api.portal.set_registry_record(
             'plone.external_login_url',
-            u''
+            ''
         )
         api.portal.set_registry_record(
             'plone.external_logout_url',
-            u''
+            ''
         )
     else:
         portal_properties = api.portal.get_tool('portal_properties')

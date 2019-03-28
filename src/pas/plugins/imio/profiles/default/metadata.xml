@@ -2,6 +2,5 @@
 <metadata>
   <version>1000</version>
   <dependencies>
-    <dependency>profile-pas.plugins.authomatic:default</dependency>
   </dependencies>
 </metadata>

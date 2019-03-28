@@ -18,4 +18,32 @@
       directory="static"
       />
 
+  <include package="Products.CMFCore" file="permissions.zcml" />
+
+  <!-- Control panel -->
+  <browser:page
+      class="pas.plugins.authomatic.browser.controlpanel.AuthomaticSettingsEditFormSettingsControlPanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
+      name="authomatic-controlpanel"
+      permission="cmf.ManagePortal"
+      />
+
+  <!-- Login -->
+  <browser:page
+      class=".view.AuthenticView"
+      for="*"
+      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
+      name="authentic-handler"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      class=".view.AddAuthenticUsers"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
+      name="authentic-add-users"
+      permission="cmf.ManagePortal"
+      />
+
 </configure>

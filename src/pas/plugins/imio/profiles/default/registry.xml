@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <registry>
+  <records interface="pas.plugins.authomatic.interfaces.IPasPluginsAuthomaticSettings" />
+
   <record name="pas.plugins.authomatic.interfaces.IPasPluginsAuthomaticSettings.json_config">
     <value>
       {
@@ -17,10 +19,10 @@
                   "email": "email",
                   "fullname": "fullname"
               },
-              "scope": ["openid email profile roles"],
+              "scope": ["openid email profile"],
               "class_": "pas.plugins.imio.providers.authentic.Authentic",
-              "consumer_key": "9e2622eb-2e57-441a-9232-23c4dd2cc092",
-              "consumer_secret": "db4d7f78-2996-4ae1-bb4d-02560e74924b",
+              "consumer_key": "f8fee29a-0071-4c10-bb35-aa1887b3ea00",
+              "consumer_secret": "a25e93e5-9cb1-49b6-aab4-e4c60c16d352",
               "access_headers": {
                   "User-Agent": "Plone (pas.plugins.imio)"
               }
@@ -29,12 +31,12 @@
     </value>
   </record>
   <record name="pas.plugins.authomatic.interfaces.IPasPluginsAuthomaticSettings.userid_factory_name">
-    <value>email</value>
+    <value>username</value>
   </record>
   <record name="pas.plugins.imio.authentic_hostname">
     <field type="plone.registry.field.TextLine">
        <title>authentic_hostname</title>
     </field>
-    <value>auth-staging.imio.be</value>
+    <value>usagers.staging.imio.be</value>
   </record>
 </registry>

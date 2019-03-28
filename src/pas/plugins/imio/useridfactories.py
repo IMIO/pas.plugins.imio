@@ -8,4 +8,7 @@ class ProviderIDEmailFactory(BaseUserIDFactory):
     title = _(u'Provider User Email')
 
     def __call__(self, plugin, result):
-        return self.normalize(plugin, result, result.user.email)
+        if getattr(result, 'user', None):
+            return self.normalize(plugin, result, result.user.email)
+        else:
+            return self.normalize(plugin, result, result.get('email'))

@@ -21,24 +21,27 @@ __all__ = ['Authentic']
 class Authentic(OAuth2):
     """
     """
+    @property
+    def base_url(self):
+        authentic_hostname = api.portal.get_registry_record(
+            'pas.plugins.imio.authentic_hostname')
+        return 'https://{0}'.format(authentic_hostname)
 
     @property
     def user_authorization_url(self):
-        authentic_hostname = api.portal.get_registry_record(
-            'pas.plugins.imio.authentic_hostname')
-        return 'https://{0}/idp/oidc/authorize/'.format(authentic_hostname)
+        return '{0}/idp/oidc/authorize/'.format(self.base_url)
 
     @property
     def access_token_url(self):
-        authentic_hostname = api.portal.get_registry_record(
-            'pas.plugins.imio.authentic_hostname')
-        return 'https://{0}/idp/oidc/token/'.format(authentic_hostname)
+        return '{0}/idp/oidc/token/'.format(self.base_url)
 
     @property
     def user_info_url(self):
-        authentic_hostname = api.portal.get_registry_record(
-            'pas.plugins.imio.authentic_hostname')
-        return 'https://{0}/idp/oidc/user_info/'.format(authentic_hostname)
+        return '{0}/idp/oidc/user_info/'.format(self.base_url)
+
+    @property
+    def user_api_url(self):
+        return '{0}/api/users/'.format(self.base_url)
 
     @property
     def user_info_scope(self):
@@ -57,7 +60,9 @@ class Authentic(OAuth2):
                 user.id = user.username = payload_data.get('sub')
         if 'sub' in data.keys():
             # user.id = data.get('sub')
-            user.id = data.get('email')
+            # user.id = data.get('email')
+            user.id = data.get('preferred_username')
+            user.username = user.id
             user.first_name = data.get('given_name')
             user.last_name = data.get('family_name')
             fullname = u'{0} {1}'.format(user.first_name, user.last_name)
@@ -67,7 +72,6 @@ class Authentic(OAuth2):
             else:
                 user.name = fullname
                 user.fullname = fullname
-                user.username = fullname
             roles = data.get('roles', [])
             if len(roles) > 0:
                 if roles[0].get('name') == 'IASmartWeb':

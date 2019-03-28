@@ -1,16 +1,18 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="pas.plugins.imio">
 
-  <i18n:registerTranslations directory="locales" />
-
+  <five:registerPackage initialize=".initialize" package="." />
   <includeDependencies package="." />
 
+  <i18n:registerTranslations directory="locales" />
+
   <include package=".browser" />
-  <include package="pas.plugins.authomatic" />
+  <!--include package="pas.plugins.authomatic" /-->
 
   <browser:page
     name="imio_login"

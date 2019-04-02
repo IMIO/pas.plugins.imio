@@ -46,6 +46,7 @@ setup(
         'pas.plugins.authomatic',
         'pyjwt',
         'cryptography',
+        'requests',
     ],
     extras_require={
         'test': [

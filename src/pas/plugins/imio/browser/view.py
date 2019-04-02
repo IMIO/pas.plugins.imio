@@ -5,7 +5,7 @@ from pas.plugins.authomatic.interfaces import _
 from pas.plugins.authomatic.utils import authomatic_cfg
 from pas.plugins.authomatic.utils import authomatic_settings
 from pas.plugins.imio.integration import ZopeRequestAdapter
-from pas.plugins.imio.tools import getAuthenticPlugin
+from pas.plugins.imio.utils import getAuthenticPlugin
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.protect.interfaces import IDisableCSRFProtection

@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from pas.plugins.authomatic.interfaces import IPasPluginsAuthomaticLayer
-from pas.plugins.authomatic.plugin import AuthomaticPlugin
+from pas.plugins.imio.interfaces import IPasPluginsImioLayer
 from plone import api
 
 
 def getAuthenticPlugin():
     pas = api.portal.get_tool('acl_users')
-    plugin = pas.objectValues['authentic']
-    if IPasPluginsAuthomaticLayer.providedBy(plugin):
+    plugin = pas['authentic']
+    if IPasPluginsImioLayer.providedBy(plugin):
         return plugin
     raise KeyError

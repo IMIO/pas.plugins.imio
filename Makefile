@@ -23,4 +23,4 @@ instance: buildout
 	./bin/instance fg
 
 cleanall:
-	rm -rf bin develop-eggs downloads include lib parts .installed.cfg .mr.developer.cfg buildout.cfg
+	rm -rf bin develop-eggs downloads include lib parts .installed.cfg .mr.developer.cfg buildout.cfg .coverage htmlcov local pip-selfcheck.json

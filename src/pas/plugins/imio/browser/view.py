@@ -48,7 +48,7 @@ class AddAuthenticUsers(BrowserView):
                     user = User('authentic', **data)
                     user.id = user.username
                     fullname = '{0} {1}'.format(
-                            safe_utf8(user.first_name), safe_utf8(user.last_name))
+                        safe_utf8(user.first_name), safe_utf8(user.last_name))
                     if not fullname.strip():
                         user.fullname = user.id
                     else:
@@ -154,7 +154,7 @@ class AuthenticView(BrowserView):
             # so bevor going on redirect
             root = api.portal.get_navigation_root(self.context)
             self.request.response.redirect(
-                    '{0}/authentic-handler/{1}'.format(
+                '{0}/authentic-handler/{1}'.format(
                     root.absolute_url(),
                     getattr(self, 'provider', '')
                 )

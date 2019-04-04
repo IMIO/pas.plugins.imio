@@ -3,8 +3,6 @@
 from authomatic.core import User
 from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_INTEGRATION_TESTING  # noqa
 from plone import api
-from zope.event import notify
-from Products.PluggableAuthService.events import PrincipalCreated
 
 import unittest
 
@@ -41,8 +39,8 @@ class TestPlugin(unittest.TestCase):
             self.plugin.enumerateUsers(login='')[0]['login'],
             "imio username"
         )
-        #aclu = api.portal.get_tool('acl_users')
-        #ploneuser = aclu._findUser(aclu.plugins, useridentities.userid)
-        #notify(PrincipalCreated(ploneuser))
-        #self.plugin.enumerateUsers(login='')
+        # aclu = api.portal.get_tool('acl_users')
+        # ploneuser = aclu._findUser(aclu.plugins, useridentities.userid)
+        # notify(PrincipalCreated(ploneuser))
+        # self.plugin.enumerateUsers(login='')
 

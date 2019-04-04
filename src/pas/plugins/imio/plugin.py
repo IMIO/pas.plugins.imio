@@ -7,7 +7,6 @@ from pas.plugins.authomatic.useridentities import UserIdentities
 from pas.plugins.authomatic.useridfactories import new_userid
 from pas.plugins.imio.interfaces import IAuthenticPlugin
 from plone import api
-from Products.CMFDiffTool.utils import safe_utf8
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService.events import PrincipalCreated
 from Products.PluggableAuthService.interfaces import plugins as pas_interfaces

@@ -51,5 +51,5 @@ class TestUninstall(unittest.TestCase):
             IPasPluginsImioLayer
         from plone.browserlayer import utils
         self.assertNotIn(
-           IPasPluginsImioLayer,
-           utils.registered_layers())
+            IPasPluginsImioLayer,
+            utils.registered_layers())

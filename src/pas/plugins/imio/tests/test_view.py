@@ -52,6 +52,8 @@ class TestView(unittest.TestCase):
         data['email'] = "imio@username.be"
         view = AddAuthenticUsers(self.portal, self.portal.REQUEST)
         view.get_authentic_users = mock_get_authentic_users
+        view.authentic_api_url
+        view.get_authentic_users()
         self.assertEqual(self.plugin._useridentities_by_userid.get("bsuttor"), None)
         view()
         new_user = self.plugin._useridentities_by_userid.get('bsuttor')

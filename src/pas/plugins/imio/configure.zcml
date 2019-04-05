@@ -52,9 +52,4 @@
     factory=".setuphandlers.HiddenProfiles"
     name="pas.plugins.imio-hiddenprofiles" />
 
-  <utility
-    factory=".useridfactories.ProviderIDEmailFactory"
-    name="email"
-    />
-
 </configure>

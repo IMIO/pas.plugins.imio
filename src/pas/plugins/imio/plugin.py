@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
 from App.class_init import InitializeClass
-from BTrees.OOBTree import OOBTree
 from operator import itemgetter
-from pas.plugins.authomatic.useridentities import UserIdentities
-from pas.plugins.authomatic.useridfactories import new_userid
+from pas.plugins.authomatic.plugin import AuthomaticPlugin
 from pas.plugins.imio.interfaces import IAuthenticPlugin
-from plone import api
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-from Products.PluggableAuthService.events import PrincipalCreated
 from Products.PluggableAuthService.interfaces import plugins as pas_interfaces
-from Products.PluggableAuthService.interfaces.authservice import _noroles
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-from zope.event import notify
 from zope.interface import implementer
 
 import logging
@@ -47,152 +41,15 @@ manage_addAuthenticPluginForm = PageTemplateFile(
     pas_interfaces.IUserEnumerationPlugin,
     pas_interfaces.IRolesPlugin
 )
-class AuthenticPlugin(BasePlugin):
+class AuthenticPlugin(AuthomaticPlugin):
     """Authentic PAS Plugin
     """
     security = ClassSecurityInfo()
     meta_type = 'Authentic Plugin'
-    name = 'authenitc'
     BasePlugin.manage_options
 
     # Tell PAS not to swallow our exceptions
     _dont_swallow_my_exceptions = True
-
-    def __init__(self, id, title=None, **kw):
-        self._setId(id)
-        self.title = title
-        self.plugin_caching = True
-        self._init_trees()
-
-    def _init_trees(self):
-        # (provider_name, provider_userid) -> userid
-        self._userid_by_identityinfo = OOBTree()
-
-        # userid -> userdata
-        self._useridentities_by_userid = OOBTree()
-
-    def _provider_id(self, result):
-        """helper to get the provider identifier
-        """
-
-        if not result.user.id:
-            raise ValueError('Invalid: Empty user.id')
-        if not result.provider.name:
-            raise ValueError('Invalid: Empty provider.name')
-        return (result.provider.name, result.user.id)
-
-    @security.private
-    def lookup_identities(self, result):
-        """looks up the UserIdentities by using the provider name and the
-        userid at this provider
-        """
-
-        userid = self._userid_by_identityinfo.get(
-            self._provider_id(result),
-            None
-        )
-        return self._useridentities_by_userid.get(userid, None)
-
-    @security.private
-    def remember_identity(self, result, userid=None):
-        """stores authomatic result data
-        """
-        if userid is None:
-            # create a new userid
-            userid = new_userid(self, result)
-            useridentities = UserIdentities(userid)
-            self._useridentities_by_userid[userid] = useridentities
-        else:
-            # use existing userid
-            useridentities = self._useridentities_by_userid.get(userid, None)
-            if useridentities is None:
-                raise ValueError('Invalid userid')
-        provider_id = self._provider_id(result)
-        if provider_id not in self._userid_by_identityinfo:
-            self._userid_by_identityinfo[provider_id] = userid
-
-        useridentities.handle_result(result)
-        return useridentities
-
-    @security.private
-    def remember(self, result):
-        """remember user as valid
-
-        result is authentic result data.
-        """
-        result.user.update()
-
-        do_notify_created = False
-
-        # lookup user by
-        useridentities = self.lookup_identities(result)
-        if useridentities is None:
-            # new/unknown user
-            useridentities = self.remember_identity(result)
-            do_notify_created = True
-            logger.info('New User: {0}'.format(useridentities.userid))
-        else:
-            useridentities.update_userdata(result)
-            logger.info('Updated Userdata: {0}'.format(useridentities.userid))
-
-        # login (get new security manager)
-        logger.info('Login User: {0}'.format(useridentities.userid))
-        aclu = api.portal.get_tool('acl_users')
-        user = aclu._findUser(aclu.plugins, useridentities.userid)
-        accessed, container, name, value = aclu._getObjectContext(
-            self.REQUEST['PUBLISHED'],
-            self.REQUEST
-        )
-        user = aclu._authorizeUser(
-            user,
-            accessed,
-            container,
-            name,
-            value,
-            _noroles
-        )
-        if do_notify_created:
-            # be a good citizen in PAS world and notify user creation
-            notify(PrincipalCreated(user))
-
-        # do login post-processing
-        self.REQUEST['__ac_password'] = useridentities.secret
-        mt = api.portal.get_tool('portal_membership')
-        logger.info('Login Postprocessing: {0}'.format(useridentities.userid))
-        mt.loginUser(self.REQUEST)
-
-    # ##
-    # pas_interfaces.IAuthenticationPlugin
-
-    @security.public
-    def authenticateCredentials(self, credentials):
-        """ credentials -> (userid, login)
-
-        - 'credentials' will be a mapping, as returned by IExtractionPlugin.
-        - Return a  tuple consisting of user ID (which may be different
-          from the login name) and login
-        - If the credentials cannot be authenticated, return None.
-        """
-        login = credentials.get('login', None)
-        password = credentials.get('password', None)
-        if not login or login not in self._useridentities_by_userid:
-            return None
-        identities = self._useridentities_by_userid[login]
-        if identities.check_password(password):
-            return login, login
-
-    # ##
-    # pas_interfaces.plugins.IPropertiesPlugin
-
-    @security.private
-    def getPropertiesForUser(self, user, request=None):
-        identity = self._useridentities_by_userid.get(
-            user.getId(),
-            _marker
-        )
-        if identity is _marker:
-            return None
-        return identity.propertysheet
 
     # ##
     # pas_interfaces.plugins.IUserEnumaration

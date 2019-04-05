@@ -31,12 +31,13 @@ class TestPlugin(unittest.TestCase):
         self.assertEqual(self.plugin.enumerateUsers(), ())
         data = {}
         data['id'] = "imio"
-        data['username'] = "imio username"
+        data['username'] = "imiousername"
+        data['email'] = "imio@username.be"
         authomatic_user = User('authentic', **data)
         user = MockupUser(self.plugin, authomatic_user)
         self.plugin.remember_identity(user)
-        new_user = self.plugin._useridentities_by_userid.get('imio username')
-        self.assertEqual(new_user.userid, "imio username")
+        new_user = self.plugin._useridentities_by_userid.get('imiousername')
+        self.assertEqual(new_user.userid, "imiousername")
 
     def test_enumerate_users(self):
         self.assertEqual(self.plugin.enumerateUsers(), ())

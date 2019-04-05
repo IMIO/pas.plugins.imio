@@ -42,7 +42,7 @@
       class=".view.AddAuthenticUsers"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
-      name="authentic-add-users"
+      name="add-authentic-users"
       permission="cmf.ManagePortal"
       />
 

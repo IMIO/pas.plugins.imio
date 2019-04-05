@@ -274,7 +274,7 @@ class AuthenticPlugin(BasePlugin):
         for userid in self._useridentities_by_userid:
             user = self._useridentities_by_userid.get(userid, None)
             email = user.propertysheet.getProperty('email')
-            if not userid:
+            if not userid or not email:
                 logger.warn('None userid found. This should not happen!')
                 continue
             if not userid.startswith(search_id) and not email.startswith(search_id):

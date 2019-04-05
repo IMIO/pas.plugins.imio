@@ -35,12 +35,33 @@ class TestPlugin(unittest.TestCase):
         authomatic_user = User('authentic', **data)
         user = MockupUser(self.plugin, authomatic_user)
         self.plugin.remember_identity(user)
+        new_user = self.plugin._useridentities_by_userid.get('imio username')
+        self.assertEqual(new_user.userid, "imio username")
+
+    def test_enumerate_users(self):
+        self.assertEqual(self.plugin.enumerateUsers(), ())
+        data = {
+            "id": "imio",
+            "username": "imio username",
+            "email": "imio@username.be",
+        }
+        authomatic_user = User('authentic', **data)
+        user = MockupUser(self.plugin, authomatic_user)
+        self.plugin.remember_identity(user)
         self.assertEqual(
             self.plugin.enumerateUsers(login='')[0]['login'],
             "imio username"
         )
-        # aclu = api.portal.get_tool('acl_users')
-        # ploneuser = aclu._findUser(aclu.plugins, useridentities.userid)
-        # notify(PrincipalCreated(ploneuser))
-        # self.plugin.enumerateUsers(login='')
-
+        self.assertEqual(self.plugin.enumerateUsers(login='james'), [])
+        data = {
+            "id": "jamesbond",
+            "username": "jamesbond",
+            "email": "james@bond.co.uk",
+        }
+        authomatic_user = User('authentic', **data)
+        user = MockupUser(self.plugin, authomatic_user)
+        self.plugin.remember_identity(user)
+        self.assertEqual(
+            self.plugin.enumerateUsers(login='james'),
+            [{'login': 'jamesbond', 'pluginid': 'authentic', 'id': u'jamesbond'}],
+        )

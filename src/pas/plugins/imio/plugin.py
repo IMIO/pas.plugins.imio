@@ -51,13 +51,6 @@ class AuthenticPlugin(AuthomaticPlugin):
     # Tell PAS not to swallow our exceptions
     _dont_swallow_my_exceptions = True
 
-    #def _provider_id(self, result):
-    #    """helper to get the provider identifier
-    #    """
-    #    if not result.user.id:
-    #        raise ValueError('Invalid: Empty user.id')
-    #    return ('authentic', result.user.id)
-
     # ##
     # pas_interfaces.plugins.IUserEnumaration
 

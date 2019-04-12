@@ -23,8 +23,7 @@ class Authentic(OAuth2):
     """
     @property
     def base_url(self):
-        authentic_hostname = api.portal.get_registry_record(
-            'pas.plugins.imio.authentic_hostname')
+        authentic_hostname = self.settings.config[self.name].get("hostname")
         return 'https://{0}'.format(authentic_hostname)
 
     @property

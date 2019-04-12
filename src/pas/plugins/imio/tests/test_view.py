@@ -2,7 +2,11 @@
 """Setup tests for this package."""
 from pas.plugins.imio.browser.view import AddAuthenticUsers
 from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_INTEGRATION_TESTING  # noqa
+from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_FUNCTIONAL_TESTING  # noqa
 from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from zope.component import getMultiAdapter
 
 import unittest
 
@@ -21,7 +25,8 @@ def mock_get_authentic_users():
         "results": [
             {
                 u'last_name': u'Suttor',
-                u'id': 2, u'first_name': u'Beno\xeet',
+                u'id': 2,
+                u'first_name': u'Beno\xeet',
                 u'email': u'benoit.suttor@imio.be',
                 u'username': u'bsuttor',
                 u'password': u'',
@@ -34,11 +39,12 @@ def mock_get_authentic_users():
 class TestView(unittest.TestCase):
     """Test that pas.plugins.imio is properly installed."""
 
-    layer = PAS_PLUGINS_IMIO_INTEGRATION_TESTING
+    layer = PAS_PLUGINS_IMIO_FUNCTIONAL_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
+        self.request = self.portal.REQUEST
         acl_users = api.portal.get_tool('acl_users')
         self.plugin = acl_users['authentic']
 
@@ -58,3 +64,23 @@ class TestView(unittest.TestCase):
         view()
         new_user = self.plugin._useridentities_by_userid.get('bsuttor')
         self.assertEqual(new_user.userid, "bsuttor")
+
+    def test_authentic_handler(self):
+        view = api.content.get_view(
+            name='authentic-handler',
+            context=self.portal,
+            request=self.request,
+        )
+        self.assertEqual(
+            [prov['identifier'] for prov in view.providers()],
+            [u'authentic-agents', u'authentic-usagers']
+        )
+
+    def test_add_authentic_users_get_arg(self):
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.request.form['type'] = 'usagers'
+        view = getMultiAdapter((self.portal, self.request), name="add-authentic-users")
+        self.assertEqual(
+            view.authentic_api_url,
+            'https://usagers.staging.imio.be/api/users/?service-ou=default'
+        )

@@ -51,6 +51,13 @@ class AuthenticPlugin(AuthomaticPlugin):
     # Tell PAS not to swallow our exceptions
     _dont_swallow_my_exceptions = True
 
+    #def _provider_id(self, result):
+    #    """helper to get the provider identifier
+    #    """
+    #    if not result.user.id:
+    #        raise ValueError('Invalid: Empty user.id')
+    #    return ('authentic', result.user.id)
+
     # ##
     # pas_interfaces.plugins.IUserEnumaration
 
@@ -97,7 +104,6 @@ class AuthenticPlugin(AuthomaticPlugin):
         o Insufficiently-specified criteria may have catastrophic
           scaling issues for some implementations.
         """
-        logger.info('id: {}, login: {}, kw: {}'.format(id, login, kw))
         if id and login and id != login:
             raise ValueError('plugin does not support id different from login')
         search_id = id or login
@@ -127,11 +133,10 @@ class AuthenticPlugin(AuthomaticPlugin):
             return ret
 
         # non exact expensive search
-        logger.info("len users: {}".format(len(self._useridentities_by_userid)))
         for userid in self._useridentities_by_userid:
             user = self._useridentities_by_userid.get(userid, None)
-            email = user.propertysheet.getProperty('email')
-            if not userid or not email:
+            email = user.propertysheet.getProperty('email', '')
+            if not userid and not email:
                 logger.warn('None userid found. This should not happen!')
                 continue
             if not userid.startswith(search_id) and not email.startswith(search_id):

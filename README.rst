@@ -20,16 +20,14 @@ Features
 .. image:: https://coveralls.io/repos/github/IMIO/pas.plugins.imio/badge.svg?branch=master
     :target: https://coveralls.io/github/IMIO/pas.plugins.imio?branch=master
 
-Examples
---------
+Instalation
+-----------
+
+Install pas.plugins.imio from addons page.
+
+To update list of users, go to this view : /@@add-authentic-users?type=usagers
 
 auth.imio.be
-
-
-Documentation
--------------
-
-Full documentation for end users can be found in the "docs" folder.
 
 
 Translations

@@ -43,10 +43,12 @@ class AddAuthenticUsers(BrowserView):
     @property
     def authentic_api_url(self):
         authentic_hostname = self.authentic_config['hostname']
-        ou = "default"
-        api_url = 'https://{0}/api/users/?service-ou={1}'.format(
+        ou = os.getenv("service_ou", "default")
+        service_slug = os.getenv("service_slug", "default")
+        api_url = 'https://{0}/api/users/?service-ou={1}&service-slug={2}'.format(
             authentic_hostname,
-            ou
+            ou,
+            service_slug,
         )
         return api_url
 

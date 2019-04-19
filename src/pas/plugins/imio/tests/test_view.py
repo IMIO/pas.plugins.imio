@@ -8,6 +8,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from zope.component import getMultiAdapter
 
+import os
 import unittest
 
 
@@ -47,6 +48,8 @@ class TestView(unittest.TestCase):
         self.request = self.portal.REQUEST
         acl_users = api.portal.get_tool('acl_users')
         self.plugin = acl_users['authentic']
+        os.environ["service_ou"] = "testou"
+        os.environ["service_slug"] = "testslug"
 
     def test_add_authentic_users(self):
         self.assertEqual(self.plugin.enumerateUsers(), ())
@@ -58,8 +61,10 @@ class TestView(unittest.TestCase):
         data['email'] = "imio@username.be"
         view = AddAuthenticUsers(self.portal, self.portal.REQUEST)
         view.get_authentic_users = mock_get_authentic_users
-        view.authentic_api_url
-        view.get_authentic_users()
+        self.assertEqual(
+            view.get_authentic_users()['results'][0]['username'],
+            u"bsuttor"
+        )
         self.assertEqual(self.plugin._useridentities_by_userid.get("bsuttor"), None)
         view()
         new_user = self.plugin._useridentities_by_userid.get('bsuttor')
@@ -82,5 +87,5 @@ class TestView(unittest.TestCase):
         view = getMultiAdapter((self.portal, self.request), name="add-authentic-users")
         self.assertEqual(
             view.authentic_api_url,
-            'https://usagers.staging.imio.be/api/users/?service-ou=default'
+            'https://usagers.staging.imio.be/api/users/?service-ou=testou&service-slug=testslug'
         )

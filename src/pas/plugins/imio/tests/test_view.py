@@ -50,6 +50,7 @@ class TestView(unittest.TestCase):
         self.plugin = acl_users['authentic']
         os.environ["service_ou"] = "testou"
         os.environ["service_slug"] = "testslug"
+        os.environ["authentic_usagers_hostname"] = "usagers.test.be"
 
     def test_add_authentic_users(self):
         self.assertEqual(self.plugin.enumerateUsers(), ())
@@ -87,5 +88,5 @@ class TestView(unittest.TestCase):
         view = getMultiAdapter((self.portal, self.request), name="add-authentic-users")
         self.assertEqual(
             view.authentic_api_url,
-            'https://usagers.staging.imio.be/api/users/?service-ou=testou&service-slug=testslug'
+            'https://usagers.test.be/api/users/?service-ou=testou&service-slug=testslug'
         )

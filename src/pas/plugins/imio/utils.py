@@ -20,22 +20,27 @@ def authentic_cfg():
     if not isinstance(cfg, dict):
         return None
     for provider in cfg:
-        if 'class_' in cfg[provider]:
-            cfg[provider]['class_'] = resolve(cfg[provider]['class_'])
-        if u'id' in cfg[provider]:
-            cfg[provider][u'id'] = int(cfg[provider][u'id'])
-        if u'consumer_key' not in cfg[provider]:
-            cfg[provider][u'consumer_key'] = os.getenv('consumer_key', 'my-consumer-key')
-        if u'consumer_secret' not in cfg[provider]:
-            cfg[provider][u'consumer_secret'] = os.getenv('consumer_secret', 'my-consumer-key')
-        cfg[provider][u'hostname'] = os.getenv(
-            'authentic_{0}_hostname'.format(cfg[provider]['type']))
+        if "class_" in cfg[provider]:
+            cfg[provider]["class_"] = resolve(cfg[provider]["class_"])
+        if u"id" in cfg[provider]:
+            cfg[provider][u"id"] = int(cfg[provider][u"id"])
+        if u"consumer_key" not in cfg[provider]:
+            cfg[provider][u"consumer_key"] = os.getenv(
+                "consumer_key", "my-consumer-key"
+            )
+        if u"consumer_secret" not in cfg[provider]:
+            cfg[provider][u"consumer_secret"] = os.getenv(
+                "consumer_secret", "my-consumer-key"
+            )
+        cfg[provider][u"hostname"] = os.getenv(
+            "authentic_{0}_hostname".format(cfg[provider]["type"])
+        )
     return cfg
 
 
 def getAuthenticPlugin():
-    pas = api.portal.get_tool('acl_users')
-    plugin = pas['authentic']
+    pas = api.portal.get_tool("acl_users")
+    plugin = pas["authentic"]
     if IAuthenticPlugin.providedBy(plugin):
         return plugin
     raise KeyError

@@ -11,7 +11,7 @@ from zope.i18nmessageid import MessageFactory
 import os
 
 
-_ = MessageFactory('pas.plugins.imio')
+_ = MessageFactory("pas.plugins.imio")
 
 
 def initialize(context):
@@ -23,14 +23,11 @@ def initialize(context):
     Here, we call the Archetypes machinery to register our content types
     with Zope and the CMF.
     """
-    registerMultiPlugin('Authentic Plugin')
+    registerMultiPlugin("Authentic Plugin")
     context.registerClass(
         AuthenticPlugin,
         permission=add_user_folders,
-        icon=os.path.join(tpl_dir, 'static/authomatic.png'),
-        constructors=(
-            manage_addAuthenticPluginForm,
-            manage_addAuthenticPlugin
-        ),
-        visibility=None
+        icon=os.path.join(tpl_dir, "static/authomatic.png"),
+        constructors=(manage_addAuthenticPluginForm, manage_addAuthenticPlugin),
+        visibility=None,
     )

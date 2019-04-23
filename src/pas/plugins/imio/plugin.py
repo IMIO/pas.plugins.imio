@@ -14,24 +14,21 @@ import os
 
 
 logger = logging.getLogger(__name__)
-tpl_dir = os.path.join(os.path.dirname(__file__), 'browser')
+tpl_dir = os.path.join(os.path.dirname(__file__), "browser")
 
 _marker = {}
 
 
-def manage_addAuthenticPlugin(context, id='authentic', title='', RESPONSE=None, **kw):
+def manage_addAuthenticPlugin(context, id="authentic", title="", RESPONSE=None, **kw):
     """Create an instance of a Authentic Plugin.
     """
     plugin = AuthenticPlugin(id, title, **kw)
     context._setObject(plugin.getId(), plugin)
     if RESPONSE is not None:
-        RESPONSE.redirect('manage_workspace')
+        RESPONSE.redirect("manage_workspace")
 
 
-manage_addAuthenticPluginForm = PageTemplateFile(
-    'www/AuthenticPluginForm',
-    globals(),
-)
+manage_addAuthenticPluginForm = PageTemplateFile("www/AuthenticPluginForm", globals())
 
 
 @implementer(
@@ -39,13 +36,14 @@ manage_addAuthenticPluginForm = PageTemplateFile(
     pas_interfaces.IAuthenticationPlugin,
     pas_interfaces.IPropertiesPlugin,
     pas_interfaces.IUserEnumerationPlugin,
-    pas_interfaces.IRolesPlugin
+    pas_interfaces.IRolesPlugin,
 )
 class AuthenticPlugin(AuthomaticPlugin):
     """Authentic PAS Plugin
     """
+
     security = ClassSecurityInfo()
-    meta_type = 'Authentic Plugin'
+    meta_type = "Authentic Plugin"
     BasePlugin.manage_options
 
     # Tell PAS not to swallow our exceptions
@@ -55,8 +53,15 @@ class AuthenticPlugin(AuthomaticPlugin):
     # pas_interfaces.plugins.IUserEnumaration
 
     @security.private
-    def enumerateUsers(self, id=None, login=None, exact_match=False,
-                       sort_by=None, max_results=None, **kw):
+    def enumerateUsers(
+        self,
+        id=None,
+        login=None,
+        exact_match=False,
+        sort_by=None,
+        max_results=None,
+        **kw
+    ):
         """-> ( user_info_1, ... user_info_N )
 
         o Return mappings for users matching the given criteria.
@@ -98,52 +103,52 @@ class AuthenticPlugin(AuthomaticPlugin):
           scaling issues for some implementations.
         """
         if id and login and id != login:
-            raise ValueError('plugin does not support id different from login')
+            raise ValueError("plugin does not support id different from login")
         search_id = id or login
         if search_id:
             if not isinstance(search_id, basestring):
-                raise NotImplementedError('sequence is not supported.')
+                raise NotImplementedError("sequence is not supported.")
         else:
-            if search_id != '':
+            if search_id != "":
                 return ()
 
         pluginid = self.getId()
         ret = list()
         # shortcut for exact match of login/id
         identity = None
-        if (
-            exact_match and
-            search_id and
-            search_id in self._useridentities_by_userid
-        ):
+        if exact_match and search_id and search_id in self._useridentities_by_userid:
             identity = self._useridentities_by_userid[search_id]
         if identity is not None:
-            ret.append({
-                'id': identity.userid.encode('utf8'),
-                'login': identity.userid.encode('utf8'),
-                'pluginid': pluginid
-            })
+            ret.append(
+                {
+                    "id": identity.userid.encode("utf8"),
+                    "login": identity.userid.encode("utf8"),
+                    "pluginid": pluginid,
+                }
+            )
             return ret
 
         # non exact expensive search
         for userid in self._useridentities_by_userid:
             user = self._useridentities_by_userid.get(userid, None)
-            email = user.propertysheet.getProperty('email', '')
+            email = user.propertysheet.getProperty("email", "")
             if not userid and not email:
-                logger.warn('None userid found. This should not happen!')
+                logger.warn("None userid found. This should not happen!")
                 continue
             if not userid.startswith(search_id) and not email.startswith(search_id):
-                logger.info('not searchable: {0} for {1}'.format(search_id, userid))
+                logger.info("not searchable: {0} for {1}".format(search_id, userid))
                 continue
             identity = self._useridentities_by_userid[userid]
-            ret.append({
-                'id': identity.userid.decode('utf8'),
-                'login': identity.userid,
-                'pluginid': pluginid
-            })
+            ret.append(
+                {
+                    "id": identity.userid.decode("utf8"),
+                    "login": identity.userid,
+                    "pluginid": pluginid,
+                }
+            )
             if max_results and len(ret) >= max_results:
                 break
-        if sort_by in ['id', 'login']:
+        if sort_by in ["id", "login"]:
             return sorted(ret, key=itemgetter(sort_by))
         return ret
 
@@ -156,8 +161,8 @@ class AuthenticPlugin(AuthomaticPlugin):
         if not identity._identities:
             return ()
         provider_id = identity._identities.keys()[0]
-        if 'roles' in identity._identities[provider_id].keys():
-            roles = identity._identities[provider_id]['roles']
+        if "roles" in identity._identities[provider_id].keys():
+            roles = identity._identities[provider_id]["roles"]
             if isinstance(roles, list):
                 return tuple(roles)
             else:

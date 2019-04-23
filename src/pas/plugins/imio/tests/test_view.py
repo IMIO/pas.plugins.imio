@@ -12,10 +12,10 @@ import os
 import unittest
 
 
-class MockupUser():
+class MockupUser:
     def __init__(self, provider, user):
         self.provider = provider
-        self.provider.name = 'authentic'
+        self.provider.name = "authentic"
         self.user = user
         self.user.provider = self.provider
         self.user.data = {}
@@ -25,13 +25,13 @@ def mock_get_authentic_users():
     return {
         "results": [
             {
-                u'last_name': u'Suttor',
-                u'id': 2,
-                u'first_name': u'Beno\xeet',
-                u'email': u'benoit.suttor@imio.be',
-                u'username': u'bsuttor',
-                u'password': u'',
-                u'ou': u'default'
+                u"last_name": u"Suttor",
+                u"id": 2,
+                u"first_name": u"Beno\xeet",
+                u"email": u"benoit.suttor@imio.be",
+                u"username": u"bsuttor",
+                u"password": u"",
+                u"ou": u"default",
             }
         ]
     }
@@ -44,10 +44,10 @@ class TestView(unittest.TestCase):
 
     def setUp(self):
         """Custom shared utility setup for tests."""
-        self.portal = self.layer['portal']
+        self.portal = self.layer["portal"]
         self.request = self.portal.REQUEST
-        acl_users = api.portal.get_tool('acl_users')
-        self.plugin = acl_users['authentic']
+        acl_users = api.portal.get_tool("acl_users")
+        self.plugin = acl_users["authentic"]
         os.environ["service_ou"] = "testou"
         os.environ["service_slug"] = "testslug"
         os.environ["authentic_usagers_hostname"] = "usagers.test.be"
@@ -55,38 +55,35 @@ class TestView(unittest.TestCase):
     def test_add_authentic_users(self):
         self.assertEqual(self.plugin.enumerateUsers(), ())
         data = {}
-        data['id'] = "imio"
-        data['preferred_username'] = "imiousername"
-        data['given_name'] = "imio"
-        data['family_name'] = "imio"
-        data['email'] = "imio@username.be"
+        data["id"] = "imio"
+        data["preferred_username"] = "imiousername"
+        data["given_name"] = "imio"
+        data["family_name"] = "imio"
+        data["email"] = "imio@username.be"
         view = AddAuthenticUsers(self.portal, self.portal.REQUEST)
         view.get_authentic_users = mock_get_authentic_users
         self.assertEqual(
-            view.get_authentic_users()['results'][0]['username'],
-            u"bsuttor"
+            view.get_authentic_users()["results"][0]["username"], u"bsuttor"
         )
         self.assertEqual(self.plugin._useridentities_by_userid.get("bsuttor"), None)
         view()
-        new_user = self.plugin._useridentities_by_userid.get('bsuttor')
+        new_user = self.plugin._useridentities_by_userid.get("bsuttor")
         self.assertEqual(new_user.userid, "bsuttor")
 
     def test_authentic_handler(self):
         view = api.content.get_view(
-            name='authentic-handler',
-            context=self.portal,
-            request=self.request,
+            name="authentic-handler", context=self.portal, request=self.request
         )
         self.assertEqual(
-            [prov['identifier'] for prov in view.providers()],
-            [u'authentic-agents', u'authentic-usagers']
+            [prov["identifier"] for prov in view.providers()],
+            [u"authentic-agents", u"authentic-usagers"],
         )
 
     def test_add_authentic_users_get_arg(self):
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.request.form['type'] = 'usagers'
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.request.form["type"] = "usagers"
         view = getMultiAdapter((self.portal, self.request), name="add-authentic-users")
         self.assertEqual(
             view.authentic_api_url,
-            'https://usagers.test.be/api/users/?service-ou=testou&service-slug=testslug'
+            "https://usagers.test.be/api/users/?service-ou=testou&service-slug=testslug",
         )

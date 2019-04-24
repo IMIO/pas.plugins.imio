@@ -74,4 +74,10 @@
     factory=".setuphandlers.HiddenProfiles"
     name="pas.plugins.imio-hiddenprofiles" />
 
+  <adapter
+    provides=".user.IPASUserDataSchema"
+    for="*"
+    factory=".user.PASUserDataPanelAdapter"
+    />
+
 </configure>

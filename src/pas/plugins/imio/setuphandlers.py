@@ -14,7 +14,11 @@ HAS_PLONE5 = parse_version(env.plone_version()) >= parse_version("5.0")
 class HiddenProfiles(object):
     def getNonInstallableProfiles(self):
         """Hide uninstall profile from site-creation and quickinstaller"""
-        return ["pas.plugins.imio:uninstall", "pas.plugins.authomatic:default"]
+        return [
+            "pas.plugins.imio:base",
+            "pas.plugins.imio:uninstall",
+            "pas.plugins.authomatic:default",
+        ]
 
 
 def _add_plugin(pas, pluginid="authentic"):

@@ -26,11 +26,11 @@ def authentic_cfg():
             cfg[provider][u"id"] = int(cfg[provider][u"id"])
         if u"consumer_key" not in cfg[provider]:
             cfg[provider][u"consumer_key"] = os.getenv(
-                "consumer_key", "my-consumer-key"
+                "consumer_key_{0}".format(cfg[provider]["type"]), "my-consumer-key"
             )
         if u"consumer_secret" not in cfg[provider]:
             cfg[provider][u"consumer_secret"] = os.getenv(
-                "consumer_secret", "my-consumer-key"
+                "consumer_secret_{0}".format(cfg[provider]["type"]), "my-consumer-key"
             )
         cfg[provider][u"hostname"] = os.getenv(
             "authentic_{0}_hostname".format(cfg[provider]["type"])

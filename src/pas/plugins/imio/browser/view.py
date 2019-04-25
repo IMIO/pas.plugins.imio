@@ -36,8 +36,12 @@ class AddAuthenticUsers(BrowserView):
         else:
             self.authentic_type = authentic_type
         self.authentic_config = config.get("authentic-{0}".format(self.authentic_type))
-        self.consumer_key = os.getenv("consumer_key", "my-consumer-key")
-        self.consumer_secret = os.getenv("consumer_secret", "my-consumer-secret")
+        self.consumer_key = os.getenv(
+            "consumer_key_{0}".format(self.authentic_type), "my-consumer-key"
+        )
+        self.consumer_secret = os.getenv(
+            "consumer_secret_{0}".format(self.authentic_type), "my-consumer-secret"
+        )
 
     @property
     def authentic_api_url(self):

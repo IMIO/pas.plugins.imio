@@ -5,7 +5,8 @@ Changelog
 1.0a3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use different usagers and agents environement variables to connect to SOO.
+  [bsuttor]
 
 
 1.0a2 (2019-04-25)

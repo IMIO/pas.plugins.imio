@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a2 (unreleased)
+1.0a2 (2019-04-25)
 ------------------
 
 - Use agents and usagers to connect to Plone.

@@ -75,6 +75,7 @@
     name="pas.plugins.imio-hiddenprofiles" />
 
   <adapter
+    zcml:condition="not-have plone-5"
     provides=".user.IPASUserDataSchema"
     for="*"
     factory=".user.PASUserDataPanelAdapter"

@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a3 (unreleased)
+1.0a3 (2019-04-25)
 ------------------
 
 - Use different usagers and agents environement variables to connect to SOO.

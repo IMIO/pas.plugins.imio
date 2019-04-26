@@ -49,7 +49,7 @@ class TestView(unittest.TestCase):
         acl_users = api.portal.get_tool("acl_users")
         self.plugin = acl_users["authentic"]
         os.environ["service_ou"] = "testou"
-        os.environ["service_slug"] = "testslug"
+        os.environ["service_slug_usagers"] = "testslug"
         os.environ["authentic_usagers_hostname"] = "usagers.test.be"
 
     def test_add_authentic_users(self):

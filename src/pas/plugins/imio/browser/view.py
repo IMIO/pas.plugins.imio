@@ -35,6 +35,9 @@ class AddAuthenticUsers(BrowserView):
             self.authentic_type = self.request.form["type"]
         else:
             self.authentic_type = authentic_type
+        if self.authentic_type not in ["usagers", "agents"]:
+            return None
+
         self.authentic_config = config.get("authentic-{0}".format(self.authentic_type))
         self.consumer_key = os.getenv(
             "consumer_key_{0}".format(self.authentic_type), "my-consumer-key"
@@ -47,7 +50,9 @@ class AddAuthenticUsers(BrowserView):
     def authentic_api_url(self):
         authentic_hostname = self.authentic_config["hostname"]
         ou = os.getenv("service_ou", "default")
-        service_slug = os.getenv("service_slug", "default")
+        service_slug = os.getenv(
+            "service_slug_{0}".format(self.authentic_type), "default"
+        )
         api_url = "https://{0}/api/users/?service-ou={1}&service-slug={2}".format(
             authentic_hostname, ou, service_slug
         )
@@ -63,6 +68,13 @@ class AddAuthenticUsers(BrowserView):
             raise "Not able to connect to Authentic"
 
     def __call__(self):
+        if self.authentic_type not in ["usagers", "agents"]:
+            msg = "HTTP type GET argument should be usagers or agents, not: {0}".format(
+                self.authentic_type
+            )
+            api.portal.show_message(message=msg, type="warn", request=self.request)
+            self.request.response.redirect(api.portal.get().absolute_url())
+            return ""
         plugin = getAuthenticPlugin()
         if not self.authentic_config:
             return ""

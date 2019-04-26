@@ -5,7 +5,8 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use different OU for usagers and agents.
+  [bsuttor]
 
 
 1.0a3 (2019-04-25)

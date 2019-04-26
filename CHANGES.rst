@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a4 (unreleased)
+1.0a4 (2019-04-26)
 ------------------
 
 - Use different OU for usagers and agents.

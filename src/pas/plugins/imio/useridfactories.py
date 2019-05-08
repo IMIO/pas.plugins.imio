@@ -3,12 +3,12 @@ from pas.plugins.authomatic.useridfactories import BaseUserIDFactory
 from pas.plugins.imio import _
 
 
-class ProviderIDEmailFactory(BaseUserIDFactory):
+class ProviderIDFactory(BaseUserIDFactory):
 
-    title = _(u'Provider User Email')
+    title = _(u"Provider User ID for Authentic")
 
     def __call__(self, plugin, result):
-        if getattr(result, 'user', None):
-            return self.normalize(plugin, result, result.user.email)
+        if result.provider.name.endswith("agents"):
+            return self.normalize(plugin, result, result.user.username)
         else:
-            return self.normalize(plugin, result, result.get('email'))
+            return self.normalize(plugin, result, result.user.email)

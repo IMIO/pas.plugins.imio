@@ -10,7 +10,7 @@ import unittest
 class MockupUser:
     def __init__(self, provider, user):
         self.provider = provider
-        self.provider.name = "authentic"
+        self.provider.name = "authentic-agents"
         self.user = user
         self.user.provider = self.provider
         self.user.data = {}

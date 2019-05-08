@@ -51,6 +51,6 @@
     </value>
   </record>
   <record name="pas.plugins.authomatic.interfaces.IPasPluginsAuthomaticSettings.userid_factory_name">
-    <value>username</value>
+    <value>authenticusername</value>
   </record>
 </registry>

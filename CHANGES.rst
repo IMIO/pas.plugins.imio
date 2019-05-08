@@ -5,7 +5,8 @@ Changelog
 1.0a5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add userfactories to connect with email for usagers and with userid of agents.
+  [bsuttor]
 
 
 1.0a4 (2019-04-26)

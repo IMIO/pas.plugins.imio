@@ -81,4 +81,10 @@
     factory=".user.PASUserDataPanelAdapter"
     />
 
+  <utility
+    factory=".useridfactories.ProviderIDFactory"
+    name="authenticusername"
+    />
+
 </configure>
+

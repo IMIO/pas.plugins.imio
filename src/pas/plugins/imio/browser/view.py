@@ -65,6 +65,7 @@ class AddAuthenticUsers(BrowserView):
         if req.status_code == 200:
             return req.json()
         else:
+            # be more explicit
             raise "Not able to connect to Authentic"
 
     def __call__(self):

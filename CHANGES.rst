@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a5 (unreleased)
+1.0a5 (2019-05-09)
 ------------------
 
 - Add userfactories to connect with email for usagers and with userid of agents.

@@ -5,7 +5,8 @@ Changelog
 1.0a6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add roles scope on agents.
+  [bsuttor]
 
 
 1.0a5 (2019-05-09)

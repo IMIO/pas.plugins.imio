@@ -3,7 +3,9 @@ from AccessControl import ClassSecurityInfo
 from App.class_init import InitializeClass
 from operator import itemgetter
 from pas.plugins.authomatic.plugin import AuthomaticPlugin
+from pas.plugins.authomatic.useridfactories import new_userid
 from pas.plugins.imio.interfaces import IAuthenticPlugin
+from plone import api
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService.interfaces import plugins as pas_interfaces
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
@@ -51,6 +53,18 @@ class AuthenticPlugin(AuthomaticPlugin):
 
     # ##
     # pas_interfaces.plugins.IUserEnumaration
+
+    @security.private
+    def remember_identity(self, result, userid=None):
+        useridentities = super(AuthenticPlugin, self).remember_identity(result, userid)
+        if userid is None:
+            # remove old plone userid from source_users
+            userid = new_userid(self, result)
+            if self._useridentities_by_userid.get(userid, None):
+                acl_users = api.portal.get_tool("acl_users")
+                source_users = acl_users.source_users
+                source_users.doDeleteUser(userid)
+        return useridentities
 
     @security.private
     def enumerateUsers(

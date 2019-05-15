@@ -5,7 +5,6 @@
       metal:use-macro="context/main_template/macros/master">
 
     <metal:block fill-slot="main">
-      main
         <tal:if tal:condition="view/is_anon">
           <h2 i18n:translate="login_title">Log in with</h2>
         </tal:if>

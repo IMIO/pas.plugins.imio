@@ -5,6 +5,9 @@ Changelog
 1.0a6 (unreleased)
 ------------------
 
+- Get logout hostname redirect from agents config.
+  [bsuttor]
+
 - Add roles scope on agents.
   [bsuttor]
 

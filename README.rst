@@ -25,9 +25,10 @@ Instalation
 
 Install pas.plugins.imio from addons page.
 
-To update list of users, go to this view : /@@add-authentic-users?type=usagers
+To update list of users, go to one of this view : 
 
-auth.imio.be
+- /@@add-authentic-users?type=usagers
+- /@@add-authentic-users?type=agents
 
 
 Translations
@@ -60,7 +61,6 @@ Contribute
 
 - Issue Tracker: https://github.com/IMIO/pas.plugins.imio/issues
 - Source Code: https://github.com/IMIO/pas.plugins.imio
-- Documentation: https://paspluginsimio.readthedocs.io
 
 
 Support

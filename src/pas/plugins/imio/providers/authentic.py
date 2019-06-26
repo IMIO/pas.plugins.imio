@@ -72,9 +72,10 @@ class Authentic(OAuth2):
                 user.name = fullname
                 user.fullname = fullname
             roles = data.get("roles", [])
+            user.roles = ["Member"]
             if len(roles) > 0:
                 if roles[0] == "IASmartWeb":
-                    user.roles = ["Manager"]
+                    user.roles.append("Manager")
         return user
 
 

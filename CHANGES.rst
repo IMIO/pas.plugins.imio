@@ -5,7 +5,8 @@ Changelog
 1.0a7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add Member role to user connected with Authentic.
+  [bsuttor]
 
 
 1.0a6 (2019-05-20)

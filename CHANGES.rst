@@ -5,6 +5,9 @@ Changelog
 1.0a7 (unreleased)
 ------------------
 
+- Set Manager role if you are into admin role on Authentic.
+  [bsuttor]
+
 - Add Member role to user connected with Authentic.
   [bsuttor]
 

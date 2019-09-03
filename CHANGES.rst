@@ -5,7 +5,8 @@ Changelog
 1.0a8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Set Site Manager role to user with admin of service role on Authentic.
+  [bsuttor]
 
 
 1.0a7 (2019-06-28)

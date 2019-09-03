@@ -74,8 +74,12 @@ class Authentic(OAuth2):
             roles = data.get("roles", [])
             user.roles = ["Member"]
             if len(roles) > 0:
-                if any("admin" in role for role in roles):
+                app_id = os.environ.get("application_id", "")
+                service_slug = os.environ.get("service_slug", "")
+                if any("{}-admin".format(app_id) in role for role in roles):
                     user.roles.append("Manager")
+                if any("{}-admin".format(service_slug) in role for role in roles):
+                    user.roles.append("Site Manager")
         return user
 
 

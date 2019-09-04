@@ -12,6 +12,7 @@ Providers which implement the |oauth2|_ protocol.
 from authomatic.providers.oauth2 import OAuth2
 
 import jwt
+import os
 
 
 __all__ = ["Authentic"]

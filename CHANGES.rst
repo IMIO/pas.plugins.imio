@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a8 (unreleased)
+1.0a8 (2019-09-04)
 ------------------
 
 - Set Site Manager role to user with admin of service role on Authentic.

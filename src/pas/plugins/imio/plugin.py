@@ -61,11 +61,15 @@ class AuthenticPlugin(AuthomaticPlugin):
             userid = result.user.username
             acl_users = api.portal.get_tool("acl_users")
             source_users = acl_users.source_users
-            if (
-                self._useridentities_by_userid.get(userid, None)
-                and len(source_users.enumerateUsers(userid)) > 0
-            ):
-                source_users.doDeleteUser(userid)
+            if self._useridentities_by_userid.get(userid, None) and userid in [
+                us.get("id") for us in source_users.enumerateUsers()
+            ]:
+                try:
+                    source_users.doDeleteUser(userid)
+                except KeyError:
+                    logger.error(
+                        "Not able to delete {0} from source_users".format(userid)
+                    )
         return useridentities
 
     @security.private

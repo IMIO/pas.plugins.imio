@@ -5,7 +5,8 @@ Changelog
 1.0a9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Override default login_form template (with z3c.jbot) to allow login with zope admin and an external url set.
+  [bsuttor]
 
 
 1.0a8 (2019-09-04)

@@ -35,7 +35,7 @@
     name="base"
     title="pas.plugins.imio base"
     directory="profiles/base"
-    description="Installs the pas.plugins.imio add-on."
+    description="Installs the pas.plugins.imio base add-on."
     provides="Products.GenericSetup.interfaces.EXTENSION"
     post_handler=".setuphandlers.post_install"
     />

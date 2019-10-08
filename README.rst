@@ -8,11 +8,14 @@ pas.plugins.imio
 
 Install local or remote connector to Imio authentic (SSO).
 
+
 Features
 --------
 
 - Override Plone login page
 - Connect with SSO
+- Disabled edition of username and e-mail
+- 
 
 .. image:: https://travis-ci.org/IMIO/pas.plugins.imio.png
     :target: http://travis-ci.org/IMIO/pas.plugins.imio
@@ -20,15 +23,36 @@ Features
 .. image:: https://coveralls.io/repos/github/IMIO/pas.plugins.imio/badge.svg?branch=master
     :target: https://coveralls.io/github/IMIO/pas.plugins.imio?branch=master
 
-Instalation
------------
 
-Install pas.plugins.imio from addons page.
+Installation
+------------
+
+You need libffi-dev package installed (`sudo apt install libffi-dev`)
+Install pas.plugins.imio by adding it to your buildout::
+
+    [buildout]
+
+    ...
+
+    eggs =
+        pas.plugins.imio
+
+And then running ``bin/buildout``
+
+After your instance is up, you can now install pas.plugins.imio from addons page.
+
+
+Usage
+-----
 
 To update list of users, go to one of this view : 
 
 - /@@add-authentic-users?type=usagers
 - /@@add-authentic-users?type=agents
+
+
+To login with an user registred into Plone/Zope instead of pas plugin use this view :
+- ${portal_url}/login_form
 
 
 Translations
@@ -40,34 +64,11 @@ This product has been translated into
 - French
 
 
-Installation
-------------
-You need libffi-dev package installed (`sudo apt install libffi-dev`)
-Install pas.plugins.imio by adding it to your buildout::
-
-    [buildout]
-
-    ...
-
-    eggs =
-        pas.plugins.imio
-
-
-and then running ``bin/buildout``
-
-
 Contribute
 ----------
 
 - Issue Tracker: https://github.com/IMIO/pas.plugins.imio/issues
 - Source Code: https://github.com/IMIO/pas.plugins.imio
-
-
-Support
--------
-
-If you are having issues, please let us know.
-We have a mailing list located at: devs@imio.be
 
 
 License

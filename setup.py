@@ -16,7 +16,7 @@ long_description = "\n\n".join(
 
 setup(
     name="pas.plugins.imio",
-    version="1.0a9.dev0",
+    version="1.0a9",
     description="Pas plugin use to connect to auth.imio.be",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers

@@ -1,6 +1,3 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -15,76 +12,76 @@ msgstr ""
 "Language-Code: en\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: pas.plugins.imio\n"
+"Domain: DOMAIN\n"
 
 #: ../configure.zcml:52
 msgid "Installs the pas.plugins.imio add-on."
-msgstr ""
+msgstr "Installer pas.plugins.imio"
 
 #: ../configure.zcml:41
 msgid "Installs the pas.plugins.imio base add-on."
-msgstr ""
+msgstr "Installer pas.plugins.imio base"
 
 #: ../useridfactories.py:8
 msgid "Provider User ID for Authentic"
-msgstr ""
+msgstr "Provider User ID pour Authentic"
 
 #: ../configure.zcml:71
 msgid "Uninstalls the pas.plugins.imio add-on."
-msgstr ""
+msgstr "Désinstaller pas.plugins.imio"
 
 #. Default: "Choose one of these external authentication providers"
 #: ../browser/authentic.pt:14
 msgid "add_description"
-msgstr ""
+msgstr "Choisir l'un des connecteurs externes"
 
 #. Default: "Add identity"
 #: ../browser/authentic.pt:12
 msgid "add_identity_title"
-msgstr ""
+msgstr "Ajout de l'identité"
 
 #. Default: "Added identity provided by ${provider}"
 #: ../browser/view.py:178
 msgid "added_identity"
-msgstr ""
+msgstr "Ajout de l'identité donnée par ${provider}"
 
 #. Default: "Enter full name, e.g. John Smith."
 #: ../user.py:26
 msgid "help_full_name_creation"
-msgstr ""
+msgstr "Entrer le nom complet, par exemple, John Smith"
 
 #. Default: "E-mail"
 #: ../user.py:34
 msgid "label_email"
-msgstr ""
+msgstr "E-mail"
 
 #. Default: "Full Name"
 #: ../user.py:25
 msgid "label_full_name"
-msgstr ""
+msgstr "Nom complet"
 
 #. Default: "Logged in with ${provider}"
 #: ../browser/view.py:192
 msgid "logged_in_with"
-msgstr ""
+msgstr "Se connecter avec ${provider}"
 
 #. Default: "Log in with"
 #: ../browser/authentic.pt:9
 msgid "login_title"
-msgstr ""
+msgstr "Se connecter avec"
 
 #: ../configure.zcml:71
 msgid "pas.plugins.imio (uninstall)"
-msgstr ""
+msgstr "pas.plugins.imio (désinstaller)"
 
 #: ../configure.zcml:41
 msgid "pas.plugins.imio base"
-msgstr ""
+msgstr "pas.plugins.imio base"
 
 #: ../configure.zcml:62
 msgid "pas.plugins.imio plone4"
-msgstr ""
+msgstr "pas.plugins.imio plone4"
 
 #: ../configure.zcml:52
 msgid "pas.plugins.imio plone5"
-msgstr ""
+msgstr "pas.plugins.imio plone5"

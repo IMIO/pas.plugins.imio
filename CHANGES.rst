@@ -5,7 +5,8 @@ Changelog
 1.0a10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add fr translations.
+  [bsuttor]
 
 
 1.0a9 (2019-11-05)

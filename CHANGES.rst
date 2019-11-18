@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a10 (unreleased)
+1.0a10 (2019-11-18)
 -------------------
 
 - Add css for login-page

@@ -5,15 +5,16 @@
       metal:use-macro="context/main_template/macros/master">
 
     <metal:block fill-slot="main">
+        <div class="paspluginsimio">
         <tal:if tal:condition="view/is_anon">
-          <h2 i18n:translate="login_title">Log in with</h2>
+        <h2 i18n:translate="login_title" class="paspluginsimio">
+            Log in with <span>Wallonie Connect</span>
+        </h2>
         </tal:if>
         <tal:if tal:condition="not: view/is_anon">
           <h2 i18n:translate="add_identity_title">Add identity</h2>
         </tal:if>
-        <p i18n:translate="add_description"
-           class="description">Choose one of these external authentication providers</p>
-        <ul>
+        <ul class="paspluginsimio">
             <li tal:repeat="provider view/providers">
 
                 <a tal:condition="not:provider/as_form"
@@ -44,6 +45,7 @@
 
             </li>
         </ul>
+			  </div>
     </metal:block>
 
 </html>

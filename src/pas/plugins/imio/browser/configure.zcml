@@ -12,10 +12,10 @@
       />
 
   <!-- Publish static files -->
-  <plone:static
+  <browser:resourceDirectory
       name="pas.plugins.imio"
-      type="plone"
       directory="static"
+      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
       />
 
   <include package="Products.CMFCore" file="permissions.zcml" />

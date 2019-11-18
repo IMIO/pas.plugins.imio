@@ -9,9 +9,9 @@
               "id": 1,
               "type": "usagers",
               "display": {
-                  "title": "Authentification Usager",
+                  "title": "Je suis un usager",
                   "cssclasses": {
-                      "button": "plone-btn plone-btn-default",
+                      "button": "plone-btn plone-btn-default plone-btn-usagers",
                       "icon": "glypicon glyphicon-github"
                   },
                   "as_form": false
@@ -30,9 +30,9 @@
               "id": 2,
               "type": "agents",
               "display": {
-                  "title": "Authentification Agents",
+                  "title": "Je suis un agents",
                   "cssclasses": {
-                      "button": "plone-btn plone-btn-default",
+                      "button": "plone-btn plone-btn-default plone-btn-agents",
                       "icon": "glypicon glyphicon-github"
                   },
                   "as_form": false

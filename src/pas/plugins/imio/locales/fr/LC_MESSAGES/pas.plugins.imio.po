@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2019-11-13 10:42+0000\n"
+"POT-Creation-Date: 2019-11-18 10:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,13 +30,8 @@ msgstr "Provider User ID pour Authentic"
 msgid "Uninstalls the pas.plugins.imio add-on."
 msgstr "Désinstaller pas.plugins.imio"
 
-#. Default: "Choose one of these external authentication providers"
-#: ../browser/authentic.pt:14
-msgid "add_description"
-msgstr "Choisir l'un des connecteurs externes"
-
 #. Default: "Add identity"
-#: ../browser/authentic.pt:12
+#: ../browser/authentic.pt:15
 msgid "add_identity_title"
 msgstr "Ajout de l'identité"
 
@@ -65,10 +60,10 @@ msgstr "Nom complet"
 msgid "logged_in_with"
 msgstr "Se connecter avec ${provider}"
 
-#. Default: "Log in with"
-#: ../browser/authentic.pt:9
+#. Default: "Log in with <span>Wallonie Connect</span>"
+#: ../browser/authentic.pt:10
 msgid "login_title"
-msgstr "Se connecter avec"
+msgstr "Se connecter avec <span>Wallonie Connect</span>"
 
 #: ../configure.zcml:71
 msgid "pas.plugins.imio (uninstall)"

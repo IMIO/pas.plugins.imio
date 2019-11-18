@@ -5,6 +5,9 @@ Changelog
 1.0a10 (unreleased)
 -------------------
 
+- Add css for login-page
+  [bsuttor]
+
 - Add fr translations.
   [bsuttor]
 

@@ -27,7 +27,7 @@ def initialize(context):
     context.registerClass(
         AuthenticPlugin,
         permission=add_user_folders,
-        icon=os.path.join(tpl_dir, "static/authomatic.png"),
+        icon=os.path.join(tpl_dir, "static/logo-agent.svg"),
         constructors=(manage_addAuthenticPluginForm, manage_addAuthenticPlugin),
         visibility=None,
     )

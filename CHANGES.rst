@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.0a11 (unreleased)
--------------------
+1.0b1 (2019-12-16)
+------------------
 
 - Python 3 support.
   [bsuttor]

@@ -22,6 +22,7 @@ from zope.publisher.interfaces import IPublishTraverse
 import logging
 import os
 import requests
+import six
 
 
 logger = logging.getLogger(__file__)
@@ -227,7 +228,10 @@ class AuthenticView(BrowserView):
             # todo: some sort of CSRF check might be needed, so that
             #       not an account got connected by CSRF. Research needed.
             pass
-        auth = Authomatic(cfg, secret=authomatic_settings().secret.encode("utf8"))
+        secret = authomatic_settings().secret
+        if six.PY2 and isinstance(secret, six.text_type):
+            secret = secret.encode("utf8")
+        auth = Authomatic(cfg, secret=secret)
         result = auth.login(ZopeRequestAdapter(self), self.provider)
         if not result:
             logger.info("return from view")
@@ -245,9 +249,12 @@ class AuthenticView(BrowserView):
         else:
             # now we delegate to PAS plugin in order to login
             self._remember_identity(result, provider_name)
-            self.request.response.redirect(
-                "{0}/login_success".format(self.context.absolute_url())
-            )
+            if api.env.plone_version() < "5.2":
+                self.request.response.redirect(
+                    "{0}/login_success".format(self.context.absolute_url())
+                )
+            else:
+                self.request.response.redirect(self.context.absolute_url())
         return "redirecting"
 
     @property

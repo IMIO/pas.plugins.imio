@@ -5,7 +5,8 @@ Changelog
 1.0b2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Override plone userlist page to add link to WCA.
+  [bsuttor]
 
 
 1.0b1 (2019-12-16)

@@ -38,6 +38,9 @@ class AddAuthenticUsers(BrowserView):
             self.authentic_type = authentic_type
         if self.authentic_type not in ["usagers", "agents"]:
             return None
+        self.next_url = api.portal.get().absolute_url()
+        if "next_url" in self.request.form.keys():
+            self.next_url = self.request.form["next_url"]
 
         self.authentic_config = config.get("authentic-{0}".format(self.authentic_type))
         self.consumer_key = os.getenv(
@@ -132,7 +135,8 @@ class AddAuthenticUsers(BrowserView):
         transaction.commit()
         message = "{0} users added".format(new_users)
         api.portal.show_message(message=message, request=self.request)
-        self.request.response.redirect(api.portal.get().absolute_url())
+        self.request.response.redirect(self.next_url)
+        return "redirecting"
 
 
 @implementer(IPublishTraverse)

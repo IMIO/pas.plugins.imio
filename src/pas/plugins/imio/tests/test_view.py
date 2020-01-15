@@ -61,6 +61,10 @@ class TestView(unittest.TestCase):
         data["family_name"] = "imio"
         data["email"] = "imio@username.be"
         view = AddAuthenticUsers(self.portal, self.portal.REQUEST)
+        self.assertEqual(view.next_url, "http://nohost/plone")
+        self.portal.REQUEST.form["next_url"] = "https://www.imio.be"
+        view = AddAuthenticUsers(self.portal, self.portal.REQUEST)
+        self.assertEqual(view.next_url, "https://www.imio.be")
         view.get_authentic_users = mock_get_authentic_users
         self.assertEqual(
             view.get_authentic_users()["results"][0]["username"], u"bsuttor"
@@ -87,3 +91,16 @@ class TestView(unittest.TestCase):
             view.authentic_api_url,
             "https://usagers.test.be/api/users/?service-ou=testou&service-slug=testslug",
         )
+
+    def test_usergroup_userprefs(self):
+        view = api.content.get_view(
+            "usergroup-userprefs", context=self.portal, request=self.request
+        )
+        self.assertEqual(
+            view.get_agent_url(), "https://agents.staging.imio.be/manage/users/"
+        )
+        self.assertEqual(
+            view.get_update_url(),
+            "http://nohost/plone/add-authentic-users?type=agents&next_url=http://nohost/plone",
+        )
+        self.assertIn('<button type="button"', view())

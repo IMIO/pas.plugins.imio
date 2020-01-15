@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="pas.plugins.imio">
 
   <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
@@ -44,6 +45,17 @@
       layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
       name="add-authentic-users"
       permission="cmf.ManagePortal"
+      />
+
+  <!-- Override User list for Plone 4 -->
+  <browser:page
+      zcml:condition="not-have plone-5"
+      name="usergroup-userprefs"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".usergroups.ImioUsersOverviewControlPanel"
+      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
+      permission="plone.app.controlpanel.UsersAndGroups"
+      template="usergroups_usersoverview.pt"
       />
 
 </configure>

@@ -8,6 +8,7 @@ cache:
   - downloads
 python:
   - 2.7
+  - 3.6
 matrix:
   fast_finish: true
 
@@ -15,8 +16,8 @@ matrix:
   include:
     - python: "2.7"
       env: PLONE_VERSION=4.3.x
-    - python: "2.7"
-      env: PLONE_VERSION=5.1.x
+    - python: "3.6"
+      env: PLONE_VERSION=5.2.x
 install:
   - pip install -r requirements.txt
   - buildout -c plone$PLONE_VERSION.cfg -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate

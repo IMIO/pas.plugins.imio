@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0b2 (unreleased)
+1.0b2 (2020-02-04)
 ------------------
 
 - Fix python3 EnumerateUsers.

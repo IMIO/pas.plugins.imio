@@ -141,12 +141,12 @@ class AuthenticPlugin(AuthomaticPlugin):
         if exact_match and search_id and search_id in self._useridentities_by_userid:
             identity = self._useridentities_by_userid[search_id]
         if identity is not None:
+            identity_userid = identity.userid
+            if six.PY2 and isinstance(identity_userid, six.text_type):
+                identity_userid = identity_userid.encode("utf8")
+
             ret.append(
-                {
-                    "id": identity.userid.encode("utf8"),
-                    "login": identity.userid.encode("utf8"),
-                    "pluginid": pluginid,
-                }
+                {"id": identity_userid, "login": identity_userid, "pluginid": pluginid}
             )
             return ret
 
@@ -161,12 +161,11 @@ class AuthenticPlugin(AuthomaticPlugin):
                 logger.info("not searchable: {0} for {1}".format(search_id, userid))
                 continue
             identity = self._useridentities_by_userid[userid]
+            identity_userid = identity.userid
+            if six.PY2 and isinstance(identity_userid, six.text_type):
+                identity_userid = identity_userid.encode("utf8")
             ret.append(
-                {
-                    "id": identity.userid.decode("utf8"),
-                    "login": identity.userid,
-                    "pluginid": pluginid,
-                }
+                {"id": identity_userid, "login": identity_userid, "pluginid": pluginid}
             )
             if max_results and len(ret) >= max_results:
                 break

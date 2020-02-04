@@ -5,6 +5,9 @@ Changelog
 1.0b2 (unreleased)
 ------------------
 
+- Fix python3 EnumerateUsers.
+  [bsuttor]
+
 - Override plone userlist page to add link to WCA.
   [bsuttor]
 

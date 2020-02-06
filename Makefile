@@ -23,4 +23,10 @@ instance: buildout
 	./bin/instance fg
 
 cleanall:
-	rm -rf bin develop-eggs downloads include lib parts .installed.cfg .mr.developer.cfg buildout.cfg .coverage htmlcov local pip-selfcheck.json
+	rm -rf bin develop-eggs downloads include lib parts .installed.cfg .mr.developer.cfg buildout.cfg .coverage htmlcov local pip-selfcheck.json lib64 share
+
+devpy3:
+	python3 -m venv .
+	ln -s plone5.2.x.cfg buildout.cfg
+	./bin/pip install -r requirements.txt
+	./bin/buildout -Nt 7

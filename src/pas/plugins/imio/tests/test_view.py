@@ -78,9 +78,11 @@ class TestView(unittest.TestCase):
         view = api.content.get_view(
             name="authentic-handler", context=self.portal, request=self.request
         )
-        self.assertEqual(
-            [prov["identifier"] for prov in view.providers()],
-            [u"authentic-agents", u"authentic-usagers"],
+        self.assertIn(
+            "authentic-agents", [prov["identifier"] for prov in view.providers()]
+        )
+        self.assertIn(
+            "authentic-usagers", [prov["identifier"] for prov in view.providers()]
         )
 
     def test_add_authentic_users_get_arg(self):
@@ -101,6 +103,6 @@ class TestView(unittest.TestCase):
         )
         self.assertEqual(
             view.get_update_url(),
-            "http://nohost/plone/add-authentic-users?type=agents&next_url=http://nohost/plone",
+            "http://nohost/plone/add-authentic-users?type=agents&next_url=http://nohost/plone@@usergroup-userprefs",
         )
         self.assertIn('<button type="button"', view())

@@ -34,3 +34,5 @@ report.html
 !.travis.yml
 !src/pas
 buildout.cfg
+pyvenv.cfg
+share

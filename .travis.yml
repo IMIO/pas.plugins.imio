@@ -12,9 +12,9 @@ matrix:
 matrix:
   include:
     - python: "2.7"
-      env: PLONE_VERSION=4.3.x
+      env: PLONE_VERSION=4.3.x authentic_agents_hostname=agents.staging.imio.be
     - python: "3.6"
-      env: PLONE_VERSION=5.2.x
+      env: PLONE_VERSION=5.2.x authentic_agents_hostname=agents.staging.imio.be
 install:
   - pip install -r requirements.txt
   - buildout -c plone$PLONE_VERSION.cfg -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate

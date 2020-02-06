@@ -5,6 +5,9 @@ Changelog
 1.0b3 (unreleased)
 ------------------
 
+- Override plone userlist page to add link to WCA on Plone 5.
+  [bsuttor]
+
 - Add zope_login to bypass SSO auth.
   [bsuttor]
 

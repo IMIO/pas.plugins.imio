@@ -55,7 +55,18 @@
       class=".usergroups.ImioUsersOverviewControlPanel"
       layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
       permission="plone.app.controlpanel.UsersAndGroups"
-      template="usergroups_usersoverview.pt"
+      template="templates/usergroups_usersoverview_p4.pt"
+      />
+
+  <!-- Override User list for Plone 5 -->
+  <browser:page
+      zcml:condition="have plone-5"
+      name="usergroup-userprefs"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".usergroups_usersoverview.ImioUsersOverviewControlPanel"
+      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
+      permission="plone.app.controlpanel.UsersAndGroups"
+      template="templates/usergroups_usersoverview_p5.pt"
       />
 
   <browser:page

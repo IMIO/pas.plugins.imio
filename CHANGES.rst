@@ -5,7 +5,8 @@ Changelog
 1.0b3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add zope_login to bypass SSO auth.
+  [bsuttor]
 
 
 1.0b2 (2020-02-04)

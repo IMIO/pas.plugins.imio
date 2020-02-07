@@ -88,15 +88,24 @@ class AddAuthenticUsers(BrowserView):
             user = User("authentic-{0}".format(self.authentic_type), **data)
             user.id = user.username
             if not user.username:
-                user.id = safe_utf8(user.email)
-                user.username = safe_utf8(user.email)
-            fullname = "{0} {1}".format(
-                safe_utf8(user.first_name), safe_utf8(user.last_name)
-            )
+                if six.PY2 and isinstance(user.email, six.text_type):
+                    user.id = safe_utf8(user.email)
+                    user.username = safe_utf8(user.email)
+                else:
+                    user.id = user.email
+                    user.username = user.email
+            if six.PY2 and isinstance(user.user.last_name, six.text_type):
+                fullname = "{0} {1}".format(
+                    safe_utf8(user.first_name), safe_utf8(user.last_name)
+                )
+            else:
+                fullname = "{0} {1}".format(user.first_name, user.last_name)
             if not fullname.strip():
                 user.fullname = user.id
             else:
-                user.fullname = safe_utf8(fullname)
+                if six.PY2 and isinstance(fullname, six.text_type):
+                    user.fullname = safe_utf8(fullname)
+
             if not plugin._useridentities_by_userid.get(user.id, None):
                 # save
                 class SimpleAuthomaticResult:

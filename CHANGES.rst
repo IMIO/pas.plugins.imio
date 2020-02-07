@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0b4 (unreleased)
+1.0b4 (2020-02-07)
 ------------------
 
 - Bad release.

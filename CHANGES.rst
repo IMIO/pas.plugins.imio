@@ -9,6 +9,7 @@ Changelog
 
 
 1.0b3 (2020-02-06)
+1.0b3 (2020-02-07)
 ------------------
 
 - Override plone userlist page to add link to WCA on Plone 5.

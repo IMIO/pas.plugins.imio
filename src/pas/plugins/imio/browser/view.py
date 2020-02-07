@@ -94,7 +94,7 @@ class AddAuthenticUsers(BrowserView):
                 else:
                     user.id = user.email
                     user.username = user.email
-            if six.PY2 and isinstance(user.user.last_name, six.text_type):
+            if six.PY2 and isinstance(user.last_name, six.text_type):
                 fullname = "{0} {1}".format(
                     safe_utf8(user.first_name), safe_utf8(user.last_name)
                 )

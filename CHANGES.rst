@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0b5 (unreleased)
+1.0b5 (2020-02-07)
 ------------------
 
 - Improve python3 compatibility, check if python 2 before safe_utf8.

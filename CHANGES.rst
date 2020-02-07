@@ -5,7 +5,8 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Bad release.
+  [bsuttor]
 
 
 1.0b3 (2020-02-07)

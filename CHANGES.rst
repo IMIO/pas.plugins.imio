@@ -5,7 +5,8 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Improve python3 compatibility, check if python 2 before safe_utf8.
+  [bsuttor]
 
 
 1.0b4 (2020-02-07)

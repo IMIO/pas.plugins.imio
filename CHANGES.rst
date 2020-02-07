@@ -5,7 +5,8 @@ Changelog
 1.0b6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add plone.app.changeownership dependency.
+  [bsuttor]
 
 
 1.0b5 (2020-02-07)

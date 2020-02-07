@@ -103,6 +103,6 @@ class TestView(unittest.TestCase):
         )
         self.assertEqual(
             view.get_update_url(),
-            "http://nohost/plone/add-authentic-users?type=agents&next_url=http://nohost/plone@@usergroup-userprefs",
+            "http://nohost/plone/add-authentic-users?type=agents&next_url=http://nohost/plone/@@usergroup-userprefs",
         )
         self.assertIn('<button type="button"', view())

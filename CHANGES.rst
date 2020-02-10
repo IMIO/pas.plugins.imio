@@ -5,7 +5,8 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix french typo.
+  [bsuttor]
 
 
 1.0b6 (2020-02-07)

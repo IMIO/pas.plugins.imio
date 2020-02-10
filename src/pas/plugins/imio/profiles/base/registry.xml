@@ -30,7 +30,7 @@
               "id": 2,
               "type": "agents",
               "display": {
-                  "title": "Je suis un agents",
+                  "title": "Je suis un agent",
                   "cssclasses": {
                       "button": "plone-btn plone-btn-default plone-btn-agents",
                       "icon": "glypicon glyphicon-github"

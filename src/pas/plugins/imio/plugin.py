@@ -158,7 +158,7 @@ class AuthenticPlugin(AuthomaticPlugin):
                 logger.warn("None userid found. This should not happen!")
                 continue
             if not userid.startswith(search_id) and not email.startswith(search_id):
-                logger.info("not searchable: {0} for {1}".format(search_id, userid))
+                logger.debug("not searchable: {0} for {1}".format(search_id, userid))
                 continue
             identity = self._useridentities_by_userid[userid]
             identity_userid = identity.userid

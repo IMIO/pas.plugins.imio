@@ -5,7 +5,8 @@ Changelog
 1.0b8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Set talk less.
+  [bsuttor]
 
 
 1.0b7 (2020-02-11)

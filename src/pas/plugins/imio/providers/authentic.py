@@ -9,6 +9,7 @@ Providers which implement the |oauth2|_ protocol.
 
     Authentic
 """
+from authomatic import providers
 from authomatic.providers.oauth2 import OAuth2
 
 import jwt
@@ -21,6 +22,43 @@ __all__ = ["Authentic"]
 class Authentic(OAuth2):
     """
     """
+
+    def __init__(self, *args, **kwargs):
+        super(Authentic, self).__init__(*args, **kwargs)
+        self.user_state = self.params.get("next_url")
+        if self.user_state:
+            del self.adapter.view.request.form["next_url"]
+
+    def create_request_elements(
+        cls,
+        request_type,
+        credentials,
+        url,
+        method="GET",
+        params=None,
+        headers=None,
+        body="",
+        secret=None,
+        redirect_uri="",
+        scope="",
+        csrf="",
+        user_state="",
+    ):
+        req = super(Authentic, cls).create_request_elements(
+            request_type=request_type,
+            credentials=credentials,
+            url=url,
+            method=method,
+            params=params,
+            headers=headers,
+            body=body,
+            secret=secret,
+            redirect_uri=redirect_uri,
+            scope=scope,
+            csrf=csrf,
+            user_state=cls.user_state,
+        )
+        return req
 
     @property
     def base_url(self):

@@ -24,7 +24,7 @@
 
                 <a tal:condition="not:provider/as_form"
                    tal:attributes="class string:${provider/buttonclasses};
-                                   href string:${context/absolute_url}/@@authentic-handler/${provider/identifier}">
+                                     href string:${context/absolute_url}/@@authentic-handler/${provider/identifier}?next_url=${view/next}">
                     <span tal:attributes="class string:${provider/iconclasses}"></span>
                     <span tal:content="provider/title">
                         name of oauth provider

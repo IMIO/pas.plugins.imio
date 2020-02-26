@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0b9 (unreleased)
+1.0b9 (2020-02-26)
 ------------------
 
 - Use state / user_state to redirect to page which apply SSO.

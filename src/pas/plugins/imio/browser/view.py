@@ -213,7 +213,10 @@ class AuthenticView(BrowserView):
 
     def next(self):
         """ Used to login page view """
-        return self.request.form.get("next_url", "/")
+        next_url = self.request.form.get("next_url")
+        if next_url:
+            return "?next_url={0}".format(next_url)
+        return ""
 
     def __call__(self):
         cfg = authentic_cfg()

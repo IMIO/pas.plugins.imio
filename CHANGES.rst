@@ -5,7 +5,8 @@ Changelog
 1.0b10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Improve next_url login.
+  [bsuttor]
 
 
 1.0b9 (2020-02-26)

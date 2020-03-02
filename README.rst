@@ -53,7 +53,7 @@ To update list of users, go to one of this view :
 
 To login with an user registred into Plone/Zope instead of pas plugin use this view :
 
-- ${portal_url}/login_form
+- ${portal_url}/login_form or ${portal_url}/zope_login on Plone 5.2.x
 
 
 Translations

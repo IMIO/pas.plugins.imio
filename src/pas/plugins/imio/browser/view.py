@@ -277,7 +277,8 @@ class AuthenticView(BrowserView):
                 state = result.provider.params.get("state")
                 if state:
                     decoded_state = result.provider.decode_state(state)
-                    redirect_url = "{0}{1}".format(redirect_url, decoded_state)
+                    if decoded_state:
+                        redirect_url = "{0}{1}".format(redirect_url, decoded_state)
                 self.request.response.redirect(redirect_url)
         return "redirecting"
 

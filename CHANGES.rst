@@ -5,6 +5,9 @@ Changelog
 1.0b10 (unreleased)
 -------------------
 
+- Fix: redirect on homepage.
+  [bsuttor]
+
 - Improve next_url login.
   [bsuttor]
 

@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0b11 (unreleased)
+1.0b11 (2020-03-27)
 -------------------
 
 - Also see came_from on request for next url.

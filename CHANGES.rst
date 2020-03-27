@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0b10 (unreleased)
+1.0b10 (2020-03-27)
 -------------------
 
 - Fix: redirect on homepage.

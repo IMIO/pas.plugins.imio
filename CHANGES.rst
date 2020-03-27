@@ -5,7 +5,8 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Also see came_from on request for next url.
+  [bsuttor]
 
 
 1.0b10 (2020-03-27)

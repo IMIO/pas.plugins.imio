@@ -14,4 +14,11 @@ class ImioLoginFormView(BrowserView):
             url = "{0}/authentic-handler/?next_url={1}".format(
                 api.portal.get().absolute_url(), next_url
             )
+        next_url = self.request.get("came_from", None)
+        if next_url and next_url != api.portal.get().absolute_url():
+            next_url = next_url.replace(api.portal.get().absolute_url(), "")
+            url = "{0}/authentic-handler/?next_url={1}".format(
+                api.portal.get().absolute_url(), next_url
+            )
+
         response.redirect(url)

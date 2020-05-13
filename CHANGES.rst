@@ -5,7 +5,8 @@ Changelog
 1.0b12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix: set username on python3 when new user added.
+  [bsuttor]
 
 
 1.0b11 (2020-03-27)

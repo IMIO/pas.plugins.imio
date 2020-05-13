@@ -105,6 +105,8 @@ class AddAuthenticUsers(BrowserView):
             else:
                 if six.PY2 and isinstance(fullname, six.text_type):
                     user.fullname = safe_utf8(fullname)
+                else:
+                    user.fullname = fullname
 
             if not plugin._useridentities_by_userid.get(user.id, None):
                 # save

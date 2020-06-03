@@ -47,7 +47,7 @@
       permission="cmf.ManagePortal"
       />
 
-  <include package="plone.app.controlpanel" file="permissions.zcml" />
+  <include zcml:condition="not-have plone-5" package="plone.app.controlpanel" file="permissions.zcml" />
   <!-- Override User list for Plone 4 -->
   <browser:page
       zcml:condition="not-have plone-5"

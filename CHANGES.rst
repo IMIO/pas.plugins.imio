@@ -5,7 +5,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix: import zcml permission from plone.app.controlpanel
+  [bsuttor]
 
 
 1.0.0 (2020-05-29)

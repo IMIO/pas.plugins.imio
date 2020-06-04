@@ -5,6 +5,9 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
+- Do not install usager login by default.
+  [bsuttor]
+
 - Fix: import zcml permission from plone.app.controlpanel
   [bsuttor]
 

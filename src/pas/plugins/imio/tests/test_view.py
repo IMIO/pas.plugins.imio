@@ -81,17 +81,14 @@ class TestView(unittest.TestCase):
         self.assertIn(
             "authentic-agents", [prov["identifier"] for prov in view.providers()]
         )
-        self.assertIn(
-            "authentic-usagers", [prov["identifier"] for prov in view.providers()]
-        )
 
     def test_add_authentic_users_get_arg(self):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        self.request.form["type"] = "usagers"
+        self.request.form["type"] = "agents"
         view = getMultiAdapter((self.portal, self.request), name="add-authentic-users")
         self.assertEqual(
             view.authentic_api_url,
-            "https://usagers.test.be/api/users/?service-ou=testou&service-slug=testslug",
+            "https://agents.staging.imio.be/api/users/?service-ou=testou&service-slug=testslug",
         )
 
     def test_usergroup_userprefs(self):

@@ -27,7 +27,7 @@ Features
 Installation
 ------------
 
-You need libffi-dev package installed (`sudo apt install libffi-dev`)
+You need libffi-dev and openssl-dev packages installed (`sudo apt install libffi-dev openssl-dev`)
 Install pas.plugins.imio by adding it to your buildout::
 
     [buildout]

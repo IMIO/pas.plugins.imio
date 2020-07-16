@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.1-dev1 (unreleased)
+1.0.1.dev0 (unreleased)
 ----------------
 
 - Fix(testing profile): dependency of plone4 profile do not exists, use default.

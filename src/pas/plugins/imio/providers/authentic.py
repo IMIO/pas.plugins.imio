@@ -10,6 +10,7 @@ Providers which implement the |oauth2|_ protocol.
     Authentic
 """
 from authomatic.providers.oauth2 import OAuth2
+from pas.plugins.imio.utils import protocol
 
 import jwt
 import os
@@ -62,7 +63,7 @@ class Authentic(OAuth2):
     @property
     def base_url(self):
         authentic_hostname = self.settings.config[self.name].get("hostname")
-        return "https://{0}".format(authentic_hostname)
+        return "{0}://{1}".format(protocol, authentic_hostname)
 
     @property
     def user_authorization_url(self):

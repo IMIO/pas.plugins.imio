@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.0.1.dev0 (unreleased)
-----------------
+1.0.2 (2020-07-16)
+------------------
 
 - Fix(testing profile): dependency of plone4 profile do not exists, use default.
   [bsuttor]

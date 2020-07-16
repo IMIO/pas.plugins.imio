@@ -6,6 +6,7 @@ from pas.plugins.imio.integration import ZopeRequestAdapter
 from pas.plugins.imio.utils import authentic_cfg
 from pas.plugins.imio.utils import authomatic_settings
 from pas.plugins.imio.utils import getAuthenticPlugin
+from pas.plugins.imio.utils import protocol
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.protect.interfaces import IDisableCSRFProtection
@@ -55,8 +56,8 @@ class AddAuthenticUsers(BrowserView):
         authentic_hostname = self.authentic_config["hostname"]
         ou = os.getenv("service_ou", "default")
         service_slug = os.getenv("service_slug", "default")
-        api_url = "https://{0}/api/users/?service-ou={1}&service-slug={2}".format(
-            authentic_hostname, ou, service_slug
+        api_url = "{0}://{1}/api/users/?service-ou={2}&service-slug={3}".format(
+            protocol(), authentic_hostname, ou, service_slug
         )
         return api_url
 

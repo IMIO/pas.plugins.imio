@@ -5,6 +5,9 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
+- Add plone 4 testing profile.
+  [bsuttor]
+
 - Do not install usager login by default.
   [bsuttor]
 

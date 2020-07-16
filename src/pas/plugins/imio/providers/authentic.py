@@ -63,7 +63,7 @@ class Authentic(OAuth2):
     @property
     def base_url(self):
         authentic_hostname = self.settings.config[self.name].get("hostname")
-        return "{0}://{1}".format(protocol, authentic_hostname)
+        return "{0}://{1}".format(protocol(), authentic_hostname)
 
     @property
     def user_authorization_url(self):

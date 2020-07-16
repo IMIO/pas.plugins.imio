@@ -46,6 +46,5 @@ def getAuthenticPlugin():
     raise KeyError
 
 
-@property
 def protocol():
     return "http" if os.getenv("ENV", "prod") == "dev" else "https"

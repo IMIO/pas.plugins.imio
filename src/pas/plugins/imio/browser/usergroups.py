@@ -2,6 +2,7 @@
 """
 PLONE 4 ONLY
 """
+from pas.plugins.imio.utils import protocol
 from plone import api
 from plone.app.controlpanel.usergroups import UsersOverviewControlPanel
 
@@ -10,8 +11,8 @@ import os
 
 class ImioUsersOverviewControlPanel(UsersOverviewControlPanel):
     def get_agent_url(self):
-        url = "https://{0}/manage/users/".format(
-            os.environ.get("authentic_agents_hostname", "")
+        url = "{0}://{1}/manage/users/".format(
+            protocol(), os.environ.get("authentic_agents_hostname", "")
         )
         return url
 

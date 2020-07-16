@@ -2,6 +2,6 @@
 <metadata>
   <version>1000</version>
   <dependencies>
-    <dependency>profile-pas.plugins.imio:plone4</dependency>
+    <dependency>profile-pas.plugins.imio:default</dependency>
   </dependencies>
 </metadata>

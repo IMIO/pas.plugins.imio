@@ -62,6 +62,17 @@
     />
 
   <genericsetup:registerProfile
+    zcml:condition="not-have plone-5"
+    name="testing"
+    title="pas.plugins.imio testing"
+    directory="profiles/testing4"
+    description="Installs the pas.plugins.imio base add-on."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    post_handler=".setuphandlers.post_install"
+    />
+
+
+  <genericsetup:registerProfile
     name="uninstall"
     title="pas.plugins.imio (uninstall)"
     directory="profiles/uninstall"

@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.3 (unreleased)
+1.0.3 (2020-07-30)
 ------------------
 
 - Add Plone 5 testing profile.

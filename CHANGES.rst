@@ -5,7 +5,8 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add Plone 5 testing profile.
+  [bsuttor]
 
 
 1.0.2 (2020-07-16)

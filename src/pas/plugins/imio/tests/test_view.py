@@ -103,3 +103,4 @@ class TestView(unittest.TestCase):
             "http://nohost/plone/add-authentic-users?type=agents&next_url=http://nohost/plone/@@usergroup-userprefs",
         )
         self.assertIn('<button type="button"', view())
+        self.assertIn("Wallonie-Connect", view())

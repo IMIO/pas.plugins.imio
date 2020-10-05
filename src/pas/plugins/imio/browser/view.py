@@ -239,15 +239,16 @@ class AuthenticView(BrowserView):
             )
             return "redirecting"
         if not hasattr(self, "provider"):
+            # verify if is already connected
+            if not self.is_anon:
+                return self.request.response.redirect(self.context.absolute_url())
             return self.template()
         if self.provider not in cfg:
             return "Provider not supported"
         if not self.is_anon:
             if self.provider in self._provider_names:
-                raise ValueError(
-                    "Provider {0} is already connected to current "
-                    "user.".format(self.provider)
-                )
+                api.portal.show_message(message='Session already active!', request=self.request, type='Warning')
+                return self.request.response.redirect(self.context.absolute_url())
             # todo: some sort of CSRF check might be needed, so that
             #       not an account got connected by CSRF. Research needed.
             pass

@@ -274,15 +274,12 @@ class AuthenticView(BrowserView):
             # now we delegate to PAS plugin in order to login
             self._remember_identity(result, provider_name)
             redirect_url = self.context.absolute_url()
-            if api.env.plone_version() < "5.2":
-                self.request.response.redirect("{0}/login_success".format(redirect_url))
-            else:
-                state = result.provider.params.get("state")
-                if state:
-                    decoded_state = result.provider.decode_state(state)
-                    if decoded_state:
-                        redirect_url = "{0}{1}".format(redirect_url, decoded_state)
-                self.request.response.redirect(redirect_url)
+            state = result.provider.params.get("state")
+            if state:
+                decoded_state = result.provider.decode_state(state)
+                if decoded_state:
+                    redirect_url = "{0}{1}".format(redirect_url, decoded_state)
+            self.request.response.redirect(redirect_url)
         return "redirecting"
 
     @property

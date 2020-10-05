@@ -5,7 +5,8 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix redirect after login for Plone < 5.2.
+  [odelaere]
 
 
 1.0.3 (2020-07-30)

@@ -6,6 +6,10 @@ from Products.Five import BrowserView
 class ImioLoginFormView(BrowserView):
     def __call__(self):
         """Redirect login to authentic"""
+        import ipdb
+
+        ipdb.set_trace()  # noqa: E702
+
         response = self.request.response
         next_url = self.request.get("HTTP_REFERER", self.context.absolute_url())
         url = "{0}/authentic-handler".format(api.portal.get().absolute_url())

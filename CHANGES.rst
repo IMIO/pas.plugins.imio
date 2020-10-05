@@ -5,6 +5,9 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
+- Use IItem for Object to redirect imio_login instead of INavigation. It's solved bug to redirect from other page than root navigation, and so page which required access.
+  [bsuttor]
+
 - Fix redirect after login for Plone < 5.2.
   [odelaere]
 

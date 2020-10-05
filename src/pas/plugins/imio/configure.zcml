@@ -17,7 +17,7 @@
 
   <browser:page
     name="imio_login"
-    for="plone.app.layout.navigation.interfaces.INavigationRoot"
+    for="OFS.interfaces.IItem"
     layer=".interfaces.IPasPluginsImioLayer"
     permission="zope2.View"
     class=".login.ImioLoginFormView"
@@ -25,7 +25,7 @@
 
   <browser:page
     name="imio_logout"
-    for="plone.app.layout.navigation.interfaces.INavigationRoot"
+    for="OFS.interfaces.IItem"
     layer=".interfaces.IPasPluginsImioLayer"
     permission="zope2.View"
     class=".logout.ImioLogoutFormView"

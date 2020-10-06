@@ -106,6 +106,7 @@ class TestView(unittest.TestCase):
         self.assertIn("Wallonie-Connect", view())
 
     def test_redirect_parameter_before_login(self):
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         redirect_target = api.content.create(
             type="Folder", id="secret", container=self.portal,
         )

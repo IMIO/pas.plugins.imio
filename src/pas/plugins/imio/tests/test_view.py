@@ -4,6 +4,7 @@ from pas.plugins.imio.browser.view import AddAuthenticUsers
 from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_INTEGRATION_TESTING  # noqa
 from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_FUNCTIONAL_TESTING  # noqa
 from plone import api
+from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from zope.component import getMultiAdapter
@@ -133,3 +134,15 @@ class TestView(unittest.TestCase):
         expected = "?next_url={}".format(redirect_target.absolute_url())
         self.request.form = {"next_url": redirect_target.absolute_url()}
         self.assertEqual(expected, view.next())
+
+    def test_authentic_view(self):
+        view = api.content.get_view(
+            "authentic-handler", context=self.portal, request=self.request
+        )
+        self.assertEqual(api.user.is_anonymous(), False)
+        view()
+        self.assertEqual(self.request.RESPONSE.status, 302)
+        self.assertNotIn("Wallonie Connect", view())
+        logout()
+        self.assertEqual(api.user.is_anonymous(), True)
+        self.assertIn("Wallonie Connect", view())

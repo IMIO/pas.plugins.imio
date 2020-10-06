@@ -110,6 +110,8 @@ class TestView(unittest.TestCase):
         redirect_target = api.content.create(
             type="Folder", id="secret", container=self.portal,
         )
+
+        # Check login next_url
         view = api.content.get_view(
             name="imio_login", context=self.portal, request=self.request
         )
@@ -123,3 +125,11 @@ class TestView(unittest.TestCase):
         self.request.set("HTTP_REFERER", redirect_target.absolute_url())
         view()
         self.assertEqual(expected, self.request.RESPONSE.getHeader("location"))
+
+        # Check authentic-handler next_url
+        view = api.content.get_view(
+            name="authentic-handler", context=self.portal, request=self.request
+        )
+        expected = "?next_url={}".format(redirect_target.absolute_url())
+        self.request.form = {"next_url": redirect_target.absolute_url()}
+        self.assertEqual(expected, view.next())

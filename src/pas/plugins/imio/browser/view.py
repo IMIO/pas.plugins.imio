@@ -229,9 +229,8 @@ class AuthenticView(BrowserView):
             ISiteRoot.providedBy(self.context)
             or INavigationRoot.providedBy(self.context)
         ):
-            # callback url is expected on either navigationroot or site root
-            # so befor going on redirect
-            root = api.portal.get_navigation_root(self.context)
+            # callback url is expected on site root by authentic; so before going on redirect
+            root = api.portal.get()
             self.request.response.redirect(
                 "{0}/authentic-handler/{1}".format(
                     root.absolute_url(), getattr(self, "provider", "")

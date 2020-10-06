@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-from copy import deepcopy
-
 from pas.plugins.imio.browser.view import AddAuthenticUsers
 from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_INTEGRATION_TESTING  # noqa
 from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_FUNCTIONAL_TESTING  # noqa
@@ -109,20 +107,18 @@ class TestView(unittest.TestCase):
 
     def test_redirect_paremeter_before_login(self):
         redirect_target = api.content.create(
-            type='Folder',
-            id='secret',
-            container=self.portal,
+            type="Folder", id="secret", container=self.portal,
         )
         view = api.content.get_view(
             name="imio_login", context=self.portal, request=self.request
         )
-        expected = 'http://nohost/plone/authentic-handler/?next_url=/secret'
+        expected = "http://nohost/plone/authentic-handler/?next_url=/secret"
 
         self.request.set("came_from", redirect_target.absolute_url())
         view()
-        self.assertEqual(expected, self.request.RESPONSE.getHeader('location'))
+        self.assertEqual(expected, self.request.RESPONSE.getHeader("location"))
 
-        self.request.set('came_from', None)
-        self.request.set('HTTP_REFERER', redirect_target.absolute_url())
+        self.request.set("came_from", None)
+        self.request.set("HTTP_REFERER", redirect_target.absolute_url())
         view()
-        self.assertEqual(expected, self.request.RESPONSE.getHeader('location'))
+        self.assertEqual(expected, self.request.RESPONSE.getHeader("location"))

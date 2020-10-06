@@ -105,7 +105,7 @@ class TestView(unittest.TestCase):
         self.assertIn('<button type="button"', view())
         self.assertIn("Wallonie-Connect", view())
 
-    def test_redirect_paremeter_before_login(self):
+    def test_redirect_parameter_before_login(self):
         redirect_target = api.content.create(
             type="Folder", id="secret", container=self.portal,
         )

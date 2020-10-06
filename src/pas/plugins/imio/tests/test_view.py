@@ -140,34 +140,45 @@ class TestView(unittest.TestCase):
             "authentic-handler", context=self.portal, request=self.request
         )
         # not self.provider
-        self.assertFalse(hasattr(view, "provider"), "Authentic View should not have a provider")
+        self.assertFalse(
+            hasattr(view, "provider"), "Authentic View should not have a provider"
+        )
         self.assertFalse(api.user.is_anonymous(), "User should not be anonymous.")
         view()
         self.assertEqual(self.request.RESPONSE.status, 302)
-        self.assertEqual(self.request.RESPONSE.getHeader("location"), self.portal.absolute_url())
+        self.assertEqual(
+            self.request.RESPONSE.getHeader("location"), self.portal.absolute_url()
+        )
         self.assertNotIn("Wallonie Connect", view())
 
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         redirect_target = api.content.create(
             type="Folder", id="secret", container=self.portal,
         )
         self.request.form = {"next_url": redirect_target.absolute_url()}
         view()
         self.assertEqual(self.request.RESPONSE.status, 302)
-        self.assertEqual(self.request.RESPONSE.getHeader("location"), redirect_target.absolute_url())
+        self.assertEqual(
+            self.request.RESPONSE.getHeader("location"), redirect_target.absolute_url()
+        )
         self.assertNotIn("Wallonie Connect", view())
 
         # use provider
-        view.provider = u'authentic-agents'
+        view.provider = u"authentic-agents"
         self.request.form = {}
         view()
         self.assertEqual(self.request.RESPONSE.status, 302)
-        self.assertEqual(self.request.RESPONSE.getHeader("location"), self.portal.absolute_url())
+        self.assertEqual(
+            self.request.RESPONSE.getHeader("location"), self.portal.absolute_url()
+        )
         self.assertNotIn("Wallonie Connect", view())
 
         self.request.form = {"next_url": redirect_target.absolute_url()}
         view()
         self.assertEqual(self.request.RESPONSE.status, 302)
-        self.assertEqual(self.request.RESPONSE.getHeader("location"), redirect_target.absolute_url())
+        self.assertEqual(
+            self.request.RESPONSE.getHeader("location"), redirect_target.absolute_url()
+        )
         self.assertNotIn("Wallonie Connect", view())
 
     def test_authentic_view_session_does_not_exist(self):
@@ -177,7 +188,9 @@ class TestView(unittest.TestCase):
         logout()
 
         # not self.provider
-        self.assertFalse(hasattr(view, "provider"), "Authentic View should not have a provider")
+        self.assertFalse(
+            hasattr(view, "provider"), "Authentic View should not have a provider"
+        )
         self.assertTrue(api.user.is_anonymous(), "User should be anonymous.")
         self.assertIn("Wallonie Connect", view())
 

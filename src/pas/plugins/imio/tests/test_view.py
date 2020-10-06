@@ -139,10 +139,23 @@ class TestView(unittest.TestCase):
         view = api.content.get_view(
             "authentic-handler", context=self.portal, request=self.request
         )
-        self.assertEqual(api.user.is_anonymous(), False)
+        self.assertFalse(api.user.is_anonymous(), "User should not be anonymous.")
         view()
         self.assertEqual(self.request.RESPONSE.status, 302)
         self.assertNotIn("Wallonie Connect", view())
         logout()
-        self.assertEqual(api.user.is_anonymous(), True)
+        self.assertTrue(api.user.is_anonymous(), "User should be anonymous.")
         self.assertIn("Wallonie Connect", view())
+
+    def test_authentic_view_redirect_to_portal(self):
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        folder = api.content.create(
+            type="Folder", id="myfolder", container=self.portal,
+        )
+        logout()
+        view = api.content.get_view(
+            name="authentic-handler", context=folder, request=folder.REQUEST
+        )
+        authentic_url = "{0}/authentic-handler/".format(api.portal.get().absolute_url())
+        view()
+        self.assertEqual(authentic_url, self.request.response.getHeader("location"))

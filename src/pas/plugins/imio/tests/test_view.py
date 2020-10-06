@@ -139,11 +139,25 @@ class TestView(unittest.TestCase):
         view = api.content.get_view(
             "authentic-handler", context=self.portal, request=self.request
         )
+        # not self.provider
+        self.assertFalse(hasattr(view, "provider"), "Authentic View should not have a provider")
         self.assertFalse(api.user.is_anonymous(), "User should not be anonymous.")
         view()
         self.assertEqual(self.request.RESPONSE.status, 302)
+        self.assertEqual(self.request.RESPONSE.getHeader("location"), self.portal.absolute_url())
         self.assertNotIn("Wallonie Connect", view())
+
+        redirect_target = api.content.create(
+            type="Folder", id="secret", container=self.portal,
+        )
+        self.request.form = {"next_url": redirect_target.absolute_url()}
+        view()
+        self.assertEqual(self.request.RESPONSE.status, 302)
+        self.assertEqual(self.request.RESPONSE.getHeader("location"), redirect_target.absolute_url())
+        self.assertNotIn("Wallonie Connect", view())
+
         logout()
+        self.assertFalse(hasattr(view, "provider"), "Authentic View should not have a provider")
         self.assertTrue(api.user.is_anonymous(), "User should be anonymous.")
         self.assertIn("Wallonie Connect", view())
 

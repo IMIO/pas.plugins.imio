@@ -240,7 +240,8 @@ class AuthenticView(BrowserView):
         if not hasattr(self, "provider"):
             # verify if is already connected
             if not self.is_anon:
-                return self.request.response.redirect(self.context.absolute_url())
+                next_url = self.request.form.get("next_url", self.context.absolute_url())
+                return self.request.response.redirect(next_url)
             return self.template()
         if self.provider not in cfg:
             return "Provider not supported"

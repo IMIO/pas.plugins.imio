@@ -135,7 +135,7 @@ class TestView(unittest.TestCase):
         self.request.form = {"next_url": redirect_target.absolute_url()}
         self.assertEqual(expected, view.next())
 
-    def test_authentic_view(self):
+    def test_authentic_view_session_already_exists(self):
         view = api.content.get_view(
             "authentic-handler", context=self.portal, request=self.request
         )
@@ -156,7 +156,27 @@ class TestView(unittest.TestCase):
         self.assertEqual(self.request.RESPONSE.getHeader("location"), redirect_target.absolute_url())
         self.assertNotIn("Wallonie Connect", view())
 
+        # use provider
+        view.provider = u'authentic-agents'
+        self.request.form = {}
+        view()
+        self.assertEqual(self.request.RESPONSE.status, 302)
+        self.assertEqual(self.request.RESPONSE.getHeader("location"), self.portal.absolute_url())
+        self.assertNotIn("Wallonie Connect", view())
+
+        self.request.form = {"next_url": redirect_target.absolute_url()}
+        view()
+        self.assertEqual(self.request.RESPONSE.status, 302)
+        self.assertEqual(self.request.RESPONSE.getHeader("location"), redirect_target.absolute_url())
+        self.assertNotIn("Wallonie Connect", view())
+
+    def test_authentic_view_session_does_not_exist(self):
+        view = api.content.get_view(
+            "authentic-handler", context=self.portal, request=self.request
+        )
         logout()
+
+        # not self.provider
         self.assertFalse(hasattr(view, "provider"), "Authentic View should not have a provider")
         self.assertTrue(api.user.is_anonymous(), "User should be anonymous.")
         self.assertIn("Wallonie Connect", view())

@@ -240,8 +240,7 @@ class AuthenticView(BrowserView):
         if not hasattr(self, "provider"):
             # verify if is already connected
             if not self.is_anon:
-                next_url = self.request.form.get("next_url", self.context.absolute_url())
-                return self.request.response.redirect(next_url)
+                return self.redirect_next_url()
             return self.template()
         if self.provider not in cfg:
             return "Provider not supported"
@@ -252,7 +251,7 @@ class AuthenticView(BrowserView):
                     request=self.request,
                     type="Warning",
                 )
-                return self.request.response.redirect(self.context.absolute_url())
+                return self.redirect_next_url()
             # todo: some sort of CSRF check might be needed, so that
             #       not an account got connected by CSRF. Research needed.
             pass
@@ -274,7 +273,7 @@ class AuthenticView(BrowserView):
         if not self.is_anon:
             # now we delegate to PAS plugin to add the identity
             self._add_identity(result, provider_name)
-            self.request.response.redirect("{0}".format(self.context.absolute_url()))
+            return self.redirect_next_url()
         else:
             # now we delegate to PAS plugin in order to login
             self._remember_identity(result, provider_name)
@@ -290,3 +289,7 @@ class AuthenticView(BrowserView):
     @property
     def is_anon(self):
         return api.user.is_anonymous()
+
+    def redirect_next_url(self):
+        next_url = self.request.form.get("next_url", self.context.absolute_url())
+        return self.request.response.redirect(next_url)

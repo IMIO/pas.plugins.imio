@@ -247,7 +247,11 @@ class AuthenticView(BrowserView):
             return "Provider not supported"
         if not self.is_anon:
             if self.provider in self._provider_names:
-                api.portal.show_message(message='Session already active!', request=self.request, type='Warning')
+                api.portal.show_message(
+                    message="Session already active!",
+                    request=self.request,
+                    type="Warning",
+                )
                 return self.request.response.redirect(self.context.absolute_url())
             # todo: some sort of CSRF check might be needed, so that
             #       not an account got connected by CSRF. Research needed.

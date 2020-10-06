@@ -6,7 +6,7 @@ buildout.cfg:
 	ln -s plone4.3.x.cfg buildout.cfg
 
 bin/pip:
-	if [ -f /usr/bin/virtualenv-2.7 ] ; then virtualenv-2.7 .;else virtualenv -p python2.7 .;fi
+	if [ -f /usr/bin/virtualenv-2.7 ] ; then /usr/bin/virtualenv-2.7 .;else virtualenv -p python2.7 .;fi
 	touch $@
 
 bin/buildout: bin/pip buildout.cfg

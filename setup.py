@@ -60,6 +60,7 @@ setup(
             "plone.testing",
             "plone.app.contenttypes",
             "plone.app.robotframework[debug]",
+            "ipdb",
         ]
     },
     entry_points="""

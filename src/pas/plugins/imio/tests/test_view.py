@@ -104,3 +104,22 @@ class TestView(unittest.TestCase):
         )
         self.assertIn('<button type="button"', view())
         self.assertIn("Wallonie-Connect", view())
+
+    def test_redirect_parameter_before_login(self):
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        redirect_target = api.content.create(
+            type="Folder", id="secret", container=self.portal,
+        )
+        view = api.content.get_view(
+            name="imio_login", context=self.portal, request=self.request
+        )
+        expected = "http://nohost/plone/authentic-handler/?next_url=/secret"
+
+        self.request.set("came_from", redirect_target.absolute_url())
+        view()
+        self.assertEqual(expected, self.request.RESPONSE.getHeader("location"))
+
+        self.request.set("came_from", None)
+        self.request.set("HTTP_REFERER", redirect_target.absolute_url())
+        view()
+        self.assertEqual(expected, self.request.RESPONSE.getHeader("location"))

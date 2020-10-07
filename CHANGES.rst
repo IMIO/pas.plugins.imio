@@ -5,6 +5,9 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
+- Plugin also provide IUserIntrospection so user from Authentic PAS plugin will also listed in api.user.get_users().
+  [bsuttor]
+
 - Use IItem for Object to redirect imio_login instead of INavigation. It's solved bug to redirect from other page than root navigation, and so page which required access.
   [bsuttor]
 

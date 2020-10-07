@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
+from AccessControl.Permissions import manage_users as ManageUsers
 from App.class_init import InitializeClass
 from operator import itemgetter
 from pas.plugins.authomatic.plugin import AuthomaticPlugin
@@ -7,6 +8,8 @@ from pas.plugins.imio.interfaces import IAuthenticPlugin
 from plone import api
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService.interfaces import plugins as pas_interfaces
+from Products.PlonePAS.interfaces.plugins import IUserIntrospection
+from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from zope.interface import implementer
 
@@ -39,6 +42,7 @@ manage_addAuthenticPluginForm = PageTemplateFile("www/AuthenticPluginForm", glob
     pas_interfaces.IPropertiesPlugin,
     pas_interfaces.IUserEnumerationPlugin,
     pas_interfaces.IRolesPlugin,
+    IUserIntrospection,
 )
 class AuthenticPlugin(AuthomaticPlugin):
     """Authentic PAS Plugin
@@ -72,6 +76,10 @@ class AuthenticPlugin(AuthomaticPlugin):
                         "Not able to delete {0} from source_users".format(userid)
                     )
         return useridentities
+
+    @security.protected(ManageUsers)
+    def getUsers(self):
+        return [PloneUser(id) for id in self._useridentities_by_userid]
 
     @security.private
     def enumerateUsers(

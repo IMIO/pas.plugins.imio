@@ -66,8 +66,8 @@ class TestPlugin(unittest.TestCase):
         self.assertEqual(len(users), count_users)
         data = {"id": "imio", "username": "imio username", "email": "imio@username.be"}
         authomatic_user = User("authentic", **data)
-        user = MockupUser(self.plugin, authomatic_user)
-        self.plugin.remember_identity(user)
+        mockup_user = MockupUser(self.plugin, authomatic_user)
+        self.plugin.remember_identity(mockup_user)
         users = api.user.get_users()
         count_users += 1
         self.assertEqual(len(users), count_users)

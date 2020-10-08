@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.4 (unreleased)
+1.0.4 (2020-10-08)
 ------------------
 
 - Plugin also provide IUserIntrospection so user from Authentic PAS plugin will also listed in api.user.get_users().

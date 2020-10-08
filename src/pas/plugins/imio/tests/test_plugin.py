@@ -57,3 +57,18 @@ class TestPlugin(unittest.TestCase):
             self.plugin.enumerateUsers(login="james"),
             [{"login": "jamesbond", "pluginid": "authentic", "id": u"jamesbond"}],
         )
+
+    def test_search_all_users(self):
+        count_users = 1
+        users = api.user.get_users()
+        if "admin" in [user.id for user in users]:
+            count_users += 1
+        self.assertEqual(len(users), count_users)
+        data = {"id": "imio", "username": "imio username", "email": "imio@username.be"}
+        authomatic_user = User("authentic", **data)
+        user = MockupUser(self.plugin, authomatic_user)
+        self.plugin.remember_identity(user)
+        users = api.user.get_users()
+        count_users += 1
+        self.assertEqual(len(users), count_users)
+        self.assertIn("imio username", [user.id for user in users])

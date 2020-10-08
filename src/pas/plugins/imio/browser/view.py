@@ -293,3 +293,32 @@ class AuthenticView(BrowserView):
     def redirect_next_url(self):
         next_url = self.request.form.get("next_url", self.context.absolute_url())
         return self.request.response.redirect(next_url)
+
+
+class RevokeUserAccess(BrowserView):
+    def __call__(self):
+        user_id = self.request.form and self.request.form.get("userid", "")
+        # api.user.get doesn't beak down if you give it garbage to find. It just returns None like a man
+        user = api.user.get(user_id)
+        if user:
+            groups = [
+                group
+                for group in api.group.get_groups(user=user)
+                if group.id != "AuthenticatedUsers"
+            ]
+
+            for group in groups:
+                api.group.remove_user(group=group, user=user)
+
+            roles = [
+                role
+                for role in user.getRoles()
+                if role not in ("Anonymous", "Authenticated")
+            ]
+            api.user.revoke_roles(user=user, roles=roles)
+        # if user_id doesn't exists, you get an error page. Which is good for you.
+        self.request.response.redirect(
+            "{}/@@usergroup-usermembership?userid={}".format(
+                api.portal.get().absolute_url(), user_id
+            )
+        )

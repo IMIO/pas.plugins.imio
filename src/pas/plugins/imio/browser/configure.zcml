@@ -79,4 +79,11 @@
         template="templates/zope_login.pt"
         />
 
+  <browser:page
+      class=".view.RevokeUserAccess"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
+      name="revoke-user-access"
+      permission="cmf.ManagePortal"
+      />
 </configure>

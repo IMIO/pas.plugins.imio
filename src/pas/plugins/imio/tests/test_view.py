@@ -206,3 +206,65 @@ class TestView(unittest.TestCase):
         authentic_url = "{0}/authentic-handler/".format(api.portal.get().absolute_url())
         view()
         self.assertEqual(authentic_url, self.request.response.getHeader("location"))
+
+    def test_revoke_user_access_view(self):
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        user = api.user.create(
+            email="nope@test.imio",
+            username="revoketester",
+            password="12345-i-am-evil",
+            roles=(
+                "Member",
+                "Reader",
+                "Contributor",
+                "Editor",
+                "Reviewer",
+                "Site Administrator",
+                "Manager",
+            ),
+        )
+        for group in api.group.get_groups():
+            if group.id not in user.getGroups():
+                api.group.add_user(group=group, user=user)
+
+        # refresh user info
+        user = api.user.get(user.id)
+        self.assertListEqual(
+            sorted(user.getRoles()),
+            [
+                "Authenticated",
+                "Contributor",
+                "Editor",
+                "Manager",
+                "Member",
+                "Reader",
+                "Reviewer",
+                "Site Administrator",
+            ],
+        )
+
+        self.assertListEqual(
+            sorted(user.getGroups()),
+            [
+                "Administrators",
+                "AuthenticatedUsers",
+                "Reviewers",
+                "Site Administrators",
+            ],
+        )
+
+        self.request.form = {"userid": user.id}
+        view = api.content.get_view(
+            name="revoke-user-access", context=self.portal, request=self.request
+        )
+        view()
+
+        # refresh user info
+        user = api.user.get(user.id)
+        self.assertListEqual(
+            user.getRoles(), ["Authenticated"],
+        )
+
+        self.assertListEqual(
+            user.getGroups(), ["AuthenticatedUsers"],
+        )

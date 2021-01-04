@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.5 (unreleased)
+1.0.5 (2021-01-04)
 ------------------
 
 - Improve Anysurfer integration.

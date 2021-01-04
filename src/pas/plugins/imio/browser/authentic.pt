@@ -9,6 +9,9 @@
           rel="stylesheet"
           type="text/css"
           tal:attributes="href string:${portal_url}/++resource++pas.plugins.imio/loginpage.css" />
+         <script i18n:translate="close_windows">
+            $('.plone-modal-close').attr('aria-label', 'Fermer la fenetre');
+         </script>
 
         <div class="paspluginsimio">
         <tal:if tal:condition="view/is_anon">

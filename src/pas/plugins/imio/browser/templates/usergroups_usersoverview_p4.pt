@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="context/prefs_main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="pas.plugins.imio">
 
   <body>
 
@@ -72,17 +72,17 @@
           </p>
           <p i18n:translate="description_pas_users_listing"
              tal:condition="view/show_users_listing_warning">
-          Note: Some or all of your PAS user source
+          Some or all of your PAS user source
           plugins do not allow listing of users, so you may not see
           the users defined by those plugins unless doing a specific
           search.
           </p>
 
           <a href="#" tal:attributes="href view/get_agent_url">
-            <button type="button" class="btn btn-primary" i18n:translate="Manage agent on Wallonie-Connect" >Gestion des agents sur Wallonie-Connect</button>
+            <button type="button" class="btn btn-primary" i18n:translate="Manage agent on Wallonie-Connect" >Manage agent on Wallonie-Connect</button>
           </a>
           <a href="#" tal:attributes="href view/get_update_url">
-            <button type="button" class="btn btn-primary" i18n:translate="Update agent from Wallonie-Connect" >Mettre à jour les utilisateurs</button>
+            <button type="button" class="btn btn-primary" i18n:translate="Update agent from Wallonie-Connect" >Update agent from Wallonie-Connect</button>
           </a>
 
           <form action=""

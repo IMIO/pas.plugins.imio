@@ -4,8 +4,8 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     lang="en"
     metal:use-macro="context/prefs_main_template/macros/master"
-    i18n:domain="plone">
-
+    i18n:domain="pas.plugins.imio">
+description_pas_users_listing
 <body>
 
 <metal:main fill-slot="prefs_configlet_content"
@@ -61,10 +61,10 @@
         </p>
         <p>
           <a href="#" tal:attributes="href view/get_agent_url">
-            <button type="button" class="btn btn-primary" i18n:translate="Manage agent on Wallonie-Connect" >Gestion des agents sur Wallonie-Connect</button>
+            <button type="button" class="btn btn-primary" i18n:translate="Manage agent on Wallonie-Connect" >Manage agent on Wallonie-Connect</button>
           </a>
           <a href="#" tal:attributes="href view/get_update_url">
-            <button type="button" class="btn btn-primary" i18n:translate="Update agent from Wallonie-Connect" >Mettre à jour les utilisateurs</button>
+            <button type="button" class="btn btn-primary" i18n:translate="Update agent from Wallonie-Connect" >Update agent from Wallonie-Connect</button>
           </a>
         </p>
         <form action=""

@@ -5,6 +5,9 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
+- Improve Anysurfer integration.
+  [bsuttor]
+
 - Added revoke-user-access page to remove a user from its groups and revoke its roles.
   [odelaere]
 

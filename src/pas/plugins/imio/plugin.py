@@ -2,9 +2,11 @@
 from AccessControl import ClassSecurityInfo
 from AccessControl.Permissions import manage_users as ManageUsers
 from App.class_init import InitializeClass
+from authomatic.core import User
 from operator import itemgetter
 from pas.plugins.authomatic.plugin import AuthomaticPlugin
 from pas.plugins.imio.interfaces import IAuthenticPlugin
+from pas.plugins.imio.utils import SimpleAuthomaticResult
 from plone import api
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService.interfaces import plugins as pas_interfaces
@@ -13,6 +15,7 @@ from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from zope.interface import implementer
 
+import jwt
 import logging
 import os
 import six
@@ -25,8 +28,7 @@ _marker = {}
 
 
 def manage_addAuthenticPlugin(context, id="authentic", title="", RESPONSE=None, **kw):
-    """Create an instance of a Authentic Plugin.
-    """
+    """Create an instance of a Authentic Plugin."""
     plugin = AuthenticPlugin(id, title, **kw)
     context._setObject(plugin.getId(), plugin)
     if RESPONSE is not None:
@@ -39,14 +41,14 @@ manage_addAuthenticPluginForm = PageTemplateFile("www/AuthenticPluginForm", glob
 @implementer(
     IAuthenticPlugin,
     pas_interfaces.IAuthenticationPlugin,
+    pas_interfaces.IExtractionPlugin,
     pas_interfaces.IPropertiesPlugin,
     pas_interfaces.IUserEnumerationPlugin,
     pas_interfaces.IRolesPlugin,
     IUserIntrospection,
 )
 class AuthenticPlugin(AuthomaticPlugin):
-    """Authentic PAS Plugin
-    """
+    """Authentic PAS Plugin"""
 
     security = ClassSecurityInfo()
     meta_type = "Authentic Plugin"
@@ -199,6 +201,71 @@ class AuthenticPlugin(AuthomaticPlugin):
                 return ()
         else:
             return ()
+
+    @security.private
+    def extractCredentials(self, request):
+        """Extract an OAuth2 bearer access token from the request.
+        Implementation of IExtractionPlugin that extracts any 'Bearer' token
+        from the HTTP 'Authorization' header.
+        """
+        # See RFC 6750 (2.1. Authorization Request Header Field) for details
+        # on bearer token usage in OAuth2
+        # https://tools.ietf.org/html/rfc6750#section-2.1
+
+        creds = {}
+        auth = request._auth
+        if auth is None:
+            return None
+        if auth[:7].lower() == "bearer ":
+            creds["token"] = auth.split()[-1]
+        else:
+            return None
+
+        return creds
+
+    @security.public
+    def authenticateCredentials(self, credentials):
+        """credentials -> (userid, login)
+
+        - 'credentials' will be a mapping, as returned by IExtractionPlugin.
+        - Return a  tuple consisting of user ID (which may be different
+          from the login name) and login
+        - If the credentials cannot be authenticated, return None.
+        """
+        #  login = credentials.get("login", None)
+        #  password = credentials.get("password", None)
+        token = credentials.get("token", None)
+        #  __import__("pdb").set_trace()
+        if token:
+            payload = self._decode_token(token)
+            login = payload.get("userid", None)
+            if not login:
+                return None
+
+            if login not in self._useridentities_by_userid:
+                authentic_type = "authentic-agents"
+                user = User(authentic_type)
+                user.id = login
+                res = SimpleAuthomaticResult(self, authentic_type, user)
+                self.remember_identity(res)
+            return login, login
+
+            #  identities = self._useridentities_by_userid[login]
+        #  if identities.check_password(password):
+
+    def _decode_token(self, token):
+        options = {"verify_signature": False, "verify_aud": False}
+        if os.getenv("ENV") == "test":
+            options["verify_exp"] = False
+        payload = jwt.decode(
+            token,
+            algorithms=["RS256"],
+            options=options,
+        )
+        return payload
+
+    #  def _verify_token(self, token):
+    #      url_check = "http://agents.wc.localhost/idp/oidc/certs/"
 
 
 InitializeClass(AuthenticPlugin)

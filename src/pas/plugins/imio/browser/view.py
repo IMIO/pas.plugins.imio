@@ -7,6 +7,7 @@ from pas.plugins.imio.utils import authentic_cfg
 from pas.plugins.imio.utils import authomatic_settings
 from pas.plugins.imio.utils import getAuthenticPlugin
 from pas.plugins.imio.utils import protocol
+from pas.plugins.imio.utils import SimpleAuthomaticResult
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.protect.interfaces import IDisableCSRFProtection
@@ -111,14 +112,6 @@ class AddAuthenticUsers(BrowserView):
 
             if not plugin._useridentities_by_userid.get(user.id, None):
                 # save
-                class SimpleAuthomaticResult:
-                    def __init__(self, provider, authentic_type, user):
-                        self.provider = provider
-                        self.provider.name = "authentic-{0}".format(authentic_type)
-                        self.user = user
-                        self.user.provider = self.provider
-                        self.user.data = {}
-
                 # provider = Authentic()
                 res = SimpleAuthomaticResult(plugin, self.authentic_type, user)
                 # plugin.remember_identity(res)

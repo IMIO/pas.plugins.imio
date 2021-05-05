@@ -28,7 +28,7 @@ cleanall:
 devpy2: cleanall buildout
 
 devpy3: cleanall
-	virtualenv -p python3 .
+	python3 -m venv .
 	ln -s plone5.2.x.cfg buildout.cfg
 	./bin/pip install -r requirements.txt
 	./bin/buildout -Nt 7

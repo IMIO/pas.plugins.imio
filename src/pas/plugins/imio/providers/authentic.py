@@ -20,8 +20,7 @@ __all__ = ["Authentic"]
 
 
 class Authentic(OAuth2):
-    """
-    """
+    """"""
 
     def __init__(self, *args, **kwargs):
         super(Authentic, self).__init__(*args, **kwargs)

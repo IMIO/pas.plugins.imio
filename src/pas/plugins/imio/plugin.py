@@ -232,10 +232,7 @@ class AuthenticPlugin(AuthomaticPlugin):
           from the login name) and login
         - If the credentials cannot be authenticated, return None.
         """
-        #  login = credentials.get("login", None)
-        #  password = credentials.get("password", None)
         token = credentials.get("token", None)
-        #  __import__("pdb").set_trace()
         if token:
             payload = self._decode_token(token)
             login = payload.get("userid", None)
@@ -250,9 +247,6 @@ class AuthenticPlugin(AuthomaticPlugin):
                 self.remember_identity(res)
             return login, login
 
-            #  identities = self._useridentities_by_userid[login]
-        #  if identities.check_password(password):
-
     def _decode_token(self, token):
         options = {"verify_signature": False, "verify_aud": False}
         if os.getenv("ENV") == "test":
@@ -263,9 +257,6 @@ class AuthenticPlugin(AuthomaticPlugin):
             options=options,
         )
         return payload
-
-    #  def _verify_token(self, token):
-    #      url_check = "http://agents.wc.localhost/idp/oidc/certs/"
 
 
 InitializeClass(AuthenticPlugin)

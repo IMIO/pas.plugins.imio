@@ -47,4 +47,13 @@ def getAuthenticPlugin():
 
 
 def protocol():
-    return "http" if os.getenv("ENV", "prod") == "dev" else "https"
+    return "http" if os.getenv("ENV", "prod") in ["dev"] else "https"
+
+
+class SimpleAuthomaticResult:
+    def __init__(self, provider, authentic_type, user):
+        self.provider = provider
+        self.provider.name = "authentic-{0}".format(authentic_type)
+        self.user = user
+        self.user.provider = self.provider
+        self.user.data = {}

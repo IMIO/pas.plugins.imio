@@ -5,7 +5,8 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add JWT support.
+  [bsuttor]
 
 
 1.0.5 (2021-01-04)

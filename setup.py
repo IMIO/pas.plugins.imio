@@ -50,6 +50,7 @@ setup(
         "cryptography",
         "requests",
         "plone.app.changeownership",
+        "pyjwt",
     ],
     extras_require={
         "test": [

@@ -15,7 +15,7 @@ Features
 - Override Plone login page
 - Connect with SSO
 - Disabled edition of username and e-mail
-- 
+- Connect with JWT
 
 .. image:: https://travis-ci.org/IMIO/pas.plugins.imio.png
     :target: http://travis-ci.org/IMIO/pas.plugins.imio
@@ -45,7 +45,7 @@ After your instance is up, you can now install pas.plugins.imio from addons page
 Usage
 -----
 
-To update list of users, go to one of this view : 
+To update list of users, go to one of this view :
 
 - /@@add-authentic-users?type=usagers
 - /@@add-authentic-users?type=agents
@@ -56,6 +56,7 @@ To login with an user registred into Plone/Zope instead of pas plugin use this v
 - Plone 4: ${portal_url}/login_form
 - Plone 5.2+: ${portal_url}/zope_login
 
+You can also use plone default view for login with zope admin: aq_parent/@@plone-root-login
 
 Translations
 ------------

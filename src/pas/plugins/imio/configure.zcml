@@ -106,6 +106,22 @@
     factory=".useridfactories.ProviderIDFactory"
     name="authenticusername"
     />
+  <configure package="plone.app.users">
+    <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="personal-information"
+      class="pas.plugins.imio.user.PasUserDataPanel"
+      permission="cmf.SetOwnProperties"
+      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
+      />
+    <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="user-information"
+      class="pas.plugins.imio.user.PasUserDataConfiglet"
+      permission="plone.app.controlpanel.UsersAndGroups"
+      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
+      />
+  </configure>
 
 </configure>
 

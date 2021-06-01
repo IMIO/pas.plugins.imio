@@ -5,6 +5,9 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
+- Fixed ModuleNotFoundError: No module named 'App.class_init' on Zope 5.
+  [bsuttor]
+
 - Add JWT support.
   [bsuttor]
 

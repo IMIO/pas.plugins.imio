@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
 from AccessControl.Permissions import manage_users as ManageUsers
-from App.class_init import InitializeClass
+from AccessControl.class_init import InitializeClass
 from authomatic.core import User
 from operator import itemgetter
 from pas.plugins.authomatic.plugin import AuthomaticPlugin

@@ -5,7 +5,8 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Create user with JWT token on first connection.
+  [bsuttor]
 
 
 1.0.6 (2021-06-01)

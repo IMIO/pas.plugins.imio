@@ -9,11 +9,14 @@ from pas.plugins.imio.interfaces import IAuthenticPlugin
 from pas.plugins.imio.utils import SimpleAuthomaticResult
 from plone import api
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+from Products.PluggableAuthService.events import PrincipalCreated
 from Products.PluggableAuthService.interfaces import plugins as pas_interfaces
 from Products.PlonePAS.interfaces.plugins import IUserIntrospection
 from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
+from zope.event import notify
 from zope.interface import implementer
+
 
 import jwt
 import logging
@@ -185,7 +188,7 @@ class AuthenticPlugin(AuthomaticPlugin):
 
     @security.private
     def getRolesForPrincipal(self, user, request=None):
-        """ Fullfill RolesPlugin requirements """
+        """Fullfill RolesPlugin requirements"""
         identity = self._useridentities_by_userid.get(user.getId(), None)
         if not identity:
             return ()
@@ -244,7 +247,10 @@ class AuthenticPlugin(AuthomaticPlugin):
                 user = User(authentic_type)
                 user.id = login
                 res = SimpleAuthomaticResult(self, authentic_type, user)
-                self.remember_identity(res)
+                useridentities = self.remember_identity(res)
+                aclu = api.portal.get_tool("acl_users")
+                ploneuser = aclu._findUser(aclu.plugins, useridentities.userid)
+                notify(PrincipalCreated(ploneuser))
             return login, login
 
     def _decode_token(self, token):

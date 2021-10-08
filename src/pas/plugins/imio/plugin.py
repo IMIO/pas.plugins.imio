@@ -17,7 +17,6 @@ from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from zope.event import notify
 from zope.interface import implementer
 
-
 import jwt
 import logging
 import os

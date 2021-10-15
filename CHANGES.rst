@@ -5,7 +5,8 @@ Changelog
 1.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fill username when user is created with JWT.
+  [bsuttor]
 
 
 1.0.7 (2021-10-15)

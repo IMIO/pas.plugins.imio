@@ -245,6 +245,7 @@ class AuthenticPlugin(AuthomaticPlugin):
                 authentic_type = "authentic-agents"
                 user = User(authentic_type)
                 user.id = login
+                user.username = login
                 res = SimpleAuthomaticResult(self, authentic_type, user)
                 useridentities = self.remember_identity(res)
                 aclu = api.portal.get_tool("acl_users")

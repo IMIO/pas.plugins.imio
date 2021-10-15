@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.7 (unreleased)
+1.0.7 (2021-10-15)
 ------------------
 
 - Create user with JWT token on first connection.

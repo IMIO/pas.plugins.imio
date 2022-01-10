@@ -8,12 +8,17 @@
     i18n_domain="pas.plugins.imio">
 
   <five:registerPackage initialize=".initialize" package="." />
-  <includeDependencies package="." />
+
+  <include package="plone.api" />
+  <include package="Products.GenericSetup" file="meta.zcml" />
+  <include package="Products.GenericSetup" />
+  <include package="z3c.jbot" />
+  <include package="pas.plugins.authomatic" />
+  <include package="plone.app.changeownership" />
 
   <i18n:registerTranslations directory="locales" />
 
   <include package=".browser" />
-  <!--include package="pas.plugins.authomatic" /-->
 
   <browser:page
     name="imio_login"

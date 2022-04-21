@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.10 (unreleased)
+1.0.10 (2022-04-21)
 -------------------
 
 - Set supports_csrf_protection to false. Try to fix "Unable to retrieve stored state!" error.

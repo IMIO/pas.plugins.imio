@@ -25,7 +25,6 @@ class Authentic(OAuth2):
     def __init__(self, *args, **kwargs):
         super(Authentic, self).__init__(*args, **kwargs)
         self.user_state = self.params.get("next_url")
-        self.supports_csrf_protection = False
         if self.user_state:
             del self.adapter.view.request.form["next_url"]
 

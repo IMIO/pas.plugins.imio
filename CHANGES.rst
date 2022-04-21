@@ -5,7 +5,8 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Set supports_csrf_protection to false. Try to fix "Unable to retrieve stored state!" error.
+  [bsuttor]
 
 
 1.0.9 (2022-01-19)

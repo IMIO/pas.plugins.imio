@@ -5,7 +5,8 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Revert previous release.
+  [bsuttor]
 
 
 1.0.10 (2022-04-21)

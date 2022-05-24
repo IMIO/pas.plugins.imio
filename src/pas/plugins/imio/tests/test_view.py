@@ -23,19 +23,19 @@ class MockupUser:
 
 
 def mock_get_authentic_users():
-    return {
-        "results": [
-            {
-                u"last_name": u"Suttor",
-                u"id": 2,
-                u"first_name": u"Beno\xeet",
-                u"email": u"benoit.suttor@imio.be",
-                u"username": u"bsuttor",
-                u"password": u"",
-                u"ou": u"default",
-            }
-        ]
-    }
+    return [   
+        {
+            u"last_name": u"Suttor",
+            u"id": 2,
+            u"first_name": u"Beno\xeet",
+            u"email": u"benoit.suttor@imio.be",
+            u"username": u"bsuttor",
+            u"password": u"",
+            u"ou": u"default",
+            u"uuid": u"2",
+        }
+    ]
+    
 
 
 class TestView(unittest.TestCase):
@@ -68,12 +68,12 @@ class TestView(unittest.TestCase):
         self.assertEqual(view.next_url, "https://www.imio.be")
         view.get_authentic_users = mock_get_authentic_users
         self.assertEqual(
-            view.get_authentic_users()["results"][0]["username"], u"bsuttor"
+            view.get_authentic_users()[0]["username"], u"bsuttor"
         )
-        self.assertEqual(self.plugin._useridentities_by_userid.get("bsuttor"), None)
+        self.assertEqual(self.plugin._useridentities_by_userid.get("2"), None)
         view()
-        new_user = self.plugin._useridentities_by_userid.get("bsuttor")
-        self.assertEqual(new_user.userid, "bsuttor")
+        new_user = self.plugin._useridentities_by_userid.get("2")
+        self.assertEqual(new_user.userid, "2")
 
     def test_authentic_handler(self):
         view = api.content.get_view(

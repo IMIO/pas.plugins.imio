@@ -73,7 +73,7 @@ class AddAuthenticUsers(BrowserView):
             next = response.get("next", "")
             while next:
                 logger.info("".format(len(users)))
-                req = requests.get(next, auth=("77e77441-2257-4615-a002-3bb7a7003a42", "8a0ed4e5-3553-4d96-95b4-4910b612efd4"))
+                req = requests.get(next, auth=(self.consumer_key, self.consumer_secret))
                 response = req.json()
                 users = users + response.get("results")
                 next = response.get("next", "")

@@ -8,6 +8,7 @@ from pas.plugins.authomatic.plugin import AuthomaticPlugin
 from pas.plugins.imio.interfaces import IAuthenticPlugin
 from pas.plugins.imio.utils import SimpleAuthomaticResult
 from plone import api
+from Products.CMFCore.permissions import ManagePortal
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from Products.PluggableAuthService.events import PrincipalCreated
 from Products.PluggableAuthService.interfaces import plugins as pas_interfaces
@@ -54,7 +55,12 @@ class AuthenticPlugin(AuthomaticPlugin):
 
     security = ClassSecurityInfo()
     meta_type = "Authentic Plugin"
-    BasePlugin.manage_options
+    # BasePlugin.manage_options
+    manage_options = (
+        {"label": "Authentic Users", "action": "manage_authenticplugin"},
+    ) + AuthomaticPlugin.manage_options
+    security.declareProtected(ManagePortal, "manage_authenticplugin")
+    manage_authenticplugin = PageTemplateFile("zmi", globals(), __name__="manage_authenticplugin")
 
     # Tell PAS not to swallow our exceptions
     _dont_swallow_my_exceptions = True

@@ -17,6 +17,7 @@
                   "as_form": false
               },
               "propertymap": {
+                  "username": "username",
                   "email": "email",
                   "fullname": "fullname"
               },

@@ -5,7 +5,14 @@ Changelog
 1.0.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Use uuid as plone user.id instead of username.
+  [bsuttor]
+
+- Be aware of next url when you call auhentic users api.
+  [bsuttor]
+
+- Add zmi view of users.
+  [bsuttor]
 
 
 1.0.11 (2022-04-21)

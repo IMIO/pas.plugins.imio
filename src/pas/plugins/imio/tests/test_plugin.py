@@ -36,8 +36,9 @@ class TestPlugin(unittest.TestCase):
         authomatic_user = User("authentic", **data)
         user = MockupUser(self.plugin, authomatic_user)
         self.plugin.remember_identity(user)
-        new_user = self.plugin._useridentities_by_userid.get("imiousername")
-        self.assertEqual(new_user.userid, "imiousername")
+        new_user = self.plugin._useridentities_by_userid.get("imio")
+        self.assertEqual(new_user.userid, "imio")
+        self.assertEqual(new_user.login, "imiousername")
 
     def test_enumerate_users(self):
         self.assertEqual(self.plugin.enumerateUsers(), ())
@@ -49,13 +50,13 @@ class TestPlugin(unittest.TestCase):
             self.plugin.enumerateUsers(login="")[0]["login"], "imio username"
         )
         self.assertEqual(self.plugin.enumerateUsers(login="james"), [])
-        data = {"id": "jamesbond", "username": "jamesbond", "email": "james@bond.co.uk"}
+        data = {"id": "123456", "username": "jamesbond", "email": "james@bond.co.uk"}
         authomatic_user = User("authentic", **data)
         user = MockupUser(self.plugin, authomatic_user)
         self.plugin.remember_identity(user)
         self.assertEqual(
             self.plugin.enumerateUsers(login="james"),
-            [{"login": "jamesbond", "pluginid": "authentic", "id": u"jamesbond"}],
+            [{"login": "jamesbond", "pluginid": "authentic", "id": u"123456"}],
         )
 
     def test_search_all_users(self):
@@ -64,11 +65,11 @@ class TestPlugin(unittest.TestCase):
         if "admin" in [user.id for user in users]:
             count_users += 1
         self.assertEqual(len(users), count_users)
-        data = {"id": "imio", "username": "imio username", "email": "imio@username.be"}
+        data = {"id": "12345-67890", "username": "imio username", "email": "imio@username.be"}
         authomatic_user = User("authentic", **data)
         mockup_user = MockupUser(self.plugin, authomatic_user)
         self.plugin.remember_identity(mockup_user)
         users = api.user.get_users()
         count_users += 1
         self.assertEqual(len(users), count_users)
-        self.assertIn("imio username", [user.id for user in users])
+        self.assertIn("12345-67890", [user.id for user in users])

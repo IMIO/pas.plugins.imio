@@ -6,6 +6,9 @@ from authomatic.core import User
 from operator import itemgetter
 from pas.plugins.authomatic.plugin import AuthomaticPlugin
 from pas.plugins.imio.interfaces import IAuthenticPlugin
+from pas.plugins.imio.useridentities import UserIdentities
+from pas.plugins.imio.useridfactories import new_userid
+from pas.plugins.imio.useridfactories import new_login
 from pas.plugins.imio.utils import SimpleAuthomaticResult
 from plone import api
 from Products.CMFCore.permissions import ManagePortal
@@ -17,6 +20,7 @@ from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from zope.event import notify
 from zope.interface import implementer
+
 
 import jwt
 import logging
@@ -70,26 +74,71 @@ class AuthenticPlugin(AuthomaticPlugin):
 
     @security.private
     def remember_identity(self, result, userid=None):
-        useridentities = super(AuthenticPlugin, self).remember_identity(result, userid)
+        # useridentities = super(AuthenticPlugin, self).remember_identity(result, userid)
+        new_user = False
         if userid is None:
+            # create a new userid
+            new_user = True
+            userid = new_userid(self, result)
+            login = new_login(self, result)
+            useridentities = UserIdentities(userid, login)
+            self._useridentities_by_userid[userid] = useridentities
+            # self._useridentities_by_login[login] = useridentities
+        else:
+            # use existing userid
+            useridentities = self._useridentities_by_userid.get(userid, None)
+            if useridentities is None:
+                raise ValueError("Invalid userid")
+        provider_id = self._provider_id(result)
+        if provider_id not in self._userid_by_identityinfo:
+            self._userid_by_identityinfo[provider_id] = userid
+
+        useridentities.handle_result(result)
+        if new_user:
             # remove old plone userid from source_users
-            userid = result.user.username
+            username = result.user.username
             acl_users = api.portal.get_tool("acl_users")
             source_users = acl_users.source_users
-            if self._useridentities_by_userid.get(userid, None) and userid in [
+            if self._useridentities_by_userid.get(userid, None) and username in [
                 us.get("id") for us in source_users.enumerateUsers()
             ]:
                 try:
-                    source_users.doDeleteUser(userid)
+                    old_roles = api.user.get(username=username).getRoles()
+                    old_roles.remove("Authenticated")
+                    api.user.grant_roles(username=userid, roles=old_roles)
+                    source_users.doDeleteUser(username)
                 except KeyError:
                     logger.error(
-                        "Not able to delete {0} from source_users".format(userid)
+                        "Not able to delete {0} from source_users".format(username)
                     )
         return useridentities
 
     @security.protected(ManageUsers)
     def getUsers(self):
         return [PloneUser(id) for id in self._useridentities_by_userid]
+
+    @security.protected(ManageUsers)
+    def getPluginUsers(self):
+        users = []
+        for plugin_id, userid in self._userid_by_identityinfo:
+            user={}
+            user["id"] = userid
+            identity = self._useridentities_by_userid[userid]
+            if hasattr(identity, "login"):
+                user["login"] = identity.login
+            else:
+                user["login"] = ""
+            user["email"] = identity.propertysheet.getProperty("email", "")
+            user["fullname"] = identity.propertysheet.getProperty("fullname", "")
+            user["plugin_type"] = plugin_id
+            users.append(user)
+        return users
+
+    @security.protected(ManageUsers)
+    def removeUser(self, userid, provider_name="authentic-agents"):
+        del self._useridentities_by_userid[userid]
+        del self._userid_by_identityinfo[(provider_name, userid)]
+
 
     @security.private
     def enumerateUsers(
@@ -144,6 +193,7 @@ class AuthenticPlugin(AuthomaticPlugin):
         """
         if id and login and id != login:
             raise ValueError("plugin does not support id different from login")
+        # __import__("ipdb").set_trace()
         search_id = id or login
         if search_id:
             if not isinstance(search_id, six.string_types):
@@ -160,11 +210,16 @@ class AuthenticPlugin(AuthomaticPlugin):
             identity = self._useridentities_by_userid[search_id]
         if identity is not None:
             identity_userid = identity.userid
+            if hasattr(identity, "login"):
+                identity_userlogin = identity.login
+            else:
+                identity_userlogin = identity.userid
             if six.PY2 and isinstance(identity_userid, six.text_type):
                 identity_userid = identity_userid.encode("utf8")
+                identity_userlogin = identity_userlogin.encode("utf8")
 
             ret.append(
-                {"id": identity_userid, "login": identity_userid, "pluginid": pluginid}
+                {"id": identity_userid, "login": identity_userlogin, "pluginid": pluginid}
             )
             return ret
 
@@ -172,6 +227,7 @@ class AuthenticPlugin(AuthomaticPlugin):
         for userid in self._useridentities_by_userid:
             user = self._useridentities_by_userid.get(userid, None)
             email = user.propertysheet.getProperty("email", "")
+            # if hasattr(user, "login"):
             if not userid and not email:
                 logger.warn("None userid found. This should not happen!")
                 continue
@@ -180,10 +236,16 @@ class AuthenticPlugin(AuthomaticPlugin):
                 continue
             identity = self._useridentities_by_userid[userid]
             identity_userid = identity.userid
+            if hasattr(identity, "login"):
+                identity_userlogin = identity.login
+            else:
+                identity_userlogin = identity.userid
+
             if six.PY2 and isinstance(identity_userid, six.text_type):
                 identity_userid = identity_userid.encode("utf8")
+                identity_userlogin = identity_userlogin.encode("utf8")
             ret.append(
-                {"id": identity_userid, "login": identity_userid, "pluginid": pluginid}
+                {"id": identity_userid, "login": identity_userlogin, "pluginid": pluginid}
             )
             if max_results and len(ret) >= max_results:
                 break
@@ -243,21 +305,21 @@ class AuthenticPlugin(AuthomaticPlugin):
         token = credentials.get("token", None)
         if token:
             payload = self._decode_token(token)
-            login = payload.get("userid", None)
-            if not login:
+            userid = payload.get("userid", None)
+            if not userid:
                 return None
 
-            if login not in self._useridentities_by_userid:
+            if userid not in self._useridentities_by_userid:
                 authentic_type = "authentic-agents"
                 user = User(authentic_type)
-                user.id = login
-                user.username = login
+                user.id = userid
+                user.username = userid
                 res = SimpleAuthomaticResult(self, authentic_type, user)
                 useridentities = self.remember_identity(res)
                 aclu = api.portal.get_tool("acl_users")
                 ploneuser = aclu._findUser(aclu.plugins, useridentities.userid)
                 notify(PrincipalCreated(ploneuser))
-            return login, login
+            return userid, userid
 
     def _decode_token(self, token):
         options = {"verify_signature": False, "verify_aud": False}

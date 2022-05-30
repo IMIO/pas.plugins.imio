@@ -5,11 +5,10 @@ from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_INTEGRATION_TESTING  # noq
 
 import unittest
 
+HAS_PLONE_5_AND_MORE = api.env.plone_version().startswith('5') or api.env.plone_version().startswith('6')
 
-try:
+if HAS_PLONE_5_AND_MORE:
     from Products.CMFPlone.utils import get_installer
-except ImportError:
-    get_installer = None
 
 
 class TestSetup(unittest.TestCase):
@@ -20,14 +19,18 @@ class TestSetup(unittest.TestCase):
     def setUp(self):
         """Custom shared utility setup for tests."""
         self.portal = self.layer["portal"]
-        if get_installer:
-            self.installer = get_installer(self.portal, self.layer["request"])
-        else:
+        if not HAS_PLONE_5_AND_MORE:
             self.installer = api.portal.get_tool("portal_quickinstaller")
+        else:
+            self.installer = get_installer(self.portal, self.layer["request"])
+            
 
     def test_product_installed(self):
         """Test if pas.plugins.imio is installed."""
-        self.assertTrue(self.installer.isProductInstalled("pas.plugins.imio"))
+        if not HAS_PLONE_5_AND_MORE:
+            self.assertTrue(self.installer.isProductInstalled("pas.plugins.imio"))
+        else:
+            self.assertTrue(self.installer.is_product_installed("pas.plugins.imio"))
 
     def test_browserlayer(self):
         """Test that IPasPluginsImioLayer is registered."""
@@ -43,15 +46,21 @@ class TestUninstall(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer["portal"]
-        if get_installer:
-            self.installer = get_installer(self.portal, self.layer["request"])
-        else:
+        if not HAS_PLONE_5_AND_MORE:
             self.installer = api.portal.get_tool("portal_quickinstaller")
-        self.installer.uninstallProducts(["pas.plugins.imio"])
+            self.installer.uninstallProducts(["pas.plugins.imio"])
+        else:
+            self.installer = get_installer(self.portal, self.layer["request"])
+            self.installer.uninstall_product("pas.plugins.imio")
+
+            
 
     def test_product_uninstalled(self):
         """Test if pas.plugins.imio is cleanly uninstalled."""
-        self.assertFalse(self.installer.isProductInstalled("pas.plugins.imio"))
+        if not HAS_PLONE_5_AND_MORE:
+            self.assertFalse(self.installer.isProductInstalled("pas.plugins.imio"))
+        else:
+            self.assertFalse(self.installer.is_product_installed("pas.plugins.imio"))
 
     def test_browserlayer_removed(self):
         """Test that IPasPluginsImioLayer is removed."""

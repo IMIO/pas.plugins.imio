@@ -1,2 +1,1 @@
-zc.buildout == 2.13.2
-setuptools == 41.2.0
+-r requirements5.2.x.txt

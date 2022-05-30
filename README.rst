@@ -17,11 +17,14 @@ Features
 - Disabled edition of username and e-mail
 - Connect with JWT
 
-.. image:: https://travis-ci.com/IMIO/pas.plugins.imio.png
-    :target: http://travis-ci.com/IMIO/pas.plugins.imio
+
+.. image:: https://github.com/IMIO/pas.plugins.imio/workflows/Tests/badge.svg
+    :target: https://github.com/IMIO/pas.plugins.imio/actions?query=workflow%3ATests
+    :alt: CI Status
 
 .. image:: https://coveralls.io/repos/github/IMIO/pas.plugins.imio/badge.svg?branch=master
     :target: https://coveralls.io/github/IMIO/pas.plugins.imio?branch=master
+    :alt: Coveralls
 
 
 Installation

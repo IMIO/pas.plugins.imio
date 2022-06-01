@@ -33,4 +33,6 @@ def set_new_userid(context=None):
         plugin._userid_by_identityinfo[(provider_name, userid)] = userid
         del plugin._useridentities_by_userid[userlogin]
         del plugin._userid_by_identityinfo[(provider_name, userlogin)]
-        logger.info("user updated, new id is:{}, new login is: {}".format(userid, userlogin))
+        logger.info(
+            "user updated, new id is:{}, new login is: {}".format(userid, userlogin)
+        )

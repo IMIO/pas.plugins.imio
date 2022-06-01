@@ -23,7 +23,7 @@ class MockupUser:
 
 
 def mock_get_authentic_users():
-    return [   
+    return [
         {
             u"last_name": u"Suttor",
             u"id": 2,
@@ -35,7 +35,6 @@ def mock_get_authentic_users():
             u"uuid": u"2",
         }
     ]
-    
 
 
 class TestView(unittest.TestCase):
@@ -67,9 +66,7 @@ class TestView(unittest.TestCase):
         view = AddAuthenticUsers(self.portal, self.portal.REQUEST)
         self.assertEqual(view.next_url, "https://www.imio.be")
         view.get_authentic_users = mock_get_authentic_users
-        self.assertEqual(
-            view.get_authentic_users()[0]["username"], u"bsuttor"
-        )
+        self.assertEqual(view.get_authentic_users()[0]["username"], u"bsuttor")
         self.assertEqual(self.plugin._useridentities_by_userid.get("2"), None)
         view()
         new_user = self.plugin._useridentities_by_userid.get("2")
@@ -111,7 +108,9 @@ class TestView(unittest.TestCase):
     def test_redirect_parameter_before_login(self):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         redirect_target = api.content.create(
-            type="Folder", id="secret", container=self.portal,
+            type="Folder",
+            id="secret",
+            container=self.portal,
         )
 
         # Check login next_url
@@ -155,7 +154,9 @@ class TestView(unittest.TestCase):
 
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         redirect_target = api.content.create(
-            type="Folder", id="secret", container=self.portal,
+            type="Folder",
+            id="secret",
+            container=self.portal,
         )
         self.request.form = {"next_url": redirect_target.absolute_url()}
         view()
@@ -199,7 +200,9 @@ class TestView(unittest.TestCase):
     def test_authentic_view_redirect_to_portal(self):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         folder = api.content.create(
-            type="Folder", id="myfolder", container=self.portal,
+            type="Folder",
+            id="myfolder",
+            container=self.portal,
         )
         logout()
         view = api.content.get_view(
@@ -264,9 +267,11 @@ class TestView(unittest.TestCase):
         # refresh user info
         user = api.user.get(user.id)
         self.assertListEqual(
-            user.getRoles(), ["Authenticated"],
+            user.getRoles(),
+            ["Authenticated"],
         )
 
         self.assertListEqual(
-            user.getGroups(), ["AuthenticatedUsers"],
+            user.getGroups(),
+            ["AuthenticatedUsers"],
         )

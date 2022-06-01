@@ -73,7 +73,11 @@ class TestPlugin(unittest.TestCase):
         if "admin" in [user.id for user in users]:
             count_users += 1
         self.assertEqual(len(users), count_users)
-        data = {"id": "12345-67890", "username": "imio username", "email": "imio@username.be"}
+        data = {
+            "id": "12345-67890",
+            "username": "imio username",
+            "email": "imio@username.be",
+        }
         authomatic_user = User("authentic", **data)
         mockup_user = MockupUser(self.plugin, authomatic_user)
         self.plugin.remember_identity(mockup_user)
@@ -83,7 +87,11 @@ class TestPlugin(unittest.TestCase):
         self.assertIn("12345-67890", [user.id for user in users])
 
     def test_search_user(self):
-        data = {"id": "12345-67890", "username": "imio username", "email": "imio@username.be"}
+        data = {
+            "id": "12345-67890",
+            "username": "imio username",
+            "email": "imio@username.be",
+        }
         authomatic_user = User("authentic", **data)
         mockup_user = MockupUser(self.plugin, authomatic_user)
         self.plugin.remember_identity(mockup_user)

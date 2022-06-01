@@ -65,7 +65,9 @@ class AuthenticPlugin(AuthomaticPlugin):
         {"label": "Authentic Users", "action": "manage_authenticplugin"},
     ) + AuthomaticPlugin.manage_options
     security.declareProtected(ManagePortal, "manage_authenticplugin")
-    manage_authenticplugin = PageTemplateFile("zmi", globals(), __name__="manage_authenticplugin")
+    manage_authenticplugin = PageTemplateFile(
+        "zmi", globals(), __name__="manage_authenticplugin"
+    )
 
     # Tell PAS not to swallow our exceptions
     _dont_swallow_my_exceptions = True
@@ -131,7 +133,7 @@ class AuthenticPlugin(AuthomaticPlugin):
     def getPluginUsers(self):
         users = []
         for plugin_id, userid in self._userid_by_identityinfo:
-            user={}
+            user = {}
             user["id"] = userid
             identity = self._useridentities_by_userid[userid]
             if hasattr(identity, "login"):
@@ -150,7 +152,6 @@ class AuthenticPlugin(AuthomaticPlugin):
         del self._useridentities_by_userid[userid]
         del self._useridentities_by_login[login]
         del self._userid_by_identityinfo[(provider_name, userid)]
-
 
     @security.private
     def enumerateUsers(
@@ -234,7 +235,11 @@ class AuthenticPlugin(AuthomaticPlugin):
                 identity_userlogin = identity_userlogin.encode("utf8")
 
             ret.append(
-                {"id": identity_userid, "login": identity_userlogin, "pluginid": pluginid}
+                {
+                    "id": identity_userid,
+                    "login": identity_userlogin,
+                    "pluginid": pluginid,
+                }
             )
             return ret
 
@@ -261,7 +266,11 @@ class AuthenticPlugin(AuthomaticPlugin):
                 identity_userid = identity_userid.encode("utf8")
                 identity_userlogin = identity_userlogin.encode("utf8")
             ret.append(
-                {"id": identity_userid, "login": identity_userlogin, "pluginid": pluginid}
+                {
+                    "id": identity_userid,
+                    "login": identity_userlogin,
+                    "pluginid": pluginid,
+                }
             )
             if max_results and len(ret) >= max_results:
                 break

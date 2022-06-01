@@ -2,8 +2,10 @@
 # from authomatic.core import Credentials
 # from pas.plugins.authomatic.useridentities import UserIdentity
 from pas.plugins.authomatic.useridentities import UserIdentities as BaseUserIdentities
+
 # from persistent import Persistent
 from persistent.dict import PersistentDict
+
 # from Products.PluggableAuthService.UserPropertySheet import UserPropertySheet
 
 # import logging
@@ -31,7 +33,6 @@ import uuid
 
 
 class UserIdentities(BaseUserIdentities):
-
     def __init__(self, userid, login):
         self.userid = userid
         self.login = login

@@ -5,7 +5,9 @@ from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_INTEGRATION_TESTING  # noq
 
 import unittest
 
-HAS_PLONE_5_AND_MORE = api.env.plone_version().startswith('5') or api.env.plone_version().startswith('6')
+HAS_PLONE_5_AND_MORE = api.env.plone_version().startswith(
+    "5"
+) or api.env.plone_version().startswith("6")
 
 if HAS_PLONE_5_AND_MORE:
     from Products.CMFPlone.utils import get_installer
@@ -23,7 +25,6 @@ class TestSetup(unittest.TestCase):
             self.installer = api.portal.get_tool("portal_quickinstaller")
         else:
             self.installer = get_installer(self.portal, self.layer["request"])
-            
 
     def test_product_installed(self):
         """Test if pas.plugins.imio is installed."""
@@ -52,8 +53,6 @@ class TestUninstall(unittest.TestCase):
         else:
             self.installer = get_installer(self.portal, self.layer["request"])
             self.installer.uninstall_product("pas.plugins.imio")
-
-            
 
     def test_product_uninstalled(self):
         """Test if pas.plugins.imio is cleanly uninstalled."""

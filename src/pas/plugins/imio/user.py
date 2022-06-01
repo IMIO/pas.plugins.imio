@@ -11,13 +11,12 @@ from zope.interface import implementer
 @implementer(IUserDataSchemaProvider)
 class UserDataSchemaProvider(object):
     def getSchema(self):
-        """
-        """
+        """ """
         return IPASUserDataSchema
 
 
 class IPASUserDataSchema(IUserDataSchema):
-    """ Use all the fields from the default user data schema, and add various
+    """Use all the fields from the default user data schema, and add various
     extra fields.
     """
 
@@ -49,5 +48,4 @@ class IPASUserDataSchema(IUserDataSchema):
 
 
 class PASUserDataPanelAdapter(UserDataPanelAdapter):
-    """
-    """
+    """ """

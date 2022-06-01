@@ -5,6 +5,9 @@ Changelog
 1.0.12 (unreleased)
 -------------------
 
+- Get userid and user login for user connected by JWT.
+  [bsuttor]
+
 - Allow user search on any parts of id/login/email (not just the start)
   [laulaz]
 

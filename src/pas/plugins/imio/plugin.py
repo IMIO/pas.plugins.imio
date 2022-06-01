@@ -330,21 +330,21 @@ class AuthenticPlugin(AuthomaticPlugin):
         token = credentials.get("token", None)
         if token:
             payload = self._decode_token(token)
-            userid = payload.get("userid", None)
+            userid = payload.get("sub", None)
+            login = payload.get("userid", None)
             if not userid:
                 return None
-
             if userid not in self._useridentities_by_userid:
                 authentic_type = "authentic-agents"
                 user = User(authentic_type)
                 user.id = userid
-                user.username = userid
+                user.username = login
                 res = SimpleAuthomaticResult(self, authentic_type, user)
                 useridentities = self.remember_identity(res)
                 aclu = api.portal.get_tool("acl_users")
                 ploneuser = aclu._findUser(aclu.plugins, useridentities.userid)
                 notify(PrincipalCreated(ploneuser))
-            return userid, userid
+            return userid, login
 
     def _decode_token(self, token):
         options = {"verify_signature": False, "verify_aud": False}

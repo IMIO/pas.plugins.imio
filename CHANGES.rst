@@ -5,8 +5,11 @@ Changelog
 1.0.12 (unreleased)
 -------------------
 
+- Allow user search on any parts of id/login/email (not just the start)
+  [laulaz]
+
 - Use uuid as plone user.id instead of username.
-  [bsuttor]
+  [bsuttor, laulaz]
 
 - Be aware of next url when you call auhentic users api.
   [bsuttor]

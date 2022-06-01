@@ -40,4 +40,7 @@ class TestPAS(unittest.TestCase):
         creds = {}
         creds["extractor"] = "authentic"
         creds["token"] = TEST_ID_TOKEN
-        self.assertEqual(("jdoe", "jdoe"), self.plugin.authenticateCredentials(creds))
+        self.assertEqual(
+            ("ca132a44bc2b488a911f2aaa17886c0a", "jdoe"),
+            self.plugin.authenticateCredentials(creds),
+        )

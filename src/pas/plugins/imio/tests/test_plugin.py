@@ -89,5 +89,7 @@ class TestPlugin(unittest.TestCase):
         self.plugin.remember_identity(mockup_user)
         user = api.user.get(userid="12345-67890")
         self.assertEqual(user.id, "12345-67890")
+        user = api.user.get(userid="imio username")
+        self.assertEqual(user.id, "12345-67890")
         user = api.user.get(username="imio username")
         self.assertEqual(user.id, "12345-67890")

@@ -55,8 +55,16 @@ class TestPlugin(unittest.TestCase):
         user = MockupUser(self.plugin, authomatic_user)
         self.plugin.remember_identity(user)
         self.assertEqual(
+            self.plugin.enumerateUsers(id="123456"),
+            [{"login": "jamesbond", "pluginid": "authentic", "id": "123456"}],
+        )
+        self.assertEqual(
             self.plugin.enumerateUsers(login="james"),
             [{"login": "jamesbond", "pluginid": "authentic", "id": u"123456"}],
+        )
+        self.assertEqual(
+            self.plugin.enumerateUsers(login="bond"),
+            [{"login": "jamesbond", "pluginid": "authentic", "id": "123456"}],
         )
 
     def test_search_all_users(self):

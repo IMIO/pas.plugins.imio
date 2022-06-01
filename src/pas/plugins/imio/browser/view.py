@@ -80,7 +80,7 @@ class AddAuthenticUsers(BrowserView):
             return users
         else:
             # be more explicit
-            raise "Not able to connect to Authentic"
+            raise ConnectionError("Not able to connect to Authentic")
 
     def __call__(self):
         if self.authentic_type not in ["usagers", "agents"]:

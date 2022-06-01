@@ -246,7 +246,7 @@ class AuthenticPlugin(AuthomaticPlugin):
         # non exact expensive search
         for userid in self._useridentities_by_userid:
             user = self._useridentities_by_userid.get(userid, "")
-            login = getattr(user, "login", "")
+            login = getattr(user, "login", None) or ""
             email = user.propertysheet.getProperty("email", "")
             # if hasattr(user, "login"):
             if not userid and not email:

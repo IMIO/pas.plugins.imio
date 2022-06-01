@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.0.12 (unreleased)
--------------------
+2.0 (2022-06-01)
+----------------
 
 - Get userid and user login for user connected by JWT.
   [bsuttor]

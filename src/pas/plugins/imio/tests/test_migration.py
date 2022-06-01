@@ -55,6 +55,8 @@ class TestMigration(unittest.TestCase):
         self.assertNotIn("jamesbond", self.acl_users.source_users.getUserIds())
         new_user = self.plugin._useridentities_by_userid.get("12345-67890")
         self.assertEqual(new_user.login, "jamesbond")
+        new_user = self.plugin._useridentities_by_login.get("jamesbond")
+        self.assertEqual(new_user.userid, "12345-67890")
         member = api.portal.get_tool("portal_membership").getMemberById("12345-67890")
         self.assertEqual(member.getProperty("email", ""), "james@bond.co.uk")
         self.assertIn("Site Administrator", member.getRoles())

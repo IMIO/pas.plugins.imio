@@ -73,3 +73,13 @@ class TestPlugin(unittest.TestCase):
         count_users += 1
         self.assertEqual(len(users), count_users)
         self.assertIn("12345-67890", [user.id for user in users])
+
+    def test_search_user(self):
+        data = {"id": "12345-67890", "username": "imio username", "email": "imio@username.be"}
+        authomatic_user = User("authentic", **data)
+        mockup_user = MockupUser(self.plugin, authomatic_user)
+        self.plugin.remember_identity(mockup_user)
+        user = api.user.get(userid="12345-67890")
+        self.assertEqual(user.id, "12345-67890")
+        user = api.user.get(username="imio username")
+        self.assertEqual(user.id, "12345-67890")

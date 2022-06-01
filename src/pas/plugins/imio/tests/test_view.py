@@ -74,6 +74,8 @@ class TestView(unittest.TestCase):
         view()
         new_user = self.plugin._useridentities_by_userid.get("2")
         self.assertEqual(new_user.userid, "2")
+        new_user = self.plugin._useridentities_by_login.get("bsuttor")
+        self.assertEqual(new_user.userid, "2")
 
     def test_authentic_handler(self):
         view = api.content.get_view(

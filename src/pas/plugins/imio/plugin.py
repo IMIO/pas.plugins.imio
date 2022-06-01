@@ -3,6 +3,7 @@ from AccessControl import ClassSecurityInfo
 from AccessControl.Permissions import manage_users as ManageUsers
 from AccessControl.class_init import InitializeClass
 from authomatic.core import User
+from BTrees.OOBTree import OOBTree
 from operator import itemgetter
 from pas.plugins.authomatic.plugin import AuthomaticPlugin
 from pas.plugins.imio.interfaces import IAuthenticPlugin
@@ -72,6 +73,14 @@ class AuthenticPlugin(AuthomaticPlugin):
     # ##
     # pas_interfaces.plugins.IUserEnumaration
 
+    def _init_trees(self):
+        # (provider_name, provider_userid) -> userid
+        self._userid_by_identityinfo = OOBTree()
+
+        # userid / login -> userdata
+        self._useridentities_by_userid = OOBTree()
+        self._useridentities_by_login = OOBTree()
+
     @security.private
     def remember_identity(self, result, userid=None):
         # useridentities = super(AuthenticPlugin, self).remember_identity(result, userid)
@@ -82,8 +91,13 @@ class AuthenticPlugin(AuthomaticPlugin):
             userid = new_userid(self, result)
             login = new_login(self, result)
             useridentities = UserIdentities(userid, login)
+            membership = api.portal.get_tool("portal_membership")
+            member = membership.getMemberById(login)
+            old_roles = member and member.getRoles() or []
+            if "Authenticated" in old_roles:
+                old_roles.remove("Authenticated")
             self._useridentities_by_userid[userid] = useridentities
-            # self._useridentities_by_login[login] = useridentities
+            self._useridentities_by_login[login] = useridentities
         else:
             # use existing userid
             useridentities = self._useridentities_by_userid.get(userid, None)
@@ -99,12 +113,8 @@ class AuthenticPlugin(AuthomaticPlugin):
             username = result.user.username
             acl_users = api.portal.get_tool("acl_users")
             source_users = acl_users.source_users
-            if self._useridentities_by_userid.get(userid, None) and username in [
-                us.get("id") for us in source_users.enumerateUsers()
-            ]:
+            if username in [us.get("id") for us in source_users.enumerateUsers()]:
                 try:
-                    old_roles = api.user.get(username=username).getRoles()
-                    old_roles.remove("Authenticated")
                     api.user.grant_roles(username=userid, roles=old_roles)
                     source_users.doDeleteUser(username)
                 except KeyError:
@@ -136,7 +146,9 @@ class AuthenticPlugin(AuthomaticPlugin):
 
     @security.protected(ManageUsers)
     def removeUser(self, userid, provider_name="authentic-agents"):
+        login = self._useridentities_by_userid[userid].login
         del self._useridentities_by_userid[userid]
+        del self._useridentities_by_login[login]
         del self._userid_by_identityinfo[(provider_name, userid)]
 
 
@@ -206,8 +218,11 @@ class AuthenticPlugin(AuthomaticPlugin):
         ret = list()
         # shortcut for exact match of login/id
         identity = None
-        if exact_match and search_id and search_id in self._useridentities_by_userid:
-            identity = self._useridentities_by_userid[search_id]
+        if exact_match:
+            if id in self._useridentities_by_userid:
+                identity = self._useridentities_by_userid[search_id]
+            elif search_id in self._useridentities_by_login:
+                identity = self._useridentities_by_login[search_id]
         if identity is not None:
             identity_userid = identity.userid
             if hasattr(identity, "login"):
@@ -225,13 +240,18 @@ class AuthenticPlugin(AuthomaticPlugin):
 
         # non exact expensive search
         for userid in self._useridentities_by_userid:
-            user = self._useridentities_by_userid.get(userid, None)
+            user = self._useridentities_by_userid.get(userid, "")
+            login = getattr(user, "login", "")
             email = user.propertysheet.getProperty("email", "")
             # if hasattr(user, "login"):
             if not userid and not email:
                 logger.warn("None userid found. This should not happen!")
                 continue
-            if not userid.startswith(search_id) and not email.startswith(search_id):
+            if (
+                not userid.startswith(search_id)
+                and not login.startswith(search_id)
+                and not email.startswith(search_id)
+            ):
                 logger.debug("not searchable: {0} for {1}".format(search_id, userid))
                 continue
             identity = self._useridentities_by_userid[userid]

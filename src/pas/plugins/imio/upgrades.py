@@ -24,6 +24,11 @@ def set_new_userid(context=None):
         userlogin = user.username
         userid = user.id
         saved_user = plugin._useridentities_by_userid.get(userlogin)
+        if saved_user is None:
+            logger.warning(
+                "user not found in plugin (id: {}, login: {})".format(userid, userlogin)
+            )
+            continue
         saved_user.userid = userid
         saved_user.login = userlogin
         # __import__("ipdb").set_trace()

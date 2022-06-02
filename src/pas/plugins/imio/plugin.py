@@ -349,6 +349,7 @@ class AuthenticPlugin(AuthomaticPlugin):
     def _decode_token(self, token):
         options = {"verify_signature": True, "verify_aud": False}
         if os.getenv("ENV") == "test":
+            options["verify_signature"] = False
             options["verify_exp"] = False
         payload = jwt.decode(
             token,

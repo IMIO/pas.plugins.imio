@@ -5,7 +5,8 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Verify signature for login with JWT.
+  [bsuttor]
 
 
 2.0 (2022-06-01)

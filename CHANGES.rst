@@ -5,6 +5,9 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
+- Improve user migration code
+  [laulaz]
+
 - Verify signature for login with JWT.
   [bsuttor]
 

@@ -19,6 +19,14 @@ def set_new_userid(context=None):
     provider_name = "authentic-agents"
 
     for data in users:
+        username = data["username"]
+        mutable_properties = acl_users.mutable_properties
+        if username in [us.get("id") for us in mutable_properties.enumerateUsers()]:
+            mutable_properties.deleteUser(username)
+            logger.info(
+                "deleted user {} from mutable_properties plugin".format(username)
+            )
+
         data["id"] = data["uuid"]
         user = User(provider_name, **data)
         userlogin = user.username

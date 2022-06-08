@@ -26,6 +26,28 @@
               "access_headers": {
                   "User-Agent": "Plone (pas.plugins.imio)"
               }
+          },
+          "authentic-usagers": {
+              "id": 2,
+              "type": "usagers",
+              "display": {
+                  "title": "Je suis un usager",
+                  "cssclasses": {
+                      "button": "plone-btn plone-btn-default plone-btn-agents",
+                      "icon": "glypicon glyphicon-github"
+                  },
+                  "as_form": false
+              },
+              "propertymap": {
+                  "username": "username",
+                  "email": "email",
+                  "fullname": "fullname"
+              },
+              "scope": ["openid email profile"],
+              "class_": "pas.plugins.imio.providers.authentic.Authentic",
+              "access_headers": {
+                  "User-Agent": "Plone (pas.plugins.imio)"
+              }
           }
       }
     </value>

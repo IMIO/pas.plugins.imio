@@ -16,16 +16,22 @@ long_description = "\n\n".join(
 
 setup(
     name="pas.plugins.imio",
-    version="1.0.6.dev0",
+    version="2.0.1.dev0",
     description="Pas plugin use to connect to auth.imio.be",
     long_description=long_description,
     # Get more from https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
         "Framework :: Plone :: 5.0",
+        "Framework :: Plone :: 5.1",
+        "Framework :: Plone :: 5.2",
+        "Framework :: Plone :: 6.0",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
@@ -45,12 +51,12 @@ setup(
         "setuptools",
         "z3c.jbot",
         "authomatic",
-        "pas.plugins.authomatic",
+        "pas.plugins.authomatic<=1.0b1;python_version=='2.7'",
+        "pas.plugins.authomatic>=1.0b2;python_version>='3.6'",
         "pyjwt",
         "cryptography",
         "requests",
         "plone.app.changeownership",
-        "pyjwt",
     ],
     extras_require={
         "test": [

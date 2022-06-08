@@ -8,12 +8,17 @@
     i18n_domain="pas.plugins.imio">
 
   <five:registerPackage initialize=".initialize" package="." />
-  <includeDependencies package="." />
+
+  <include package="plone.api" />
+  <include package="Products.GenericSetup" file="meta.zcml" />
+  <include package="Products.GenericSetup" />
+  <include package="z3c.jbot" />
+  <include package="pas.plugins.authomatic" />
+  <include package="plone.app.changeownership" />
 
   <i18n:registerTranslations directory="locales" />
 
   <include package=".browser" />
-  <!--include package="pas.plugins.authomatic" /-->
 
   <browser:page
     name="imio_login"
@@ -44,7 +49,7 @@
   <genericsetup:registerProfile
     zcml:condition="have plone-5"
     name="default"
-    title="pas.plugins.imio plone5"
+    title="pas.plugins.imio plone5/6"
     directory="profiles/plone5"
     description="Installs the pas.plugins.imio add-on."
     provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -91,6 +96,15 @@
     post_handler=".setuphandlers.uninstall"
     />
 
+  <genericsetup:registerProfile
+    name="usagers"
+    title="pas.plugins.imio usagers plone5/6"
+    directory="profiles/usagers"
+    description="Installs the pas.plugins.imio add-on with usagers."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    post_handler=".setuphandlers.post_install"
+    />
+
   <utility
     factory=".setuphandlers.HiddenProfiles"
     name="pas.plugins.imio-hiddenprofiles" />
@@ -123,5 +137,14 @@
       />
   </configure>
 
+  <genericsetup:upgradeStep
+      title="Use new userid"
+      description="Update userid, do not use username"
+      source="1000"
+      destination="1001"
+      handler="pas.plugins.imio.upgrades.set_new_userid"
+      sortkey="1"
+      profile="pas.plugins.imio:default"
+      />
 </configure>
 

@@ -2,8 +2,74 @@ Changelog
 =========
 
 
-1.0.6 (unreleased)
+2.0.1 (unreleased)
 ------------------
+
+- Improve user migration code
+  [laulaz]
+
+- Verify signature for login with JWT.
+  [bsuttor]
+
+
+2.0 (2022-06-01)
+----------------
+
+- Get userid and user login for user connected by JWT.
+  [bsuttor]
+
+- Allow user search on any parts of id/login/email (not just the start)
+  [laulaz]
+
+- Use uuid as plone user.id instead of username.
+  [bsuttor, laulaz]
+
+- Be aware of next url when you call auhentic users api.
+  [bsuttor]
+
+- Add zmi view of users.
+  [bsuttor]
+
+
+1.0.11 (2022-04-21)
+-------------------
+
+- Revert previous release.
+  [bsuttor]
+
+
+1.0.10 (2022-04-21)
+-------------------
+
+- Nothing changed yet.
+
+
+1.0.9 (2022-01-19)
+------------------
+
+- Get rid of includeDependencies for Plone 6 compatibility.
+  [laulaz]
+
+
+1.0.8 (2021-10-15)
+------------------
+
+- Fill username when user is created with JWT.
+  [bsuttor]
+
+
+1.0.7 (2021-10-15)
+------------------
+
+- Create user with JWT token on first connection.
+  [bsuttor]
+
+
+1.0.6 (2021-06-01)
+------------------
+
+- Fixed ModuleNotFoundError: No module named 'App.class_init' on Zope 5.
+  [bsuttor]
 
 - Add JWT support.
   [bsuttor]

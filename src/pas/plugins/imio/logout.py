@@ -19,8 +19,10 @@ class ImioLogoutFormView(BrowserView):
         authentic_hostname = authentic_config["hostname"]
         if not authentic_hostname:
             return
-        authentic_logout_url = "{0}://{1}/idp/oidc/logout?post_logout_redirect_uri={2}".format(
-            protocol(), authentic_hostname, api.portal.get().absolute_url()
+        authentic_logout_url = (
+            "{0}://{1}/idp/oidc/logout?post_logout_redirect_uri={2}".format(
+                protocol(), authentic_hostname, api.portal.get().absolute_url()
+            )
         )
 
         response = self.request.response

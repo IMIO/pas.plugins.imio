@@ -15,15 +15,23 @@ from zope.interface import implementer
 @implementer(IUserDataSchemaProvider)
 class UserDataSchemaProvider(object):
     def getSchema(self):
-        """
-        """
+        """ """
         return IPASUserDataSchema
 
 
 class IPASUserDataSchema(IUserDataSchema):
-    """ Use all the fields from the default user data schema, and add various
+    """Use all the fields from the default user data schema, and add various
     extra fields.
     """
+
+    # username = schema.TextLine(
+    #     title=_(u"label_user_name", default=u"User Name"),
+    #     description=_(
+    #         u"help_user_name_creation", default=u"Enter user name, e.g. jsmith."
+    #     ),
+    #     required=False,
+    #     readonly=True,
+    # )
 
     fullname = schema.TextLine(
         title=_(u"label_full_name", default=u"Full Name"),
@@ -44,8 +52,7 @@ class IPASUserDataSchema(IUserDataSchema):
 
 
 class PASUserDataPanelAdapter(UserDataPanelAdapter):
-    """
-    """
+    """ """
 
 
 class PasUserDataPanel(UserDataPanel):

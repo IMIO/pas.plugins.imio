@@ -66,11 +66,21 @@ class AddAuthenticUsers(BrowserView):
         req = requests.get(
             self.authentic_api_url, auth=(self.consumer_key, self.consumer_secret)
         )
+        users = []
         if req.status_code == 200:
-            return req.json()
+            response = req.json()
+            users = users + response.get("results")
+            next = response.get("next", "")
+            while next:
+                logger.info("".format(len(users)))
+                req = requests.get(next, auth=(self.consumer_key, self.consumer_secret))
+                response = req.json()
+                users = users + response.get("results")
+                next = response.get("next", "")
+            return users
         else:
             # be more explicit
-            raise "Not able to connect to Authentic"
+            raise ConnectionError("Not able to connect to Authentic")
 
     def __call__(self):
         if self.authentic_type not in ["usagers", "agents"]:
@@ -84,17 +94,17 @@ class AddAuthenticUsers(BrowserView):
         if not self.authentic_config:
             return ""
 
-        result = self.get_authentic_users()
+        users = self.get_authentic_users()
         new_users = 0
-        for data in result.get("results", []):
+        for data in users:
+            data["id"] = data["uuid"]
             user = User("authentic-{0}".format(self.authentic_type), **data)
-            user.id = user.username
             if not user.username:
                 if six.PY2 and isinstance(user.email, six.text_type):
-                    user.id = safe_utf8(user.email)
+                    # user.id = safe_utf8(user.email)
                     user.username = safe_utf8(user.email)
                 else:
-                    user.id = user.email
+                    # user.id = user.email
                     user.username = user.email
             if six.PY2 and isinstance(user.last_name, six.text_type):
                 fullname = "{0} {1}".format(
@@ -103,7 +113,7 @@ class AddAuthenticUsers(BrowserView):
             else:
                 fullname = "{0} {1}".format(user.first_name, user.last_name)
             if not fullname.strip():
-                user.fullname = user.id
+                user.fullname = user.username
             else:
                 if six.PY2 and isinstance(fullname, six.text_type):
                     user.fullname = safe_utf8(fullname)
@@ -114,25 +124,11 @@ class AddAuthenticUsers(BrowserView):
                 # save
                 # provider = Authentic()
                 res = SimpleAuthomaticResult(plugin, self.authentic_type, user)
-                # plugin.remember_identity(res)
                 useridentities = plugin.remember_identity(res)
                 aclu = api.portal.get_tool("acl_users")
                 ploneuser = aclu._findUser(aclu.plugins, useridentities.userid)
-                # accessed, container, name, value = aclu._getObjectContext(
-                #     self.request['PUBLISHED'],
-                #     self.request
-                # )
-                # from Products.PluggableAuthService.interfaces.authservice import _noroles
-                # user = aclu._authorizeUser(
-                #     user,
-                #     accessed,
-                #     container,
-                #     name,
-                #     value,
-                #     _noroles
-                # )
                 notify(PrincipalCreated(ploneuser))
-                logmsg = "User {0} added".format(user.id)
+                logmsg = "User {0} added".format(user.username)
                 logger.info(logmsg)
                 new_users += 1
         import transaction
@@ -208,7 +204,7 @@ class AuthenticView(BrowserView):
         )
 
     def next(self):
-        """ Used to login page view """
+        """Used to login page view"""
         next_url = self.request.form.get("next_url")
         if next_url:
             return "?next_url={0}".format(next_url)

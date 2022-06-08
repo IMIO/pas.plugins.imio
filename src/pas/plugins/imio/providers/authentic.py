@@ -20,11 +20,12 @@ __all__ = ["Authentic"]
 
 
 class Authentic(OAuth2):
-    """"""
+    """ """
 
     def __init__(self, *args, **kwargs):
         super(Authentic, self).__init__(*args, **kwargs)
         self.user_state = self.params.get("next_url")
+        # self.supports_csrf_protection = False
         if self.user_state:
             del self.adapter.view.request.form["next_url"]
 
@@ -94,18 +95,15 @@ class Authentic(OAuth2):
                 options={"verify_signature": False, "verify_aud": False},
             )
             if "sub" in payload_data.keys():
-                user.id = user.username = payload_data.get("sub")
+                user.id = payload_data.get("sub")
         if "sub" in data.keys():
-            # user.id = data.get('sub')
-            # user.id = data.get('email')
-            user.id = data.get("preferred_username")
-            user.username = user.id
+            user.username = data.get("preferred_username")
             user.first_name = data.get("given_name")
             user.last_name = data.get("family_name")
             fullname = u"{0} {1}".format(user.first_name, user.last_name)
             if not fullname.strip():
-                user.name = user.id
-                user.fullname = user.id
+                user.name = user.username
+                user.fullname = user.username
             else:
                 user.name = fullname
                 user.fullname = fullname

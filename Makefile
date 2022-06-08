@@ -3,10 +3,10 @@
 
 
 buildout.cfg:
-	ln -s plone4.3.x.cfg buildout.cfg
+	ln -s plone5.2.x.cfg buildout.cfg
 
 bin/pip:
-	if [ -f /usr/bin/virtualenv-2.7 ] ; then /usr/bin/virtualenv-2.7 .;else virtualenv -p python2.7 .;fi
+	python3.8 -m venv .
 	touch $@
 
 bin/buildout: bin/pip buildout.cfg
@@ -24,11 +24,3 @@ instance: buildout
 
 cleanall:
 	rm -rf bin develop-eggs downloads include lib parts .installed.cfg .mr.developer.cfg buildout.cfg .coverage htmlcov local pip-selfcheck.json lib64 share
-
-devpy2: cleanall buildout
-
-devpy3: cleanall
-	python3 -m venv .
-	ln -s plone5.2.x.cfg buildout.cfg
-	./bin/pip install -r requirements.txt
-	./bin/buildout -Nt 7

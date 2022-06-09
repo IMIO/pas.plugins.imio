@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-from plone.app.users.browser.personalpreferences import UserDataPanelAdapter
+from plone import api
+from plone.app.users.browser.account import AccountPanelForm
+from plone.app.users.browser.personalpreferences import UserDataPanelAdapter, UserDataPanel, PersonalPreferencesPanel, \
+    UserDataConfiglet
 from plone.app.users.userdataschema import checkEmailAddress
 from plone.app.users.userdataschema import IUserDataSchema
 from plone.app.users.userdataschema import IUserDataSchemaProvider
 from Products.CMFPlone import PloneMessageFactory as _
 from zope import schema
+from zope.browserpage import ViewPageTemplateFile
 from zope.interface import implementer
 
 
@@ -49,3 +53,19 @@ class IPASUserDataSchema(IUserDataSchema):
 
 class PASUserDataPanelAdapter(UserDataPanelAdapter):
     """ """
+
+
+class PasUserDataPanel(UserDataPanel):
+    """
+    """
+    def __init__(self, context, request):
+        super(PasUserDataPanel, self).__init__(context, request)
+        if self.userid:
+            pas = api.portal.get_tool("acl_users")
+            if self.userid in pas.source_users.listUserIds():
+                self.form_fields.get('fullname').field.readonly = False
+                self.form_fields.get('email').field.readonly = False
+
+
+class PasUserDataConfiglet(PasUserDataPanel):
+    template = ViewPageTemplateFile(UserDataConfiglet.template.filename)

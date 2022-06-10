@@ -1,18 +1,31 @@
 # -*- coding: utf-8 -*-
 from plone import api
-from plone.app.users.browser.account import AccountPanelForm
-from plone.app.users.browser.personalpreferences import UserDataPanelAdapter, UserDataPanel, PersonalPreferencesPanel, \
-    UserDataConfiglet
-from plone.app.users.userdataschema import checkEmailAddress
-from plone.app.users.userdataschema import IUserDataSchema
-from plone.app.users.userdataschema import IUserDataSchemaProvider
+
+try:
+    from plone.app.users.browser.personalpreferences import UserDataPanel
+    from plone.app.users.browser.personalpreferences import UserDataPanelAdapter
+    from plone.app.users.browser.personalpreferences import UserDataConfiglet
+except ImportError:
+    from plone.app.users.browser.userdatapanel import UserDataPanel
+    from plone.app.users.browser.userdatapanel import UserDataPanelAdapter
+    from plone.app.users.browser.userdatapanel import UserDataConfiglet
+
+try:
+    from plone.app.users.userdataschema import checkEmailAddress
+    from plone.app.users.userdataschema import IUserDataSchema
+    from plone.app.users.userdataschema import IUserDataSchemaProvider as IUserSchemaProvider
+except ImportError:
+    from plone.app.users.schema import IUserDataSchema
+    from plone.app.users.schema import IUserSchemaProvider
+    from plone.app.users.schema import checkEmailAddress
+
 from Products.CMFPlone import PloneMessageFactory as _
 from zope import schema
 from zope.browserpage import ViewPageTemplateFile
 from zope.interface import implementer
 
 
-@implementer(IUserDataSchemaProvider)
+@implementer(IUserSchemaProvider)
 class UserDataSchemaProvider(object):
     def getSchema(self):
         """ """

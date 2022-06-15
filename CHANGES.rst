@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.1 (unreleased)
+2.0.1 (2022-06-15)
 ------------------
 
 - Add posibility to delete user on zmi view.

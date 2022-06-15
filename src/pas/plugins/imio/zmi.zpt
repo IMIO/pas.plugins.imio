@@ -7,7 +7,7 @@
   <p class="form-help">
     List of Authentic users (<tal:int tal:content="python:len(users)">)
   </p>
-  <form action="manage_updateUsers" method="post">
+  <form action="manage_removeUser" method="post">
     <table class="table table-striped">
       <thead>
         <tr>

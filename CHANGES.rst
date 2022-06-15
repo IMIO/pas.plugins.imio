@@ -5,6 +5,9 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
+- Add posibility to delete user on zmi view.
+  [bsuttor]
+
 - Improve user migration code
   [laulaz]
 

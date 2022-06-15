@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
-from AccessControl.Permissions import manage_users as ManageUsers
 from AccessControl.class_init import InitializeClass
+from AccessControl.Permissions import manage_users as ManageUsers
+from AccessControl.requestmethod import postonly
 from authomatic.core import User
 from BTrees.OOBTree import OOBTree
 from operator import itemgetter
@@ -152,6 +153,25 @@ class AuthenticPlugin(AuthomaticPlugin):
         del self._useridentities_by_userid[userid]
         del self._useridentities_by_login[login]
         del self._userid_by_identityinfo[(provider_name, userid)]
+        return True
+
+    @security.protected(ManageUsers)
+    @postonly
+    def manage_removeUser(self, REQUEST):
+        """Delete users of Authentic Plugin."""
+        response = REQUEST.response
+        users_to_delete = [
+            users for users in REQUEST.form.keys() if not users.startswith("_")
+        ]  # do not get _authenticator form
+
+        for userid in users_to_delete:
+            # todo get provider_name
+            self.removeUser(userid)
+        response.redirect(
+            "{0}/manage_authenticplugin?manage_tabs_message={1}".format(
+                self.absolute_url(), ", ".join(users_to_delete) + " deleted."
+            )
+        )
 
     @security.private
     def enumerateUsers(

@@ -153,7 +153,7 @@ class AuthenticPlugin(AuthomaticPlugin):
         del self._useridentities_by_userid[userid]
         del self._useridentities_by_login[login]
         del self._userid_by_identityinfo[(provider_name, userid)]
-        return True
+        return login
 
     @security.protected(ManageUsers)
     @postonly
@@ -163,13 +163,13 @@ class AuthenticPlugin(AuthomaticPlugin):
         users_to_delete = [
             users for users in REQUEST.form.keys() if not users.startswith("_")
         ]  # do not get _authenticator form
-
+        login_deleted = []
         for userid in users_to_delete:
             # todo get provider_name
-            self.removeUser(userid)
+            login_deleted.append(self.removeUser(userid))
         response.redirect(
             "{0}/manage_authenticplugin?manage_tabs_message={1}".format(
-                self.absolute_url(), ", ".join(users_to_delete) + " deleted."
+                self.absolute_url(), ", ".join(login_deleted) + " deleted."
             )
         )
 

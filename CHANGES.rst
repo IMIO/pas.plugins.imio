@@ -5,7 +5,8 @@ Changelog
 2.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add migration code (to new userid) for local roles / ownership
+  [laulaz]
 
 
 2.0.1 (2022-06-15)

@@ -138,13 +138,14 @@
   </configure>
 
   <genericsetup:upgradeStep
-      title="Use new userid"
-      description="Update userid, do not use username"
+      title="Migrate to new userid"
+      description="Update userid (do not use username) for users and (local-)roles"
       source="1000"
       destination="1001"
       handler="pas.plugins.imio.upgrades.set_new_userid"
       sortkey="1"
       profile="pas.plugins.imio:default"
       />
+
 </configure>
 

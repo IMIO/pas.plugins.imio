@@ -2,20 +2,12 @@
 """Setup tests for this package."""
 from authomatic.core import User
 from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_FUNCTIONAL_TESTING
+from pas.plugins.imio.tests.utils import MockupUser
 from plone import api
 
 import os
 import transaction
 import unittest
-
-
-class MockupUser:
-    def __init__(self, provider, user):
-        self.provider = provider
-        self.provider.name = "authentic-agents"
-        self.user = user
-        self.user.provider = self.provider
-        self.user.data = {}
 
 
 class TestMigration(unittest.TestCase):

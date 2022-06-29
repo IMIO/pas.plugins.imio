@@ -2,19 +2,11 @@
 from authomatic.core import User
 from BTrees.OOBTree import OOBTree
 from pas.plugins.imio.testing import PAS_PLUGINS_IMIO_FUNCTIONAL_TESTING
+from pas.plugins.imio.tests.utils import MockupUser
 from plone import api
 
 import os
 import unittest
-
-
-class MockupUser:
-    def __init__(self, provider, user, provider_name="authentic-agents"):
-        self.provider = provider
-        self.provider.name = provider_name
-        self.user = user
-        self.user.provider = self.provider
-        self.user.data = {}
 
 
 class _MockPlugin(object):

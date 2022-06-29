@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.3 (unreleased)
+2.0.3 (2022-06-29)
 ------------------
 
 - Migration code refactoring & add tests

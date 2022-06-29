@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.2 (unreleased)
+2.0.2 (2022-06-29)
 ------------------
 
 - Add migration code (to new userid) for local roles / ownership

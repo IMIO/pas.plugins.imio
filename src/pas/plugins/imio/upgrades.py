@@ -53,56 +53,62 @@ def set_new_userid(context=None):
             "user updated, new id is:{}, new login is: {}".format(userid, userlogin)
         )
 
-    def convert_userid(login):
-        user = plugin._useridentities_by_login.get(login)
-        return user and user.userid or login
-
-    def convert_userids(logins):
-        result = []
-        for login in logins:
-            userid = convert_userid(login)
-            result.append(userid)
-        return result
-
     def do_migrate_roles(obj, path):
-        obj_url = obj.absolute_url()
-        if not IContentish.providedBy(obj):
-            return
-
-        # migrate local roles
-        if getattr(aq_base(obj), "__ac_local_roles__", None) is not None:
-            localroles = obj.__ac_local_roles__
-            migrated = False
-            for login in localroles:
-                roles = localroles[login]
-                userid = convert_userid(login)
-                if userid == login:
-                    continue
-                obj.manage_delLocalRoles([login])
-                obj.manage_setLocalRoles(userid=userid, roles=roles)
-                migrated = True
-            if migrated:
-                logger.info(u"Migrated userids in local roles on {}".format(obj_url))
-
-        # migrate creators
-        creators = getattr(obj, 'listCreators', [])
-        if callable(creators):
-            creators = creators()
-        new_creators = tuple(convert_userids(creators))
-        if creators != new_creators:
-            obj.setCreators(new_creators)
-            obj.reindexObject(idxs=["Creator", "listCreators"])
-            logger.info(u"Migrated creator(s) on {}".format(obj_url))
-
-        # migrate contributors
-        contributors = getattr(obj, 'listContributors', [])
-        if callable(contributors):
-            contributors = contributors()
-        new_contributors = tuple(convert_userids(contributors))
-        if contributors != new_contributors:
-            obj.setContributors(new_contributors)
-            logger.info(u"Migrated contributors(s) on {}".format(obj_url))
+        do_migrate_roles_with_plugin(plugin, obj, path)
 
     portal.ZopeFindAndApply(portal, search_sub=True, apply_func=do_migrate_roles)
     catalog.reindexIndex("allowedRolesAndUsers", None)
     logger.info("Reindexed security")
+
+
+def do_migrate_roles_with_plugin(plugin, obj, path):
+    obj_url = obj.absolute_url()
+    if not IContentish.providedBy(obj):
+        return
+
+    # migrate local roles
+    if getattr(aq_base(obj), "__ac_local_roles__", None) is not None:
+        localroles = obj.__ac_local_roles__
+        migrated = False
+        for login in list(localroles.keys()):
+            roles = localroles[login]
+            userid = convert_userid_with_plugin(plugin, login)
+            if userid == login:
+                continue
+            obj.manage_delLocalRoles([login])
+            obj.manage_setLocalRoles(userid=userid, roles=roles)
+            migrated = True
+        if migrated:
+            logger.info(u"Migrated userids in local roles on {}".format(obj_url))
+
+    # migrate creators
+    creators = getattr(obj, 'listCreators', [])
+    if callable(creators):
+        creators = creators()
+    new_creators = tuple(convert_userids_with_plugin(plugin, creators))
+    if creators != new_creators:
+        obj.setCreators(new_creators)
+        obj.reindexObject(idxs=["Creator", "listCreators"])
+        logger.info(u"Migrated creator(s) on {}".format(obj_url))
+
+    # migrate contributors
+    contributors = getattr(obj, 'listContributors', [])
+    if callable(contributors):
+        contributors = contributors()
+    new_contributors = tuple(convert_userids_with_plugin(plugin, contributors))
+    if contributors != new_contributors:
+        obj.setContributors(new_contributors)
+        logger.info(u"Migrated contributors(s) on {}".format(obj_url))
+
+
+def convert_userid_with_plugin(plugin, login):
+    user = plugin._useridentities_by_login.get(login)
+    return user and user.userid or login
+
+
+def convert_userids_with_plugin(plugin, logins):
+    result = []
+    for login in logins:
+        userid = convert_userid_with_plugin(plugin, login)
+        result.append(userid)
+    return result

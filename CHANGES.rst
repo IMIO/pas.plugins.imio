@@ -5,7 +5,8 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Migration code refactoring & add tests
+  [laulaz]
 
 
 2.0.2 (2022-06-29)

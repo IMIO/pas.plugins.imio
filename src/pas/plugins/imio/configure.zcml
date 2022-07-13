@@ -120,7 +120,7 @@
     factory=".useridfactories.ProviderIDFactory"
     name="authenticusername"
     />
-  <configure package="plone.app.users">
+  <!--configure package="plone.app.users">
     <browser:page
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       name="personal-information"
@@ -135,7 +135,7 @@
       permission="plone.app.controlpanel.UsersAndGroups"
       layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
       />
-  </configure>
+  </configure-->
 
   <genericsetup:upgradeStep
       title="Migrate to new userid"

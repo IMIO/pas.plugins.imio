@@ -5,7 +5,8 @@ Changelog
 2.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Keep old roles on migration of users.
+  [bsuttor]
 
 
 2.0.4 (2022-07-13)

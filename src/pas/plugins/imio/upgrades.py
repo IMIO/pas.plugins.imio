@@ -13,6 +13,7 @@ logger = logging.getLogger(__file__)
 def set_new_userid(context=None):
     portal = api.portal.get()
     catalog = api.portal.get_tool("portal_catalog")
+    membership = api.portal.get_tool("portal_membership")
     view = AddAuthenticUsers(portal, portal.REQUEST)
     users = view.get_authentic_users()
 
@@ -35,6 +36,11 @@ def set_new_userid(context=None):
         userlogin = user.username
         userid = user.id
         saved_user = plugin._useridentities_by_userid.get(userlogin)
+        member = membership.getMemberById(userlogin)
+        old_roles = member and member.getRoles() or []
+        if "Authenticated" in old_roles:
+            old_roles.remove("Authenticated")
+
         if saved_user is None:
             logger.warning(
                 "user not found in plugin (id: {}, login: {})".format(userid, userlogin)
@@ -52,6 +58,7 @@ def set_new_userid(context=None):
         logger.info(
             "user updated, new id is:{}, new login is: {}".format(userid, userlogin)
         )
+        api.user.grant_roles(username=userid, roles=old_roles)
 
     def do_migrate_roles(obj, path):
         do_migrate_roles_with_plugin(plugin, obj, path)
@@ -79,26 +86,26 @@ def do_migrate_roles_with_plugin(plugin, obj, path):
             obj.manage_setLocalRoles(userid=userid, roles=roles)
             migrated = True
         if migrated:
-            logger.info(u"Migrated userids in local roles on {}".format(obj_url))
+            logger.info("Migrated userids in local roles on {}".format(obj_url))
 
     # migrate creators
-    creators = getattr(obj, 'listCreators', [])
+    creators = getattr(obj, "listCreators", [])
     if callable(creators):
         creators = creators()
     new_creators = tuple(convert_userids_with_plugin(plugin, creators))
     if creators != new_creators:
         obj.setCreators(new_creators)
         obj.reindexObject(idxs=["Creator", "listCreators"])
-        logger.info(u"Migrated creator(s) on {}".format(obj_url))
+        logger.info("Migrated creator(s) on {}".format(obj_url))
 
     # migrate contributors
-    contributors = getattr(obj, 'listContributors', [])
+    contributors = getattr(obj, "listContributors", [])
     if callable(contributors):
         contributors = contributors()
     new_contributors = tuple(convert_userids_with_plugin(plugin, contributors))
     if contributors != new_contributors:
         obj.setContributors(new_contributors)
-        logger.info(u"Migrated contributors(s) on {}".format(obj_url))
+        logger.info("Migrated contributors(s) on {}".format(obj_url))
 
 
 def convert_userid_with_plugin(plugin, login):

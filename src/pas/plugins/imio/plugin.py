@@ -149,9 +149,10 @@ class AuthenticPlugin(AuthomaticPlugin):
 
     @security.protected(ManageUsers)
     def removeUser(self, userid, provider_name="authentic-agents"):
-        if getattr(self._useridentities_by_userid[userid], "login"):
+        if hasattr(self._useridentities_by_userid[userid], "login"):
             login = self._useridentities_by_userid[userid].login
             del self._useridentities_by_login[login]
+        else:
             login = userid
         del self._useridentities_by_userid[userid]
         del self._userid_by_identityinfo[(provider_name, userid)]

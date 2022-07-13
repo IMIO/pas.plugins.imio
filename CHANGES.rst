@@ -5,8 +5,11 @@ Changelog
 2.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Temporary remove pas.app.users override because it do not work on Plone 6.
+  [bsuttor]
 
+- Add possibility to remove old user (without login).
+  [bsuttor]
 
 2.0.3 (2022-06-29)
 ------------------

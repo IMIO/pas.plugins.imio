@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.4 (unreleased)
+2.0.4 (2022-07-13)
 ------------------
 
 - Temporary remove pas.app.users override because it do not work on Plone 6.

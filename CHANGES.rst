@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.5 (unreleased)
+2.0.5 (2022-07-13)
 ------------------
 
 - Keep old roles on migration of users.

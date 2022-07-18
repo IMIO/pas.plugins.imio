@@ -5,7 +5,8 @@ Changelog
 2.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Do not verify_signature for jwt call because of error: "Could not deserialize key data".
+  [bsuttor]
 
 
 2.0.5 (2022-07-13)

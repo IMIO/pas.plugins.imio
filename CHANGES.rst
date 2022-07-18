@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.6 (unreleased)
+2.0.6 (2022-07-18)
 ------------------
 
 - Do not verify_signature for jwt call because of error: "Could not deserialize key data".

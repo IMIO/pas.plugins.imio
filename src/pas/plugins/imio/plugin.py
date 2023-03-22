@@ -97,6 +97,7 @@ class AuthenticPlugin(AuthomaticPlugin):
             membership = api.portal.get_tool("portal_membership")
             member = membership.getMemberById(login)
             old_roles = member and member.getRoles() or []
+            #TODO get groups
             if "Authenticated" in old_roles:
                 old_roles.remove("Authenticated")
             self._useridentities_by_userid[userid] = useridentities
@@ -119,7 +120,7 @@ class AuthenticPlugin(AuthomaticPlugin):
             if username in [us.get("id") for us in source_users.enumerateUsers()]:
                 try:
                     api.user.grant_roles(username=userid, roles=old_roles)
-                    source_users.doDeleteUser(username) # use source_users.removeUser(username)
+                    source_users.doDeleteUser(username) #TODO use source_users.removeUser(username)
                 except KeyError:
                     logger.error(
                         "Not able to delete {0} from source_users".format(username)

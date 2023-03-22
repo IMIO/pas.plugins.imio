@@ -119,7 +119,7 @@ class AuthenticPlugin(AuthomaticPlugin):
             if username in [us.get("id") for us in source_users.enumerateUsers()]:
                 try:
                     api.user.grant_roles(username=userid, roles=old_roles)
-                    source_users.doDeleteUser(username)
+                    source_users.doDeleteUser(username) # use source_users.removeUser(username)
                 except KeyError:
                     logger.error(
                         "Not able to delete {0} from source_users".format(username)

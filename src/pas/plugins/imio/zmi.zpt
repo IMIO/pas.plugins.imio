@@ -5,7 +5,7 @@
 
 <main class="container-fluid" tal:define="users python:context.getPluginUsers()">
   <p class="form-help">
-    List of Authentic users (<tal:int tal:content="python:len(users)">)
+    List of Authentic users (<tal:int tal:content="python:len(users)" />)
   </p>
   <form action="manage_removeUser" method="post">
     <table class="table table-striped">

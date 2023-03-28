@@ -48,7 +48,6 @@ def set_new_userid(context=None):
             continue
         saved_user.userid = userid
         saved_user.login = userlogin
-        # __import__("ipdb").set_trace()
         # saved_user._identities["authentic-agents"].update({"user_id": userid, "login": "userlogin"})
         plugin._useridentities_by_userid[userid] = saved_user
         plugin._useridentities_by_login[userlogin] = saved_user

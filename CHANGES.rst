@@ -5,7 +5,8 @@ Changelog
 2.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Keep old groups during first login.
+  [bsuttor]
 
 
 2.0.6 (2022-07-18)

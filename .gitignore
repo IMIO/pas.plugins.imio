@@ -36,3 +36,4 @@ report.html
 buildout.cfg
 pyvenv.cfg
 share
+.vscode/

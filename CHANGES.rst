@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.7 (unreleased)
+2.0.7 (2023-03-28)
 ------------------
 
 - Keep old groups during first login.

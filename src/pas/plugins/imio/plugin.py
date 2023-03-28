@@ -94,12 +94,17 @@ class AuthenticPlugin(AuthomaticPlugin):
             userid = new_userid(self, result)
             login = new_login(self, result)
             useridentities = UserIdentities(userid, login)
+
+            # get roles and groups
             membership = api.portal.get_tool("portal_membership")
             member = membership.getMemberById(login)
             old_roles = member and member.getRoles() or []
-            #TODO get groups
             if "Authenticated" in old_roles:
                 old_roles.remove("Authenticated")
+            old_groups = member and api.group.get_groups(username=login) or []
+            old_group_ids = [group.id for group in old_groups]
+            if "AuthenticatedUsers" in old_group_ids:
+                old_group_ids.remove("AuthenticatedUsers")
             self._useridentities_by_userid[userid] = useridentities
             self._useridentities_by_login[login] = useridentities
         else:
@@ -113,18 +118,20 @@ class AuthenticPlugin(AuthomaticPlugin):
 
         useridentities.handle_result(result)
         if new_user:
-            # remove old plone userid from source_users
-            username = result.user.username
             acl_users = api.portal.get_tool("acl_users")
+            username = result.user.username
+            # clean mutable_properties
+            mutable_properties = acl_users.mutable_properties
+            if username in [us.get("id") for us in mutable_properties.enumerateUsers()]:
+                mutable_properties.deleteUser(username)
+
+            # remove old plone userid from source_users and set roles and groups to new
             source_users = acl_users.source_users
             if username in [us.get("id") for us in source_users.enumerateUsers()]:
-                try:
-                    api.user.grant_roles(username=userid, roles=old_roles)
-                    source_users.doDeleteUser(username) #TODO use source_users.removeUser(username)
-                except KeyError:
-                    logger.error(
-                        "Not able to delete {0} from source_users".format(username)
-                    )
+                api.user.grant_roles(username=userid, roles=old_roles)
+                for group in old_group_ids:
+                    api.group.add_user(groupname=group, username=userid)
+                source_users.removeUser(username)
         return useridentities
 
     @security.protected(ManageUsers)

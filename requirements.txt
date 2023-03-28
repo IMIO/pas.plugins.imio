@@ -1,1 +1,1 @@
--r requirements5.2.x.txt
+-r requirements6.0.x.txt

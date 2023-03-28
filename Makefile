@@ -3,10 +3,10 @@
 
 
 buildout.cfg:
-	ln -s plone5.2.x.cfg buildout.cfg
+	ln -s plone6.0.x.cfg buildout.cfg
 
 bin/pip:
-	python3.8 -m venv .
+	python3 -m venv .
 	touch $@
 
 bin/buildout: bin/pip buildout.cfg

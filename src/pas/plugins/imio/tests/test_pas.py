@@ -44,3 +44,13 @@ class TestPAS(unittest.TestCase):
             ("ca132a44bc2b488a911f2aaa17886c0a", "jdoe"),
             self.plugin.authenticateCredentials(creds),
         )
+
+    def test_creation_of_user_with_valid_token(self):
+        creds = {}
+        creds["extractor"] = "authentic"
+        creds["token"] = TEST_ID_TOKEN
+        userid, username = self.plugin.authenticateCredentials(creds)
+        self.assertEqual("jdoe", self.plugin.getPluginUsers()[0]["login"])
+        self.assertEqual(
+            "authentic-agents", self.plugin.getPluginUsers()[0]["plugin_type"]
+        )

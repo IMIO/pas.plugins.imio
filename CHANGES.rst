@@ -5,8 +5,11 @@ Changelog
 2.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Finally check certs on JWT call (except for test).
+  [bsuttor]
 
+- Fix creation of user on JWT call and test it.
+  [bsuttor]
 
 2.0.7 (2023-03-28)
 ------------------

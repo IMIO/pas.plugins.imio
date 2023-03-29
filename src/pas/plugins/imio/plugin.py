@@ -11,6 +11,8 @@ from pas.plugins.imio.interfaces import IAuthenticPlugin
 from pas.plugins.imio.useridentities import UserIdentities
 from pas.plugins.imio.useridfactories import new_userid
 from pas.plugins.imio.useridfactories import new_login
+from pas.plugins.imio.utils import authentic_cfg
+from pas.plugins.imio.utils import protocol
 from pas.plugins.imio.utils import SimpleAuthomaticResult
 from plone import api
 from Products.CMFCore.permissions import ManagePortal
@@ -22,9 +24,12 @@ from Products.PlonePAS.plugins.ufactory import PloneUser
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from zope.event import notify
 from zope.interface import implementer
+from jwcrypto.jwk import JWKSet
+from jwcrypto.jwt import JWT
 
 
-import jwt
+import json
+import requests
 import logging
 import os
 import six
@@ -366,28 +371,31 @@ class AuthenticPlugin(AuthomaticPlugin):
             if not userid:
                 return None
             if userid not in self._useridentities_by_userid:
-                authentic_type = "authentic-agents"
-                user = User(authentic_type)
+                authentic_type = "agents"
+                user = User("authentic-{0}".format(authentic_type))
                 user.id = userid
                 user.username = login
                 res = SimpleAuthomaticResult(self, authentic_type, user)
-                useridentities = self.remember_identity(res)
-                aclu = api.portal.get_tool("acl_users")
-                ploneuser = aclu._findUser(aclu.plugins, useridentities.userid)
-                notify(PrincipalCreated(ploneuser))
+                self.remember_identity(res)
+                # useridentities = self.remember_identity(res)
+                # aclu = api.portal.get_tool("acl_users")
+                # ploneuser = aclu._findUser(aclu.plugins, useridentities.userid)
+                # notify(PrincipalCreated(ploneuser))
             return userid, login
 
     def _decode_token(self, token):
-        options = {"verify_signature": True, "verify_aud": False}
-        options["verify_signature"] = False
+        authentic_type = "authentic-agents"
+        hostname = authentic_cfg()[authentic_type]["hostname"]
+        certs_url = "{0}://{1}/idp/oidc/certs/".format(protocol(), hostname)
+        keyset = JWKSet.from_json(requests.get(certs_url).content)
+        # keyset = JWKSet.from_json(json.dumps(requests.get(certs_url).json()))
         if os.getenv("ENV") == "test":
-            options["verify_signature"] = False
-            options["verify_exp"] = False
-        payload = jwt.decode(
-            token,
-            algorithms=["RS256"],
-            options=options,
-        )
+            # do not check if payload is valid
+            jwtcrypto = JWT(jwt=token, algs=["RS256"])
+            payload = json.loads(jwtcrypto.token.objects.get("payload"))
+        else:
+            jwtcrypto = JWT(jwt=token, key=keyset, algs=["RS256"])
+            payload = json.loads(jwtcrypto.token.payload)
         return payload
 
 

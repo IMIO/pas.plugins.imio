@@ -50,7 +50,7 @@ setup(
         "authomatic",
         "pas.plugins.authomatic<=1.0b1;python_version=='2.7'",
         "pas.plugins.authomatic>=1.0b2;python_version>='3.6'",
-        "pyjwt",
+        "jwcrypto",
         "cryptography",
         "requests",
         "plone.app.changeownership",

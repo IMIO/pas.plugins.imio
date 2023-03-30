@@ -97,13 +97,12 @@ class Authentic(OAuth2):
     def _x_user_parser(user, data):
         encoded = data.get("id_token")
         if encoded:
-            __import__("pdb").set_trace()
-            authentic_type = "authentic-agents"
-            hostname = authentic_cfg()[authentic_type]["hostname"]
-            certs_url = "{0}://{1}/idp/oidc/certs/".format(protocol(), hostname)
-            keyset = JWKSet.from_json(requests.get(certs_url).content)
-            jwtcrypto = JWT(jwt=encoded, key=keyset, algs=["RS256"])
-            payload_data = json.loads(jwtcrypto.token.payload)
+            # authentic_type = "authentic-agents"
+            # hostname = authentic_cfg()[authentic_type]["hostname"]
+            # certs_url = "{0}://{1}/idp/oidc/certs/".format(protocol(), hostname)
+            # keyset = JWKSet.from_json(requests.get(certs_url).content)
+            jwtcrypto = JWT(jwt=encoded, algs=["RS256"])
+            payload_data = json.loads(jwtcrypto.token.objects.get("payload"))
             if "sub" in payload_data.keys():
                 user.id = payload_data.get("sub")
         if "sub" in data.keys():

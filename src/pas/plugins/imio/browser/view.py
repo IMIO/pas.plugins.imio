@@ -63,6 +63,11 @@ class AddAuthenticUsers(BrowserView):
         return api_url
 
     def get_authentic_users(self):
+        logger.info(
+            "{} {}:{}".format(
+                self.authentic_api_url, self.consumer_key, self.consumer_secret
+            )
+        )
         req = requests.get(
             self.authentic_api_url, auth=(self.consumer_key, self.consumer_secret)
         )

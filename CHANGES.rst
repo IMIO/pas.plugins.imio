@@ -11,6 +11,7 @@ Changelog
 - Fix creation of user on JWT call and test it.
   [bsuttor]
 
+
 2.0.7 (2023-03-28)
 ------------------
 
@@ -40,6 +41,7 @@ Changelog
 
 - Add possibility to remove old user (without login).
   [bsuttor]
+
 
 2.0.3 (2022-06-29)
 ------------------

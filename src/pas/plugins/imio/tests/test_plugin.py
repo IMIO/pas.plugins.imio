@@ -60,6 +60,11 @@ class TestPlugin(unittest.TestCase):
             self.plugin.enumerateUsers(login="bond"),
             [{"login": "jamesbond", "pluginid": "authentic", "id": "123456"}],
         )
+        self.assertEqual(self.plugin.enumerateUsers(login="bond", exact_match=True), [])
+        self.assertEqual(
+            self.plugin.enumerateUsers(login="jamesbond", exact_match=True),
+            [{"login": "jamesbond", "pluginid": "authentic", "id": "123456"}],
+        )
 
     def test_search_all_users(self):
         count_users = 1

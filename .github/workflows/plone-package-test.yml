@@ -17,13 +17,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: '2.7'
+          - python-version: '2.7.18'
             plone-version: '4.3'
-          - python-version: '3.8'
+          - python-version: '3.8.16'
             plone-version: '6.0'
-          - python-version: '3.9'
+          - python-version: '3.9.16'
             plone-version: '6.0'
-          - python-version: '3.10'
+          - python-version: '3.10.6'
             plone-version: '6.0'
 
     steps:
@@ -38,10 +38,11 @@ jobs:
         path: ./eggs
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.python-version }}-${{ matrix.plone-version }}
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+    - name: Set up pyenv and Python ${{ matrix.python-version }}
+      uses: gabrielfalcao/pyenv-action@v14
       with:
-        python-version: ${{ matrix.python-version }}
+        default: "${{ matrix.python-version }}"
+        command: pyenv -v
 
     - name: Install dependencies and run buildout
       run: |

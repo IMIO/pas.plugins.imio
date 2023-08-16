@@ -208,7 +208,7 @@ class AuthenticPlugin(AuthomaticPlugin):
           return at most one mapping per supplied ID ('id' and 'login'
           may be sequences).
 
-        o If 'exact_match' is False, then 'id' and / or login may be
+        o If 'exact_match' is False, then 'id' and / or login and / or email may be
           treated by the plugin as "contains" searches (more complicated
           searches may be supported by some plugins using other keyword
           arguments).
@@ -260,6 +260,8 @@ class AuthenticPlugin(AuthomaticPlugin):
                 identity = self._useridentities_by_userid[search_id]
             elif search_id in self._useridentities_by_login:
                 identity = self._useridentities_by_login[search_id]
+            else:
+                return []
         if identity is not None:
             identity_userid = identity.userid
             if hasattr(identity, "login"):

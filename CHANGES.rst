@@ -5,6 +5,9 @@ Changelog
 2.0.8 (unreleased)
 ------------------
 
+- Fix bug in users enumeration : wrong user could be retrieved (#4)
+  [laulaz]
+
 - Finally check certs on JWT call (except for test).
   [bsuttor]
 

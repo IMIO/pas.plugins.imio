@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.8 (unreleased)
+2.0.8 (2023-08-18)
 ------------------
 
 - Fix bug in users enumeration : wrong user could be retrieved (#4)

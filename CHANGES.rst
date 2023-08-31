@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.9 (unreleased)
+2.0.9 (2023-08-31)
 ------------------
 
 - Fix login could be id of user.

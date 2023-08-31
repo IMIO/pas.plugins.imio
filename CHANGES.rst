@@ -5,7 +5,8 @@ Changelog
 2.0.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix byte convertion error on python3.
+  [bsuttor]
 
 
 2.0.8 (2023-08-18)

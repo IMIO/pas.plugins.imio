@@ -16,6 +16,7 @@ from Products.CMFDiffTool.utils import safe_utf8
 
 import json
 import os
+import six
 
 
 __all__ = ["Authentic"]
@@ -104,9 +105,15 @@ class Authentic(OAuth2):
             if "sub" in payload_data.keys():
                 user.id = payload_data.get("sub")
         if "sub" in data.keys():
-            user.username = safe_utf8(data.get("preferred_username"))
-            user.first_name = safe_utf8(data.get("given_name"))
-            user.last_name = safe_utf8(data.get("family_name"))
+            user.username = data.get("preferred_username")
+            if six.PY2 and isinstance(user.username, six.text_type):
+                user.username = safe_utf8(data.get("preferred_username"))
+            user.first_name = data.get("given_name")
+            if six.PY2 and isinstance(user.first_name, six.text_type):
+                user.first_name = safe_utf8(data.get("given_name"))
+            user.last_name = data.get("family_name")
+            if six.PY2 and isinstance(user.last_name, six.text_type):
+                user.last_name = safe_utf8(data.get("family_name"))
             fullname = "{0} {1}".format(user.first_name, user.last_name)
             if not fullname.strip():
                 user.name = user.username

@@ -242,7 +242,6 @@ class AuthenticPlugin(AuthomaticPlugin):
         """
         if id and login and id != login:
             raise ValueError("plugin does not support id different from login")
-        # __import__("ipdb").set_trace()
         search_id = id or login
         if search_id:
             if not isinstance(search_id, six.string_types):
@@ -256,7 +255,7 @@ class AuthenticPlugin(AuthomaticPlugin):
         # shortcut for exact match of login/id
         identity = None
         if exact_match:
-            if id in self._useridentities_by_userid:
+            if search_id in self._useridentities_by_userid:
                 identity = self._useridentities_by_userid[search_id]
             elif search_id in self._useridentities_by_login:
                 identity = self._useridentities_by_login[search_id]

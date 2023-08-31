@@ -5,6 +5,9 @@ Changelog
 2.0.9 (unreleased)
 ------------------
 
+- Fix login could be id of user.
+  [bsuttor]
+
 - Fix byte convertion error on python3.
   [bsuttor]
 
@@ -12,7 +15,7 @@ Changelog
 2.0.8 (2023-08-18)
 ------------------
 
-- Fix bug in users enumeration : wrong user could be retrieved (#4)
+- Fix bug in users enumeration: wrong user could be retrieved (#4)
   [laulaz]
 
 - Finally check certs on JWT call (except for test).

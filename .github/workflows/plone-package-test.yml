@@ -46,6 +46,7 @@ jobs:
 
     - name: Install dependencies and run buildout
       run: |
+        sudo apt-get install -y libjpeg-dev zlib1g-dev libfreetype6-dev
         python -m pip install --upgrade pip
         pip install -r requirements${{ matrix.plone-version }}.x.txt
         buildout -Nt 5 -c plone${{ matrix.plone-version }}.x.cfg

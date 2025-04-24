@@ -5,7 +5,8 @@ Changelog
 2.0.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Plone 6.1 compatibility.
+  [remdub]
 
 
 2.0.9 (2023-08-31)

@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-2.0.10 (unreleased)
--------------------
+2.1 (2025-04-25)
+----------------
 
 - Plone 6.1 compatibility.
   [remdub]

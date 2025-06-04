@@ -141,7 +141,15 @@ class AuthenticPlugin(AuthomaticPlugin):
 
     @security.protected(ManageUsers)
     def getUsers(self):
-        return [PloneUser(id) for id in self._useridentities_by_userid]
+        users = []
+        for id in self._useridentities_by_userid:
+            identity = self._useridentities_by_userid[id]
+            user = PloneUser(id)
+            user.addPropertysheet(
+                "email", data={"email": identity.propertysheet.getProperty("email", "")}
+            )
+            users.append(user)
+        return users
 
     @security.protected(ManageUsers)
     def getPluginUsers(self):

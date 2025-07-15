@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1.1 (unreleased)
+2.1.1 (2025-07-15)
 ------------------
 
 - Add email to getUsers method to make migration to keycloak.

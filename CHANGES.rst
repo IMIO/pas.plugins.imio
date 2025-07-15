@@ -5,7 +5,8 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add email to getUsers method to make migration to keycloak.
+  [bsuttor]
 
 
 2.1 (2025-04-25)

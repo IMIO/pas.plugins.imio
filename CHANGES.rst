@@ -5,7 +5,8 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix deleting user with already loggued.
+  [bsuttor]
 
 
 2.1.2 (2025-08-29)

@@ -174,7 +174,11 @@ class AuthenticPlugin(AuthomaticPlugin):
             userid = userid.replace("\r", "")
         if hasattr(self._useridentities_by_userid[userid], "login"):
             login = self._useridentities_by_userid[userid].login
-            del self._useridentities_by_login[login]
+            try:
+                del self._useridentities_by_login[login]
+            except:
+                logger.error("Failed to remove user: {0}".format(login))
+                pass
         else:
             login = userid
         del self._useridentities_by_userid[userid]

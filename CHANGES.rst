@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1.3 (unreleased)
+2.1.3 (2025-08-29)
 ------------------
 
 - Fix deleting user with already loggued.

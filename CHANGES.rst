@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1.2 (unreleased)
+2.1.2 (2025-08-29)
 ------------------
 
 - Fix deleting user with "tab" in name.

@@ -5,7 +5,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix deleting user with "tab" in name.
+  [bsuttor]
 
 
 2.1.1 (2025-07-15)

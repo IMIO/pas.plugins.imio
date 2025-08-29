@@ -170,6 +170,8 @@ class AuthenticPlugin(AuthomaticPlugin):
 
     @security.protected(ManageUsers)
     def removeUser(self, userid, provider_name="authentic-agents"):
+        if "\r" in userid:
+            userid = userid.replace("\r", "")
         if hasattr(self._useridentities_by_userid[userid], "login"):
             login = self._useridentities_by_userid[userid].login
             del self._useridentities_by_login[login]

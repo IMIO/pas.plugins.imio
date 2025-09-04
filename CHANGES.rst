@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1.4 (unreleased)
+3.0.0 (2025-09-04)
 ------------------
 
 - Rename views to legacy

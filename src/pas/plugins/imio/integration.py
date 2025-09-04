@@ -26,7 +26,7 @@ class ZopeRequestAdapter(BaseAdapter):
     def url(self):
         url = (
             self.view.context.absolute_url()
-            + "/authentic-handler/"
+            + "/authentic-handler-legacy/"
             + self.view.provider
         )
         logger.debug("url" + url)

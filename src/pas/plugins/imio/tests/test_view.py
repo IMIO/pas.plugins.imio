@@ -67,7 +67,7 @@ class TestView(unittest.TestCase):
 
     def test_authentic_handler(self):
         view = api.content.get_view(
-            name="authentic-handler", context=self.portal, request=self.request
+            name="authentic-handler-legacy", context=self.portal, request=self.request
         )
         self.assertIn(
             "authentic-agents", [prov["identifier"] for prov in view.providers()]
@@ -76,25 +76,12 @@ class TestView(unittest.TestCase):
     def test_add_authentic_users_get_arg(self):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.request.form["type"] = "agents"
-        view = getMultiAdapter((self.portal, self.request), name="add-authentic-users")
+        view = getMultiAdapter((self.portal, self.request), name="add-authentic-users-legacy")
         self.assertEqual(
             view.authentic_api_url,
             "https://agents.staging.imio.be/api/users/?service-ou=testou&service-slug=testslug",
         )
 
-    def test_usergroup_userprefs(self):
-        view = api.content.get_view(
-            "usergroup-userprefs", context=self.portal, request=self.request
-        )
-        self.assertEqual(
-            view.get_agent_url(), "https://agents.staging.imio.be/manage/users/"
-        )
-        self.assertEqual(
-            view.get_update_url(),
-            "http://nohost/plone/add-authentic-users?type=agents&next_url=http://nohost/plone/@@usergroup-userprefs",
-        )
-        self.assertIn('<button type="button"', view())
-        self.assertIn("Wallonie-Connect", view())
 
     def test_redirect_parameter_before_login(self):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -108,7 +95,7 @@ class TestView(unittest.TestCase):
         view = api.content.get_view(
             name="imio_login", context=self.portal, request=self.request
         )
-        expected = "http://nohost/plone/authentic-handler/?next_url=/secret"
+        expected = "http://nohost/plone/authentic-handler-legacy/?next_url=/secret"
 
         self.request.set("came_from", redirect_target.absolute_url())
         view()
@@ -121,7 +108,7 @@ class TestView(unittest.TestCase):
 
         # Check authentic-handler next_url
         view = api.content.get_view(
-            name="authentic-handler", context=self.portal, request=self.request
+            name="authentic-handler-legacy", context=self.portal, request=self.request
         )
         expected = "?next_url={}".format(redirect_target.absolute_url())
         self.request.form = {"next_url": redirect_target.absolute_url()}
@@ -129,7 +116,7 @@ class TestView(unittest.TestCase):
 
     def test_authentic_view_session_already_exists(self):
         view = api.content.get_view(
-            "authentic-handler", context=self.portal, request=self.request
+            "authentic-handler-legacy", context=self.portal, request=self.request
         )
         # not self.provider
         self.assertFalse(
@@ -177,7 +164,7 @@ class TestView(unittest.TestCase):
 
     def test_authentic_view_session_does_not_exist(self):
         view = api.content.get_view(
-            "authentic-handler", context=self.portal, request=self.request
+            "authentic-handler-legacy", context=self.portal, request=self.request
         )
         logout()
 
@@ -197,9 +184,9 @@ class TestView(unittest.TestCase):
         )
         logout()
         view = api.content.get_view(
-            name="authentic-handler", context=folder, request=folder.REQUEST
+            name="authentic-handler-legacy", context=folder, request=folder.REQUEST
         )
-        authentic_url = "{0}/authentic-handler/".format(api.portal.get().absolute_url())
+        authentic_url = "{0}/authentic-handler-legacy/".format(api.portal.get().absolute_url())
         view()
         self.assertEqual(authentic_url, self.request.response.getHeader("location"))
 

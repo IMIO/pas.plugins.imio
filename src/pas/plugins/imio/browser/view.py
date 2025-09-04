@@ -226,7 +226,7 @@ class AuthenticView(BrowserView):
             # callback url is expected on site root by authentic; so before going on redirect
             root = api.portal.get()
             self.request.response.redirect(
-                "{0}/authentic-handler/{1}".format(
+                "{0}/authentic-handler-legacy/{1}".format(
                     root.absolute_url(), getattr(self, "provider", "")
                 )
             )

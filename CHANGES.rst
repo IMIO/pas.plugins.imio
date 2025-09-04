@@ -5,7 +5,12 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Rename views to legacy
+  So we avoid calling them by mistake.
+  [remdub]
+
+- Remove usergroups_useroverview override
+  [remdub]
 
 
 2.1.3 (2025-08-29)

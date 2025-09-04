@@ -9,6 +9,12 @@ pas.plugins.imio
 Install local or remote connector to Imio authentic (SSO).
 
 
+Warning
+-------
+
+Starting from version 3.0.0, package has been moved to legacy mode.
+
+
 Features
 --------
 

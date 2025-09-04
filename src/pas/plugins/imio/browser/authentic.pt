@@ -27,7 +27,7 @@
 
                 <a tal:condition="not:provider/as_form"
                    tal:attributes="class string:${provider/buttonclasses};
-                                     href string:${context/absolute_url}/@@authentic-handler/${provider/identifier}${view/next}">
+                                     href string:${context/absolute_url}/@@authentic-handler-legacy/${provider/identifier}${view/next}">
                     <span tal:attributes="class string:${provider/iconclasses}"></span>
                     <span tal:content="provider/title">
                         name of oauth provider
@@ -35,7 +35,7 @@
                 </a>
 
                 <form tal:condition="provider/as_form"
-                      tal:attributes="action string:${context/absolute_url}/@@authentic-handler/${provider/identifier};"
+                      tal:attributes="action string:${context/absolute_url}/@@authentic-handler-legacy/${provider/identifier};"
                       class="authentic-handler-form">
                     <input
                         type="text"

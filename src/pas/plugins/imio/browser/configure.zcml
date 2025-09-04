@@ -35,7 +35,7 @@
       class=".view.AuthenticView"
       for="*"
       layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
-      name="authentic-handler"
+      name="authentic-handler-legacy"
       permission="zope2.View"
       />
 
@@ -43,32 +43,11 @@
       class=".view.AddAuthenticUsers"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
-      name="add-authentic-users"
+      name="add-authentic-users-legacy"
       permission="cmf.ManagePortal"
       />
 
   <include zcml:condition="not-have plone-5" package="plone.app.controlpanel" file="permissions.zcml" />
-  <!-- Override User list for Plone 4 -->
-  <browser:page
-      zcml:condition="not-have plone-5"
-      name="usergroup-userprefs"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      class=".usergroups.ImioUsersOverviewControlPanel"
-      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
-      permission="plone.app.controlpanel.UsersAndGroups"
-      template="templates/usergroups_usersoverview_p4.pt"
-      />
-
-  <!-- Override User list for Plone 5 -->
-  <browser:page
-      zcml:condition="have plone-5"
-      name="usergroup-userprefs"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      class=".usergroups_usersoverview.ImioUsersOverviewControlPanel"
-      layer="pas.plugins.imio.interfaces.IPasPluginsImioLayer"
-      permission="plone.app.controlpanel.UsersAndGroups"
-      template="templates/usergroups_usersoverview_p5.pt"
-      />
 
   <browser:page
         zcml:condition="have plone-5"
